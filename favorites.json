@@ -1,0 +1,19 @@
+{
+  "asdad": {
+    "extensions": [
+      ".csv",
+      ".json",
+      ".txt"
+    ],
+    "icon": "📂"
+  },
+  "asdf": {
+    "extensions": [
+      ".csv",
+      ".txt",
+      ".xlsx",
+      ".blend"
+    ],
+    "icon": "📄"
+  }
+}
