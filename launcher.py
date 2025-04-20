@@ -169,7 +169,7 @@ def open_folder(path):
             os.startfile(path)
         elif os.path.isfile(path):
             # Abrir el explorador y seleccionar el archivo
-            os.system(f'explorer /select,"{path}"')
+            os.startfile(os.path.dirname(path))
     except Exception as e:
         QMessageBox.critical(None, "Error", f"No se pudo abrir la carpeta: {e}")
 
@@ -203,36 +203,61 @@ class ScannerWorker(QThread):
         }
         self.finished.emit(result)
 
+    @staticmethod
+    def get_file_preview(item):
+        try:
+            ext = item.suffix.lower()
+
+            if ext in [".txt", ".csv", ".json", ".md", ".py", ".html", ".xml"]:
+                with open(item, "r", encoding="utf-8", errors="ignore") as f:
+                    return f.read(300).replace("\n", " ").replace("\r", " ")
+
+            elif ext == ".docx":
+                from docx import Document
+                doc = Document(item)
+                text = []
+                for para in doc.paragraphs:
+                    text.append(para.text)
+                return " ".join(text)[:300]
+
+            elif ext == ".pdf":
+                import PyPDF2
+                with open(item, "rb") as f:
+                    reader = PyPDF2.PdfReader(f)
+                    text = ""
+                    for page in reader.pages[:3]:  # solo las primeras 3 páginas
+                        if page.extract_text():
+                            text += page.extract_text()
+                    return text[:300]
+
+        except Exception as e:
+            print(f"[⚠️] Error leyendo preview de {item}: {e}")
+            return ""
+
+        return ""
+
     def scan_folder(self, path, file_list, total_files):
         tree = {"path": str(path), "files": [], "subfolders": []}
-        for item in path.iterdir():
-            if item.is_file():
-                ext = item.suffix.lower()
-                if ext in self.ignored_exts:
-                    continue
-                if self.allowed_exts and ext not in self.allowed_exts:
-                    continue
 
-                file_info = {
-                    "name": item.name,
-                    "extension": ext,
-                    "size_kb": round(item.stat().st_size / 1024, 2),
-                    "modified_date": str(item.stat().st_mtime),
-                    "preview": self.generate_preview(item, ext)
-                }
-
-                tree["files"].append(file_info)
-
-                self.processed += 1
-                progress_percent = int((self.processed / total_files) * 100)
-                self.progress.emit(progress_percent)
-
-            elif item.is_dir():
-                sub_tree = self.scan_folder(item, file_list, total_files)
-                if sub_tree["files"] or sub_tree["subfolders"]:
+        try:
+            for item in path.iterdir():
+                if item.is_file():
+                    if not any(item.name.endswith(ext) for ext in self.ignored_exts):
+                        tree["files"].append({
+                            "name": item.name,
+                            "path": str(item),
+                            "preview": self.get_file_preview(item)
+                        })
+                        file_list.append(str(item))
+                elif item.is_dir():
+                    sub_tree = self.scan_folder(item, file_list, total_files)
                     tree["subfolders"].append(sub_tree)
+        except (PermissionError, FileNotFoundError) as e:
+            print(f"[⚠️] No se pudo acceder a: {path} ({e})")
+            # Simplemente no añadir nada, seguimos
+
         return tree
-    
+
     def generate_preview(self, item, ext):
         try:
             if ext in [".txt", ".csv", ".json", ".md", ".py", ".html", ".xml"]:
