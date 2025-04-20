@@ -8,7 +8,7 @@ from PyQt5.QtWidgets import (
     QListWidgetItem, QDialog, QComboBox, QInputDialog, QTextEdit
 )
 from PyQt5.QtCore import Qt, QThread, pyqtSignal
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QPalette, QColor
 from docx import Document
 import PyPDF2
 
@@ -17,17 +17,17 @@ import PyPDF2
 class FavoriteDialog(QDialog):
     def __init__(self, parent=None, name="", icon="📂", extensions=None):
         super().__init__(parent)
-        self.setWindowTitle("Editar Favorito")
+        self.setWindowTitle("Editar Colección de Favoritos")
         self.extensions = extensions or []
 
         layout = QVBoxLayout()
 
         self.name_edit = QLineEdit(name)
-        self.name_edit.setPlaceholderText("Nombre del favorito...")
+        self.name_edit.setPlaceholderText("Nombre de la colección...")
         layout.addWidget(self.name_edit)
 
         self.icon_combo = QComboBox()
-        self.icon_combo.addItems(["📂", "💻", "🎨", "📄", "🔧", "📊", "🗃️"])
+        self.icon_combo.addItems(["⭐", "📂", "💻", "🎨", "📄", "🔧", "📊", "🗃️", "🎵", "🖼️", "🎥", "🚀", "🛠️", "🧩"])
         if icon:
             idx = self.icon_combo.findText(icon)
             if idx != -1:
@@ -268,6 +268,8 @@ class FileScannerApp(QWidget):
         self.setWindowIcon(QIcon("detective_.ico"))
         self.setFixedSize(1000, 720)
 
+        self.dark_mode_active = False
+
         self.allowed_exts = set()
         self.ext_buttons = {}
         self.quick_filter_buttons = []
@@ -290,16 +292,23 @@ class FileScannerApp(QWidget):
 
         self.build_left_panel()
         self.build_right_panel()
+
     def build_left_panel(self):
-        self.left_layout.addWidget(QLabel("🔍 Carpeta a escanear:"))
+
+        self.toggle_dark_mode_btn = QPushButton("🌙 Modo Oscuro")
+        self.toggle_dark_mode_btn.setCheckable(True)
+        self.toggle_dark_mode_btn.clicked.connect(self.toggle_dark_mode)
+        self.left_layout.addWidget(self.toggle_dark_mode_btn)
+
+        self.left_layout.addWidget(QLabel("🔍 Ruta de la carpeta a escanear:"))
         self.path_input = QLineEdit()
         self.left_layout.addWidget(self.path_input)
 
-        self.browse_button = QPushButton("Seleccionar carpeta")
+        self.browse_button = QPushButton("Seleccionar carpeta para analizar")
         self.browse_button.clicked.connect(self.select_folder)
         self.left_layout.addWidget(self.browse_button)
 
-        self.left_layout.addWidget(QLabel("💾 Carpeta de guardado:"))
+        self.left_layout.addWidget(QLabel("💾 Ruta para guardar el JSON generado:"))
         self.save_path_input = QLineEdit()
         self.left_layout.addWidget(self.save_path_input)
 
@@ -313,7 +322,9 @@ class FileScannerApp(QWidget):
             ".dll": QCheckBox(".dll"),
             ".log": QCheckBox(".log"),
             ".tmp": QCheckBox(".tmp"),
-            ".bak": QCheckBox(".bak")
+            ".bak": QCheckBox(".bak"),
+            ".bat": QCheckBox(".bat"),
+            ".bash": QCheckBox(".bash")
         }
         ignore_layout = QHBoxLayout()
         for cb in self.ignore_checkboxes.values():
@@ -322,7 +333,7 @@ class FileScannerApp(QWidget):
         self.left_layout.addLayout(ignore_layout)
 
         self.left_layout.addWidget(QLabel("📂 Filtro rápido:"))
-        quick_exts = [".docx", ".pdf", ".txt", ".json", ".csv", ".xlsx"]
+        quick_exts = [".docx", ".pdf", ".txt", ".csv", ".xlsx", ".xml", ".json"]
         quick_layout = QHBoxLayout()
         for ext in quick_exts:
             btn = QPushButton(ext)
@@ -334,19 +345,19 @@ class FileScannerApp(QWidget):
             self.quick_filter_buttons.append((btn, ext))
         self.left_layout.addLayout(quick_layout)
 
-        self.left_layout.addWidget(QLabel("🎯 Extensiones activas:"))
-        self.active_list = QListWidget()
-        self.left_layout.addWidget(self.active_list)
-
         custom_layout = QHBoxLayout()
         self.custom_ext_input = QLineEdit()
-        self.custom_ext_input.setPlaceholderText("Escribe extensión...")
+        self.custom_ext_input.setPlaceholderText("Añadir extensión...")
         self.custom_ext_input.returnPressed.connect(self.add_custom_extension)
         self.add_custom_btn = QPushButton("➕ Añadir")
         self.add_custom_btn.clicked.connect(self.add_custom_extension)
         custom_layout.addWidget(self.custom_ext_input)
         custom_layout.addWidget(self.add_custom_btn)
         self.left_layout.addLayout(custom_layout)
+
+        self.left_layout.addWidget(QLabel("🎯 Extensiones activas:"))
+        self.active_list = QListWidget()
+        self.left_layout.addWidget(self.active_list)
 
         clear_btn = QPushButton("🧹 Limpiar filtros")
         clear_btn.clicked.connect(self.clear_extensions)
@@ -385,13 +396,13 @@ class FileScannerApp(QWidget):
 
         favorites_buttons = QHBoxLayout()
 
-        save_fav_btn = QPushButton("➕ Guardar")
+        save_fav_btn = QPushButton("➕ Guardar colección")
         save_fav_btn.clicked.connect(self.save_current_favorite)
-        load_fav_btn = QPushButton("📂 Cargar")
-        load_fav_btn.clicked.connect(self.load_selected_favorite)
-        delete_fav_btn = QPushButton("❌ Eliminar")
+        load_fav_btn = QPushButton("📂 Cargar colección")
+        load_fav_btn.clicked.connect(self.import_favorites_from_file)
+        delete_fav_btn = QPushButton("❌ Eliminar colección")
         delete_fav_btn.clicked.connect(self.delete_selected_favorite)
-        edit_fav_btn = QPushButton("✏️ Editar")
+        edit_fav_btn = QPushButton("✏️ Editar colección")
         edit_fav_btn.clicked.connect(self.edit_selected_favorite)
 
         favorites_buttons.addWidget(save_fav_btn)
@@ -401,26 +412,107 @@ class FileScannerApp(QWidget):
 
         self.right_layout.addLayout(favorites_buttons)
 
-    # --- Funciones de favoritos, extensiones y escaneo las pego en el siguiente bloque porque pesan bastante ---
+    # --- Funciones de apariencia ---
+
+    def toggle_dark_mode(self):
+        if not self.dark_mode_active:
+            self.apply_dark_mode()
+            self.dark_mode_active = True
+            self.toggle_dark_mode_btn.setText("🌞 Modo Claro")
+        else:
+            self.apply_light_mode()
+            self.dark_mode_active = False
+            self.toggle_dark_mode_btn.setText("🌙 Modo Oscuro")
+
+    def apply_dark_mode(self):
+        app = QApplication.instance()
+        dark_palette = QPalette()
+
+        # Colores base
+        dark_palette.setColor(QPalette.Window, QColor("#1e1e1e"))
+        dark_palette.setColor(QPalette.WindowText, QColor("#ffffff"))
+        dark_palette.setColor(QPalette.Base, QColor("#333333"))
+        dark_palette.setColor(QPalette.AlternateBase, QColor("#1e1e1e"))
+        dark_palette.setColor(QPalette.ToolTipBase, QColor("#1e1e1e"))
+        dark_palette.setColor(QPalette.ToolTipText, QColor("#ffffff"))
+        dark_palette.setColor(QPalette.Text, QColor("#ffffff"))
+        dark_palette.setColor(QPalette.Button, QColor("#333333"))
+        dark_palette.setColor(QPalette.ButtonText, QColor("#ffffff"))
+        dark_palette.setColor(QPalette.BrightText, QColor("#ff0000"))
+        dark_palette.setColor(QPalette.Highlight, QColor("#555555"))
+        dark_palette.setColor(QPalette.HighlightedText, QColor("#ffffff"))
+
+        app.setPalette(dark_palette)
+
+        # --- Estilos por componentes ---
+        app.setStyleSheet("""
+            QLabel {
+                color: white;
+                font-size: 11pt;
+            }
+
+            QPushButton {
+                background-color: #333333;
+                color: white;
+                border: 1px solid #555555;
+                padding: 5px;
+                border-radius: 5px;
+            }
+
+            QPushButton:hover {
+                background-color: #444444;
+            }
+
+            QLineEdit, QComboBox, QListWidget, QProgressBar {
+                background-color: #333333;
+                color: white;
+                border: 1px solid #555555;
+                border-radius: 4px;
+                padding: 2px;
+            }
+
+            QProgressBar {
+                text-align: center;
+            }
+
+            QProgressBar::chunk {
+                background-color: #00bfff;
+                width: 20px;
+            }
+
+            QToolTip {
+                background-color: #333333;
+                color: white;
+                border: 1px solid white;
+            }
+        """)
+
+
+    def apply_light_mode(self):
+        app = QApplication.instance()
+        app.setPalette(QApplication.style().standardPalette())
+        app.setStyleSheet("")  # <-- Esto elimina el estilo oscuro
+
 
     # --- Funciones de favoritos ---
 
     def load_favorites(self):
         if os.path.exists("favorites.json"):
-            with open("favorites.json", "r", encoding="utf-8") as f:
-                favorites = json.load(f)
-                for key, value in favorites.items():
-                    if isinstance(value, list):
-                        favorites[key] = {"extensions": value, "icon": "📂"}
-                self.save_favorites(favorites)
+            try:
+                with open("favorites.json", "r", encoding="utf-8") as f:
+                    self.favorites = json.load(f)
+            except Exception:
+                self.favorites = {}
         else:
-            favorites = {}
-            self.save_favorites(favorites)
-        return favorites
+            self.favorites = {}
+        
+        self.save_favorites()
+        return self.favorites
 
-    def save_favorites(self, favorites):
+
+    def save_favorites(self,):
         with open("favorites.json", "w", encoding="utf-8") as f:
-            json.dump(favorites, f, indent=2, ensure_ascii=False)
+            json.dump(self.favorites, f, indent=2, ensure_ascii=False)
 
     def refresh_favorites_list(self):
         self.favorites_list.clear()
@@ -447,7 +539,7 @@ class FileScannerApp(QWidget):
             name, icon, exts = dialog.get_data()
             if name:
                 self.favorites[name] = {"extensions": exts, "icon": icon}
-                self.save_favorites(self.favorites)
+                self.save_favorites()
                 self.refresh_favorites_list()
 
     def load_selected_favorite(self):
@@ -474,6 +566,35 @@ class FileScannerApp(QWidget):
                         btn.setChecked(False)
                         btn.setStyleSheet("background-color: lightgray;")
 
+    def import_favorites_from_file(self):
+        path, _ = QFileDialog.getOpenFileName(self, "Importar colección de favoritos", "", "JSON Files (*.json)")
+        if path:
+            try:
+                with open(path, "r", encoding="utf-8") as f:
+                    imported_data = json.load(f)
+
+                if isinstance(imported_data, dict):
+                    imported_count = 0
+                    for name, data in imported_data.items():
+                        if name not in self.favorites:
+                            self.favorites[name] = data
+                            imported_count += 1
+                        else:
+                            # Si quieres sobrescribir favoritos existentes, quita este "else" y deja siempre sobrescribir
+                            pass
+
+                    if imported_count > 0:
+                        self.save_favorites()
+                        self.refresh_favorites_list()
+                        QMessageBox.information(self, "Importado", f"Se importaron {imported_count} conjuntos nuevos correctamente ✅")
+                    else:
+                        QMessageBox.information(self, "Nada importado", "No se encontraron conjuntos nuevos para importar.")
+                else:
+                    QMessageBox.warning(self, "Formato incorrecto", "El archivo no tiene un formato válido.")
+
+            except Exception as e:
+                QMessageBox.critical(self, "Error", f"No se pudo importar el archivo: {str(e)}")
+
     def delete_selected_favorite(self):
         selected_items = self.favorites_list.selectedItems()
         if selected_items:
@@ -481,7 +602,7 @@ class FileScannerApp(QWidget):
             name = item.data(Qt.UserRole)
             if name in self.favorites:
                 del self.favorites[name]
-                self.save_favorites(self.favorites)
+                self.save_favorites()
                 self.refresh_favorites_list()
 
     def edit_selected_favorite(self):
@@ -500,13 +621,13 @@ class FileScannerApp(QWidget):
                     if new_name:
                         self.favorites.pop(name, None)
                         self.favorites[new_name] = {"extensions": new_exts, "icon": new_icon}
-                        self.save_favorites(self.favorites)
+                        self.save_favorites()
                         self.refresh_favorites_list()
 
     def toggle_sort_favorites(self):
         self.sort_asc = not self.sort_asc
         self.favorites = dict(sorted(self.favorites.items(), reverse=not self.sort_asc))
-        self.save_favorites(self.favorites)
+        self.save_favorites()
         self.refresh_favorites_list()
 
     # --- Funciones de extensiones ---
@@ -536,8 +657,11 @@ class FileScannerApp(QWidget):
 
     def clear_extensions(self):
         self.allowed_exts.clear()
+
+        # Resetea color de todos los botones rápidos
         for btn, ext in self.quick_filter_buttons:
             btn.setStyleSheet("background-color: lightgray;")
+            btn.setChecked(False)
         self.refresh_active_list()
 
     # --- Funciones de escaneo ---

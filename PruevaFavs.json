@@ -1,0 +1,10 @@
+{
+  "Holiwi": {
+    "extensions": [
+      ".csv",
+      ".json",
+      ".xml"
+    ],
+    "icon": "🎨"
+  }
+}

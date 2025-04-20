@@ -1,19 +1,19 @@
 {
-  "asdad": {
+  "asd": {
     "extensions": [
       ".csv",
       ".json",
-      ".txt"
+      ".xlsx",
+      ".xml"
     ],
-    "icon": "📂"
+    "icon": "🎨"
   },
-  "asdf": {
+  "Holiwi": {
     "extensions": [
       ".csv",
-      ".txt",
-      ".xlsx",
-      ".blend"
+      ".json",
+      ".xml"
     ],
-    "icon": "📄"
+    "icon": "🎨"
   }
 }
