@@ -1,16 +1,24 @@
 # --- IMPORTS ---
 import os
+import platform
+import subprocess
+import shutil
+import sys
 import json
 from pathlib import Path
 from PyQt5.QtWidgets import (
     QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout,
     QFileDialog, QLineEdit, QMessageBox, QProgressBar, QCheckBox, QListWidget,
-    QListWidgetItem, QDialog, QComboBox, QInputDialog, QTextEdit
+    QListWidgetItem, QDialog, QComboBox, QInputDialog, QTextEdit, QLabel, QLineEdit
 )
-from PyQt5.QtCore import Qt, QThread, pyqtSignal
+from PyQt5.QtCore import Qt, QThread, QStandardPaths, pyqtSignal
 from PyQt5.QtGui import QIcon, QPalette, QColor
 from docx import Document
 import PyPDF2
+
+CONFIG_DIR = Path(QStandardPaths.writableLocation(QStandardPaths.ConfigLocation)) / "FileScannerApp"
+CONFIG_DIR.mkdir(parents=True, exist_ok=True)
+FAVORITES_FILE = CONFIG_DIR / "favorites.json"
 
 
 # --- FAVORITE DIALOG ---
@@ -118,15 +126,23 @@ class FileResultsDialog(QDialog):
         self.list_widget.itemDoubleClicked.connect(self.open_file_location)
         layout.addWidget(self.list_widget)
 
+        action_layout = QHBoxLayout()
+        action_layout.addWidget(QLabel("Acción:"))
+        self.action_combo = QComboBox()
+        self.action_combo.addItems(["Copiar", "Mover"])
+        self.action_combo.setCurrentText("Copiar")  # por defecto copia
+        action_layout.addWidget(self.action_combo)
+        layout.addLayout(action_layout)
+
         btn_layout = QHBoxLayout()
 
         open_folder_btn = QPushButton("Abrir carpeta de resultados")
         open_folder_btn.clicked.connect(lambda: open_folder(self.output_dir))
         btn_layout.addWidget(open_folder_btn)
 
-        move_files_btn = QPushButton("Mover archivos...")
-        move_files_btn.clicked.connect(self.move_files_to_folder)
-        btn_layout.addWidget(move_files_btn)
+        process_btn = QPushButton("Procesar archivos…")
+        process_btn.clicked.connect(self.process_files_to_folder)
+        btn_layout.addWidget(process_btn)
 
         close_btn = QPushButton("Cerrar")
         close_btn.clicked.connect(self.accept)
@@ -134,6 +150,27 @@ class FileResultsDialog(QDialog):
 
         layout.addLayout(btn_layout)
         self.setLayout(layout)
+
+    def process_files_to_folder(self):
+        target_dir = QFileDialog.getExistingDirectory(self, "Seleccionar carpeta destino")
+        if not target_dir:
+            return
+        action = self.action_combo.currentText()
+        moved = 0
+        for src in self.file_paths:
+            try:
+                dst = os.path.join(target_dir, os.path.basename(src))
+                if os.path.exists(dst):
+                    continue
+                if action == "Copiar":
+                    shutil.copy2(src, dst)
+                else:
+                    shutil.move(src, dst)
+                moved += 1
+            except Exception as e:
+                print(f"Error {action.lower()} '{src}': {e}")
+        verbo = "copiaron" if action == "Copiar" else "movieron"
+        QMessageBox.information(self, "Operación completada", f"Se {verbo} {moved} archivos exitosamente.")
 
     def filter_files(self, text):
         self.list_widget.clear()
@@ -146,27 +183,16 @@ class FileResultsDialog(QDialog):
         folder_path = str(Path(file_path).parent)
         open_folder(folder_path)
 
-    def move_files_to_folder(self):
-        target_dir = QFileDialog.getExistingDirectory(self, "Seleccionar carpeta destino")
-        if target_dir:
-            moved = 0
-            for path in self.file_paths:
-                try:
-                    file_name = os.path.basename(path)
-                    target_path = os.path.join(target_dir, file_name)
-                    if not os.path.exists(target_path):
-                        os.rename(path, target_path)
-                        moved += 1
-                except Exception as e:
-                    print(f"Error moviendo {path}: {e}")
-
-            QMessageBox.information(self, "Archivos movidos", f"Se movieron {moved} archivos exitosamente.")
-
 # --- UTILIDAD abrir carpeta ---
 def open_folder(path):
     try:
         if os.path.isdir(path):
-            os.startfile(path)
+            if platform.system() == "Windows":
+                os.startfile(path)
+            elif platform.system() == "Darwin":
+                subprocess.Popen(["open", path])
+            else:
+                subprocess.Popen(["xdg-open", path])
         elif os.path.isfile(path):
             # Abrir el explorador y seleccionar el archivo
             os.startfile(os.path.dirname(path))
@@ -181,9 +207,10 @@ class ScannerWorker(QThread):
     def __init__(self, base_path, ignored_exts=None, allowed_exts=None):
         super().__init__()
         self.base_path = Path(base_path)
-        self.ignored_exts = ignored_exts or set()
-        self.allowed_exts = allowed_exts  # puede ser None
-        self.processed = 0
+        # Normalizamos a set de minúsculas
+        self.ignored_exts = set(ext.lower() for ext in (ignored_exts or []))
+        # Si allowed_exts viene vacío o None => escanea todo; si no, lo convertimos a set minúsculas
+        self.allowed_exts = set(ext.lower() for ext in allowed_exts) if allowed_exts else None
 
     def run(self):
         try:
@@ -194,7 +221,7 @@ class ScannerWorker(QThread):
 
         self.processed = 0
 
-        tree = self.scan_folder(self.base_path, [], total_files)
+        tree = self.scan_folder(self.base_path)
 
         result = {
             "path": str(self.base_path),
@@ -236,26 +263,29 @@ class ScannerWorker(QThread):
 
         return ""
 
-    def scan_folder(self, path, file_list, total_files):
+    def scan_folder(self, path):
         tree = {"path": str(path), "files": [], "subfolders": []}
-
         try:
             for item in path.iterdir():
                 if item.is_file():
-                    if not any(item.name.endswith(ext) for ext in self.ignored_exts):
-                        tree["files"].append({
-                            "name": item.name,
-                            "path": str(item),
-                            "preview": self.get_file_preview(item)
-                        })
-                        file_list.append(str(item))
+                    ext = item.suffix.lower()
+                    # 1) si está en ignored_exts, lo saltamos
+                    if ext in self.ignored_exts:
+                        continue
+                    # 2) si tenemos allowed_exts y la extensión NO está, lo saltamos
+                    if self.allowed_exts is not None and ext not in self.allowed_exts:
+                        continue
+                    # 3) pasa ambos filtros: lo incluyo
+                    tree["files"].append({
+                        "name": item.name,
+                        "path": str(item),
+                        "preview": self.get_file_preview(item)
+                    })
                 elif item.is_dir():
-                    sub_tree = self.scan_folder(item, file_list, total_files)
-                    tree["subfolders"].append(sub_tree)
-        except (PermissionError, FileNotFoundError) as e:
-            print(f"[⚠️] No se pudo acceder a: {path} ({e})")
-            # Simplemente no añadir nada, seguimos
-
+                    sub = self.scan_folder(item)
+                    tree["subfolders"].append(sub)
+        except (PermissionError, FileNotFoundError):
+            pass
         return tree
 
     def generate_preview(self, item, ext):
@@ -522,22 +552,13 @@ class FileScannerApp(QWidget):
     # --- Funciones de favoritos ---
 
     def load_favorites(self):
-        if os.path.exists("favorites.json"):
-            try:
-                with open("favorites.json", "r", encoding="utf-8") as f:
-                    self.favorites = json.load(f)
-            except Exception:
-                self.favorites = {}
+        if FAVORITES_FILE.exists():
+            return json.loads(FAVORITES_FILE.read_text(encoding="utf-8"))
         else:
-            self.favorites = {}
-        
-        self.save_favorites()
-        return self.favorites
-
+            return {}
 
     def save_favorites(self,):
-        with open("favorites.json", "w", encoding="utf-8") as f:
-            json.dump(self.favorites, f, indent=2, ensure_ascii=False)
+        FAVORITES_FILE.write_text(json.dumps(self.favorites, indent=2, ensure_ascii=False), encoding="utf-8")
 
     def refresh_favorites_list(self):
         self.favorites_list.clear()
@@ -728,10 +749,11 @@ class FileScannerApp(QWidget):
         file_name = f"{scan_folder_name}.json"
 
         output_dir = self.save_path_input.text().strip()
+        
         if not output_dir or not os.path.isdir(output_dir):
-            output_dir = Path(__file__).parent
-
-        output_path = Path(output_dir) / file_name
+            output_dir = str(Path.home())
+        output_path = Path(output_dir) / f"{scan_folder_name}.json"
+        output_path.write_text(json.dumps(result, indent=2, ensure_ascii=False), encoding="utf-8")
 
         # --- Añadir lista de nombres de archivos encontrados para preview ---
         preview_files = []
@@ -769,8 +791,9 @@ class FileScannerApp(QWidget):
 
 # --- MAIN LAUNCHER ---
 if __name__ == "__main__":
-    app = QApplication([])
+    app = QApplication(sys.argv)
     window = FileScannerApp()
     window.show()
-    app.exec_()
+    sys.exit(app.exec_())
+
 
