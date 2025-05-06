@@ -61,13 +61,26 @@ class MainController(QObject):
         if not exts:
             QMessageBox.warning(v, "Extensiones vacías", "No hay extensiones activas para guardar.")
             return
+
         dlg = FavoriteDialog(v, extensions=exts)
         if dlg.exec_() == QDialog.Accepted:
-            name, icon, exts2 = dlg.get_data()
-            if name:
-                self.favorites[name] = {"extensions": exts2, "icon": icon}
-                save_favorites(self.favorites)
-                self._populate_favorites()
+            name, icon, new_exts = dlg.get_data()
+
+            # Si el usuario no puso nombre, generamos uno único
+            if not name:
+                base = "Colección de favoritos"
+                idx = 1
+                candidate = f"{base} {idx}"
+                # iteramos hasta encontrar un nombre que no exista
+                while candidate in self.favorites:
+                    idx += 1
+                    candidate = f"{base} {idx}"
+                name = candidate
+
+            # Guardamos ya con nombre (sea el custom o el generado)
+            self.favorites[name] = {"extensions": new_exts, "icon": icon}
+            save_favorites(self.favorites)
+            self._populate_favorites()
 
     def load_favorite(self, item):
         name = item.data(Qt.UserRole)

@@ -4,10 +4,46 @@ from PyQt5.QtWidgets import (
     QWidget, QApplication, QMessageBox,
     QLabel, QPushButton, QVBoxLayout, QHBoxLayout,
     QLineEdit, QCheckBox, QListWidget, QProgressBar,
-    QFileDialog
+    QFileDialog, QShortcut
 )
-from PyQt5.QtGui import QIcon, QPalette, QColor
+from PyQt5.QtGui import QIcon, QPalette, QColor, QKeySequence
 from PyQt5.QtCore import Qt
+
+class ActiveListWidget(QListWidget):
+    """
+    Subclase de QListWidget que maneja Supr y Backspace para eliminar ítems.
+    """
+    def __init__(self, parent=None):
+        super().__init__(parent)
+
+    def keyPressEvent(self, event):
+        if event.key() in (Qt.Key_Delete, Qt.Key_Backspace):
+            view = self.parent()  # tu FileScannerView
+            # recogemos qué había seleccionado
+            to_remove = [item.text() for item in self.selectedItems()]
+            for text in to_remove:
+                # 1) lo quitamos de la lista visual
+                items = self.findItems(text, Qt.MatchExactly)
+                for itm in items:
+                    self.takeItem(self.row(itm))
+                # 2) lo quitamos de la lógica
+                if text in view.allowed_exts:
+                    view.allowed_exts.remove(text)
+
+            # 3) Actulizamos la vista de activos
+            view._refresh_active_list()
+
+            # 4) Sincronizamos botón rápidos
+            for btn, ext in view.quick_filter_buttons:
+                if ext in view.allowed_exts:
+                    btn.setChecked(True)
+                    btn.setStyleSheet("background-color: lightgreen;")
+                else:
+                    btn.setChecked(False)
+                    btn.setStyleSheet("background-color: lightgray;")
+
+        else:
+            super().keyPressEvent(event)
 
 
 class FileScannerView(QWidget):
@@ -104,8 +140,14 @@ class FileScannerView(QWidget):
 
         # Lista de extensiones activas
         self.left_layout.addWidget(QLabel("🎯 Extensiones activas:"))
-        self.active_list = QListWidget()
+        self.active_list = ActiveListWidget()
         self.left_layout.addWidget(self.active_list)
+        
+        # Shortcuts para eliminar selección con Supr o Backspace
+        delete_shortcut = QShortcut(QKeySequence.Delete, self.active_list)
+        delete_shortcut.activated.connect(self._remove_selected_active_extensions)
+        backspace_shortcut = QShortcut(QKeySequence.Backspace, self.active_list)
+        backspace_shortcut.activated.connect(self._remove_selected_active_extensions)
 
         # Botones de acción
         clear_btn = QPushButton("🧹 Limpiar filtros")
@@ -177,6 +219,12 @@ class FileScannerView(QWidget):
             btn.setChecked(False)
             btn.setStyleSheet("background-color: lightgray;")
         self._refresh_active_list()
+        
+    def _remove_selected_active_extensions(self):
+        to_remove = [item.text() for item in self.active_list.selectedItems()]
+        for ext in to_remove:
+            if ext in self.allowed_exts:
+                self.allowed_exts.remove(ext)
 
     def _toggle_dark_mode_ui(self):
         if not self.dark_mode_active:
