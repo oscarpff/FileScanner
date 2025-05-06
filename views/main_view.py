@@ -13,9 +13,9 @@ from PyQt5.QtCore import Qt
 class FileScannerView(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("File Scanner MVC")
+        self.setWindowTitle("FileScanner")
         self.setWindowIcon(QIcon("detective_.ico"))
-        self.setFixedSize(1000, 720)
+        self._ajustar_a_pantalla()
 
         self.dark_mode_active = False
         self.allowed_exts = set()
@@ -24,6 +24,12 @@ class FileScannerView(QWidget):
 
         # Llamada correcta al método que monta la UI
         self.setup_ui()
+        
+    def _ajustar_a_pantalla(self):
+        pantalla = QApplication.primaryScreen().availableGeometry()
+        self.setGeometry(pantalla)
+        # Si se quiere establecer tamaño mínimo y dejar dimensionable
+        # self.setMinimumSize(pantalla.width(), pantalla.height())
 
     def setup_ui(self):
         main_layout = QHBoxLayout()

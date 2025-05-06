@@ -147,6 +147,8 @@ class MainController(QObject):
         allowed = v.allowed_exts or None
 
         # deshabilitar UI
+        v.progress_bar.setRange(0, 100)
+        v.progress_bar.setValue(0)
         v.scan_button.setEnabled(False)
         v.browse_button.setEnabled(False)
         v.save_browse_button.setEnabled(False)
@@ -196,7 +198,15 @@ class MainController(QObject):
         dlg.exec_()
 
         # 5) Restauro estado de la UI
-        v.progress_bar.setValue(100)
+        v.progress_bar.setRange(0, 100)
+        v.progress_bar.setValue(0)
         v.scan_button.setEnabled(True)
         v.browse_button.setEnabled(True)
         v.save_browse_button.setEnabled(True)
+        
+        # 6) desconectar señales para evitar actualizaciones inesperadas
+        try:
+            self.worker.progress.disconnect()
+            self.worker.files_counted.disconnect()
+        except Exception:
+            pass
