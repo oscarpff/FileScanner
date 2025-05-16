@@ -2,28 +2,45 @@ import json
 from pathlib import Path
 
 from PyQt5.QtCore import QObject, Qt
-from PyQt5.QtWidgets import QMessageBox, QListWidgetItem, QFileDialog, QDialog
+from PyQt5.QtWidgets import (
+    QMessageBox, QListWidgetItem, QFileDialog, QDialog
+)
 
 from models.scanner import ScannerWorker
 from models.favorites import load_favorites, save_favorites
 from utils.file_utils import open_folder
-from views.dialogs import FavoriteDialog, FileResultsDialog
+from utils.location_utils import load_locations, save_locations
+from views.dialogs import (
+    FavoriteDialog, FileResultsDialog, LocationDialog
+)
 
 
 class MainController(QObject):
     def __init__(self, view):
         super().__init__()
         self.view = view
+
+        # Favoritos de extensiones
         self.favorites = load_favorites()
         self.sort_asc = True
-        self._populate_favorites()
+
+        # Favoritos de ubicaciones (colecciones y simples)
+        self.location_collections = load_locations()
+
+        # Conectar señales
         self._connect_signals()
+
+        # Inicializar listas
+        self._populate_favorites()
+        self._refresh_location_list()
+        self._refresh_location_collections_list()
 
     def _connect_signals(self):
         v = self.view
         # Escaneo
         v.scan_button.clicked.connect(self.run_scan)
-        # Favoritos
+        v.stop_button.clicked.connect(self.stop_scan)
+        # Favoritos de extensiones
         v.sort_btn.clicked.connect(self.toggle_sort_favorites)
         v.search_fav_input.textChanged.connect(lambda _: self._populate_favorites())
         v.favorites_list.itemDoubleClicked.connect(self.load_favorite)
@@ -31,8 +48,145 @@ class MainController(QObject):
         v.load_fav_btn.clicked.connect(self.import_favorites)
         v.delete_fav_btn.clicked.connect(self.delete_favorite)
         v.edit_fav_btn.clicked.connect(self.edit_favorite)
+        # Favoritos de ubicaciones (lista simple)
+        v.add_loc_btn.clicked.connect(self.add_location)
+        v.del_loc_btn.clicked.connect(self.delete_location)
+        v.location_list.itemDoubleClicked.connect(self.select_location)
+        # Colecciones de ubicaciones (CRUD)
+        v.save_loc_coll_btn.clicked.connect(self.save_location_collection)
+        v.load_loc_coll_btn.clicked.connect(self.import_location_collections)
+        v.edit_loc_coll_btn.clicked.connect(self.edit_location_collection)
 
-    # ——— Favoritos —————————————————————————————————————————————————————
+    # — Favoritos de ubicaciones (lista simple) —
+    def _refresh_location_list(self):
+        v = self.view
+        v.location_list.clear()
+        for name, path in self.location_collections.items():
+            item = QListWidgetItem(f"{name} ➔ {path}")
+            item.setData(Qt.UserRole, path)
+            v.location_list.addItem(item)
+
+    def add_location(self):
+        v = self.view
+        folder = QFileDialog.getExistingDirectory(v, "Seleccionar carpeta para favoritos")
+        if not folder:
+            return
+        name = Path(folder).name
+        base = name
+        idx = 1
+        while name in self.location_collections:
+            idx += 1
+            name = f"{base} {idx}"
+        self.location_collections[name] = folder
+        save_locations(self.location_collections)
+        self._refresh_location_list()
+
+    def delete_location(self):
+        v = self.view
+        sel = v.location_list.selectedItems()
+        if not sel:
+            return
+        name = sel[0].text().split(" ➔ ")[0]
+        self.location_collections.pop(name, None)
+        save_locations(self.location_collections)
+        self._refresh_location_list()
+
+    def select_location(self, item):
+        path = item.data(Qt.UserRole)
+        self.view.path_input.setText(path)
+
+    # — Colecciones de ubicaciones (CRUD) —
+    def _refresh_location_collections_list(self):
+        v = self.view
+        v.location_list.clear()
+        for name, path in self.location_collections.items():
+            item = QListWidgetItem(f"{name} ➔ {path}")
+            item.setData(Qt.UserRole, path)
+            v.location_list.addItem(item)
+
+    def save_location_collection(self):
+        v = self.view
+        try:
+            current = v.path_input.text().strip()
+            if not current or not Path(current).is_dir():
+                raise ValueError("Selecciona primero una ruta válida.")
+            
+            dlg = LocationDialog(v, name="", path=current)
+            if dlg.exec_() != QDialog.Accepted:
+                return
+            new_name, new_path = dlg.get_data()
+
+            if not new_path or not Path(new_path).is_dir():
+                raise ValueError("La ruta indicada no existe.")
+
+            # Genera un nombre único
+            if not new_name:
+                new_name = self._generate_default_location_name()
+            base = new_name
+            idx = 1
+            while new_name in self.location_collections:
+                idx += 1
+                new_name = f"{base} {idx}"
+
+            # Guarda
+            self.location_collections[new_name] = new_path
+            save_locations(self.location_collections)
+            self._refresh_location_collections_list()
+
+        except Exception as e:
+            # Muestra siempre el error sin crashear
+            QMessageBox.critical(v, "Error al guardar colección", str(e))
+            # Imprime en consola para el debug cuando hay consola
+            import traceback; traceback.print_exc()
+
+
+    def import_location_collections(self):
+        v = self.view
+        path, _ = QFileDialog.getOpenFileName(
+            v, "Cargar colecciones de ubicaciones", "", "JSON Files (*.json)"
+        )
+        if not path:
+            return
+        try:
+            data = json.loads(Path(path).read_text(encoding="utf-8"))
+            self.location_collections.update(data)
+            save_locations(self.location_collections)
+            self._refresh_location_collections_list()
+        except Exception as e:
+            QMessageBox.critical(v, "Error", f"No se pudo importar: {e}")
+
+    def edit_location_collection(self):
+        v = self.view
+        sel = v.location_list.selectedItems()
+        if not sel:
+            return
+        old_name = sel[0].text().split(" ➔ ")[0]
+        old_path = self.location_collections[old_name]
+
+        # Lanzamos el diálogo con nombre y ruta actuales
+        dlg = LocationDialog(v, name=old_name, path=old_path)
+        if dlg.exec_() != QDialog.Accepted:
+            return
+
+        new_name, new_path = dlg.get_data()
+        if not new_name or not Path(new_path).is_dir():
+            QMessageBox.warning(v, "Entrada inválida", "Debes indicar un nombre y una ruta válida.")
+            return
+
+        # Actualizamos: removemos la antigua key
+        self.location_collections.pop(old_name, None)
+        self.location_collections[new_name] = new_path
+        save_locations(self.location_collections)
+        self._refresh_location_collections_list()
+
+    def _generate_default_location_name(self):
+        base = "Colección de ubicaciones"
+        idx = 1
+        while f"{base} {idx}" in self.location_collections:
+            idx += 1
+        return f"{base} {idx}"
+
+    # — Favoritos de extensiones —
     def _populate_favorites(self):
         v = self.view
         v.favorites_list.clear()
@@ -41,9 +195,9 @@ class MainController(QObject):
             exts = data.get("extensions", [])
             icon = data.get("icon", "📂")
             preview = ", ".join(exts)
-            texto = f"{icon} {name} [{preview}]"
+            text = f"{icon} {name} [{preview}]"
             if filtro in name.lower() or filtro in preview.lower():
-                item = QListWidgetItem(texto)
+                item = QListWidgetItem(text)
                 item.setData(Qt.UserRole, name)
                 v.favorites_list.addItem(item)
 
@@ -63,11 +217,18 @@ class MainController(QObject):
             return
         dlg = FavoriteDialog(v, extensions=exts)
         if dlg.exec_() == QDialog.Accepted:
-            name, icon, exts2 = dlg.get_data()
-            if name:
-                self.favorites[name] = {"extensions": exts2, "icon": icon}
-                save_favorites(self.favorites)
-                self._populate_favorites()
+            name, icon, new_exts = dlg.get_data()
+            if not name:
+                base = "Colección de favoritos"
+                idx = 1
+                candidate = f"{base} {idx}"
+                while candidate in self.favorites:
+                    idx += 1
+                    candidate = f"{base} {idx}"
+                name = candidate
+            self.favorites[name] = {"extensions": new_exts, "icon": icon}
+            save_favorites(self.favorites)
+            self._populate_favorites()
 
     def load_favorite(self, item):
         name = item.data(Qt.UserRole)
@@ -79,7 +240,6 @@ class MainController(QObject):
             for ext in data["extensions"]:
                 v.allowed_exts.add(ext)
                 v.active_list.addItem(ext)
-            # actualizar botones rápidos
             for btn, ext in v.quick_filter_buttons:
                 if ext in v.allowed_exts:
                     btn.setChecked(True)
@@ -90,7 +250,9 @@ class MainController(QObject):
 
     def import_favorites(self):
         v = self.view
-        path, _ = QFileDialog.getOpenFileName(v, "Importar colección de favoritos", "", "JSON Files (*.json)")
+        path, _ = QFileDialog.getOpenFileName(
+            v, "Importar colección de favoritos", "", "JSON Files (*.json)"
+        )
         if not path:
             return
         try:
@@ -103,11 +265,15 @@ class MainController(QObject):
             if added:
                 save_favorites(self.favorites)
                 self._populate_favorites()
-                QMessageBox.information(v, "Importado", f"Se importaron {added} conjuntos nuevos correctamente ✅")
+                QMessageBox.information(
+                    v, "Importado", f"Se importaron {added} conjuntos nuevos correctamente ✅"
+                )
             else:
-                QMessageBox.information(v, "Nada importado", "No se encontraron conjuntos nuevos para importar.")
+                QMessageBox.information(
+                    v, "Nada importado", "No se encontraron conjuntos nuevos para importar."
+                )
         except Exception as e:
-            QMessageBox.critical(v, "Error", f"No se pudo importar el archivo: {e}")
+            QMessageBox.critical(v, "Error", f"No se pudo importar: {e}")
 
     def delete_favorite(self):
         v = self.view
@@ -126,7 +292,11 @@ class MainController(QObject):
             return
         name = sel[0].data(Qt.UserRole)
         data = self.favorites[name]
-        dlg = FavoriteDialog(v, name=name, icon=data.get("icon","📂"), extensions=data.get("extensions",[]))
+        dlg = FavoriteDialog(
+            v, name=name,
+            icon=data.get("icon","📂"),
+            extensions=data.get("extensions",[])
+        )
         if dlg.exec_() == QDialog.Accepted:
             new_name, new_icon, new_exts = dlg.get_data()
             if new_name:
@@ -135,68 +305,66 @@ class MainController(QObject):
                 save_favorites(self.favorites)
                 self._populate_favorites()
 
-    # ——— Escaneo —————————————————————————————————————————————————————
+    # — Escaneo —
     def run_scan(self):
         v = self.view
         base = v.path_input.text().strip()
         if not Path(base).is_dir():
             QMessageBox.critical(v, "Error", "Por favor, introduce una ruta válida para escanear.")
             return
-
         ignored = {ext for ext, cb in v.ignore_checkboxes.items() if cb.isChecked()}
         allowed = v.allowed_exts or None
-
-        # deshabilitar UI
+        v.progress_bar.setRange(0, 100)
+        v.progress_bar.setValue(0)
         v.scan_button.setEnabled(False)
+        v.stop_button.setEnabled(True)
         v.browse_button.setEnabled(False)
         v.save_browse_button.setEnabled(False)
-
-        # creamos y arrancamos el worker
-        self.worker = ScannerWorker(base, ignored_exts=ignored, allowed_exts=allowed)
-
-        # 1) cuando sepamos el total, lo ponemos en la barra
+        self.worker = ScannerWorker(
+            base,
+            ignored_exts=ignored,
+            allowed_exts=allowed
+        )
         self.worker.files_counted.connect(lambda total: v.progress_bar.setRange(0, total))
-
-        # 2) cada vez que procesemos un fichero, actualizamos la barra
         self.worker.progress.connect(lambda done: v.progress_bar.setValue(done))
-
-        # 3) al terminar:
         self.worker.finished.connect(self.save_result)
-
         self.worker.start()
+        
+    def stop_scan(self):
+        if hasattr(self, "worker") and self.worker.isRunning():
+            # envío de petición segura de interrupción
+            self.worker.requestInterruption()
+            # deshabilito Detener y habilito Ejecutar
+            v = self.view
+            v.stop_button.setEnabled(False)
+            v.scan_button.setEnabled(True)
 
     def save_result(self, result: dict):
         v = self.view
-        # Directorio de salida (o home si no es válido)
         out_dir = Path(v.save_path_input.text().strip() or str(Path.home()))
         if not out_dir.is_dir():
             out_dir = Path.home()
-
         v.progress_bar.setValue(v.progress_bar.maximum())
-
-        # 1) Recojo rutas completas de todos los archivos encontrados
         file_paths = []
         def collect_paths(node):
             for f in node.get("files", []):
-                # aquí uso directamente el campo "path"
-                file_paths.append(f["path"])
+                file_paths.append(f.get("path"))
             for sub in node.get("subfolders", []):
                 collect_paths(sub)
-        collect_paths(result["tree"])
-
-        # 2) Para el JSON sigo guardando sólo nombres (preview), si lo necesitas
+        collect_paths(result.get("tree", {}))
         result["preview_files"] = [Path(p).name for p in file_paths]
-
-        # 3) Escribo el JSON completo
-        json_file = out_dir / (Path(result["path"]).name + ".json")
+        json_file = out_dir / (Path(result.get("path", "")).name + ".json")
         json_file.write_text(json.dumps(result, indent=2, ensure_ascii=False), encoding="utf-8")
-
-        # 4) Abro el diálogo con rutas correctas
         dlg = FileResultsDialog(file_paths, str(out_dir))
         dlg.exec_()
-
-        # 5) Restauro estado de la UI
-        v.progress_bar.setValue(100)
+        v.progress_bar.setRange(0, 100)
+        v.progress_bar.setValue(0)
+        v.stop_button.setEnabled(False)
         v.scan_button.setEnabled(True)
         v.browse_button.setEnabled(True)
         v.save_browse_button.setEnabled(True)
+        try:
+            self.worker.progress.disconnect()
+            self.worker.files_counted.disconnect()
+        except Exception:
+            pass

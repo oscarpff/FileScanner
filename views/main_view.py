@@ -4,18 +4,54 @@ from PyQt5.QtWidgets import (
     QWidget, QApplication, QMessageBox,
     QLabel, QPushButton, QVBoxLayout, QHBoxLayout,
     QLineEdit, QCheckBox, QListWidget, QProgressBar,
-    QFileDialog
+    QFileDialog, QShortcut
 )
-from PyQt5.QtGui import QIcon, QPalette, QColor
+from PyQt5.QtGui import QIcon, QPalette, QColor, QKeySequence
 from PyQt5.QtCore import Qt
+
+class ActiveListWidget(QListWidget):
+    """
+    Subclase de QListWidget que maneja Supr y Backspace para eliminar ítems.
+    """
+    def __init__(self, parent=None):
+        super().__init__(parent)
+
+    def keyPressEvent(self, event):
+        if event.key() in (Qt.Key_Delete, Qt.Key_Backspace):
+            view = self.parent()  # tu FileScannerView
+            # recogemos qué había seleccionado
+            to_remove = [item.text() for item in self.selectedItems()]
+            for text in to_remove:
+                # 1) lo quitamos de la lista visual
+                items = self.findItems(text, Qt.MatchExactly)
+                for itm in items:
+                    self.takeItem(self.row(itm))
+                # 2) lo quitamos de la lógica
+                if text in view.allowed_exts:
+                    view.allowed_exts.remove(text)
+
+            # 3) Actulizamos la vista de activos
+            view._refresh_active_list()
+
+            # 4) Sincronizamos botón rápidos
+            for btn, ext in view.quick_filter_buttons:
+                if ext in view.allowed_exts:
+                    btn.setChecked(True)
+                    btn.setStyleSheet("background-color: lightgreen;")
+                else:
+                    btn.setChecked(False)
+                    btn.setStyleSheet("background-color: lightgray;")
+
+        else:
+            super().keyPressEvent(event)
 
 
 class FileScannerView(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("File Scanner MVC")
+        self.setWindowTitle("FileScanner")
         self.setWindowIcon(QIcon("detective_.ico"))
-        self.setFixedSize(1000, 720)
+        self._ajustar_a_pantalla()
 
         self.dark_mode_active = False
         self.allowed_exts = set()
@@ -24,6 +60,12 @@ class FileScannerView(QWidget):
 
         # Llamada correcta al método que monta la UI
         self.setup_ui()
+        
+    def _ajustar_a_pantalla(self):
+        pantalla = QApplication.primaryScreen().availableGeometry()
+        self.setGeometry(pantalla)
+        # Si se quiere establecer tamaño mínimo y dejar dimensionable
+        # self.setMinimumSize(pantalla.width(), pantalla.height())
 
     def setup_ui(self):
         main_layout = QHBoxLayout()
@@ -98,16 +140,28 @@ class FileScannerView(QWidget):
 
         # Lista de extensiones activas
         self.left_layout.addWidget(QLabel("🎯 Extensiones activas:"))
-        self.active_list = QListWidget()
+        self.active_list = ActiveListWidget()
         self.left_layout.addWidget(self.active_list)
+        
+        # Shortcuts para eliminar selección con Supr o Backspace
+        delete_shortcut = QShortcut(QKeySequence.Delete, self.active_list)
+        delete_shortcut.activated.connect(self._remove_selected_active_extensions)
+        backspace_shortcut = QShortcut(QKeySequence.Backspace, self.active_list)
+        backspace_shortcut.activated.connect(self._remove_selected_active_extensions)
 
         # Botones de acción
         clear_btn = QPushButton("🧹 Limpiar filtros")
         clear_btn.clicked.connect(self._clear_extensions)
         self.left_layout.addWidget(clear_btn)
 
-        self.scan_button = QPushButton("Ejecutar escaneo")
-        self.left_layout.addWidget(self.scan_button)
+        # Botones de escaneo: iniciar / detener
+        h_scan = QHBoxLayout()
+        self.scan_button = QPushButton("▶️ Ejecutar escaneo")
+        self.stop_button = QPushButton("⏹️ Detener escaneo")
+        self.stop_button.setEnabled(False)   # deshabilitado hasta que empiece
+        h_scan.addWidget(self.scan_button)
+        h_scan.addWidget(self.stop_button)
+        self.left_layout.addLayout(h_scan)
 
         self.progress_bar = QProgressBar()
         self.left_layout.addWidget(self.progress_bar)
@@ -117,6 +171,27 @@ class FileScannerView(QWidget):
         self.left_layout.addWidget(contact_btn)
 
     def build_right_panel(self):
+        
+        # Favoritos de ubicaciones
+        self.right_layout.addWidget(QLabel("📁 Favoritos de ubicaciones:"))
+        self.location_list = QListWidget()
+        self.right_layout.addWidget(self.location_list)
+
+        loc_btns = QHBoxLayout()
+        self.add_loc_btn      = QPushButton("➕ Añadir ubicación")
+        self.del_loc_btn      = QPushButton("❌ Eliminar ubicación")
+        self.save_loc_coll_btn= QPushButton("📂 Guardar colección")
+        self.load_loc_coll_btn= QPushButton("📥 Cargar colección")
+        self.edit_loc_coll_btn= QPushButton("✏️ Editar colección")
+
+        for w in (
+            self.add_loc_btn, self.del_loc_btn,
+            self.save_loc_coll_btn, self.load_loc_coll_btn, self.edit_loc_coll_btn
+        ):
+            loc_btns.addWidget(w)
+        self.right_layout.addLayout(loc_btns)
+        
+        # Favoritos de extensiones
         self.right_layout.addWidget(QLabel("⭐ Favoritos de extensiones:"))
 
         fav_top_layout = QHBoxLayout()
@@ -171,6 +246,12 @@ class FileScannerView(QWidget):
             btn.setChecked(False)
             btn.setStyleSheet("background-color: lightgray;")
         self._refresh_active_list()
+        
+    def _remove_selected_active_extensions(self):
+        to_remove = [item.text() for item in self.active_list.selectedItems()]
+        for ext in to_remove:
+            if ext in self.allowed_exts:
+                self.allowed_exts.remove(ext)
 
     def _toggle_dark_mode_ui(self):
         if not self.dark_mode_active:
