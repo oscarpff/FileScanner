@@ -18,20 +18,16 @@ def resource_path(relpath):
 
 
 def main():
-    # 1) Crear la aplicación
-    app = QApplication(sys.argv)
 
-    # 2) Instanciar la vista y ponerle el icono
+    app = QApplication(sys.argv)
+    
     view = FileScannerView()
     view.setWindowIcon(QIcon(resource_path("detective_.ico")))
 
-    # 3) Conectar el controlador
     ctrl = MainController(view)
 
-    # 4) Mostrar la ventana maximizada (respetando la barra de tareas)
     view.showMaximized()
 
-    # 5) Entrar al bucle de eventos
     sys.exit(app.exec_())
 
 
