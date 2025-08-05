@@ -338,6 +338,8 @@ class MainController(QObject):
             v = self.view
             v.stop_button.setEnabled(False)
             v.scan_button.setEnabled(True)
+            v.browse_button.setEnabled(True)
+            v.save_browse_button.setEnabled(True)
 
     def save_result(self, result: dict):
         v = self.view
