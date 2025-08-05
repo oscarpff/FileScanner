@@ -64,6 +64,8 @@ class FileScannerView(QWidget):
         # Llamada correcta al método que monta la UI
         self.setup_ui()
         
+        self.clear_btn = None  # Añade este atributo
+        
     def _ajustar_a_pantalla(self):
         pantalla = QApplication.primaryScreen().availableGeometry()
         self.setGeometry(pantalla)
@@ -178,9 +180,9 @@ class FileScannerView(QWidget):
         backspace_shortcut.activated.connect(self._remove_selected_active_extensions)
 
         # Botones de acción
-        clear_btn = QPushButton(get_text("clear_extensions_button", self.current_language))
-        clear_btn.clicked.connect(self._clear_extensions)
-        self.left_layout.addWidget(clear_btn)
+        self.clear_btn = QPushButton(get_text("clear_extensions_button", self.current_language))
+        self.clear_btn.clicked.connect(self._clear_extensions)
+        self.left_layout.addWidget(self.clear_btn)
 
         # Botones de escaneo: iniciar / detener
         h_scan = QHBoxLayout()
@@ -194,9 +196,9 @@ class FileScannerView(QWidget):
         self.progress_bar = QProgressBar()
         self.left_layout.addWidget(self.progress_bar)
 
-        contact_btn = QPushButton("📩 Contacto")
-        contact_btn.clicked.connect(self._show_contact_info)
-        self.left_layout.addWidget(contact_btn)
+        self.contact_btn = QPushButton(get_text("contact_label", self.current_language))
+        self.contact_btn.clicked.connect(self._show_contact_info)
+        self.left_layout.addWidget(self.contact_btn)
 
     def build_right_panel(self):
         
@@ -274,7 +276,9 @@ class FileScannerView(QWidget):
             btn.setChecked(False)
             btn.setStyleSheet("background-color: lightgray;")
         self._refresh_active_list()
-        
+        # Si tienes un diálogo de confirmación, usa:
+        # QMessageBox.information(self, get_text("info_message", self.current_language), get_text("clear_extensions_button", self.current_language))
+
     def _remove_selected_active_extensions(self):
         to_remove = [item.text() for item in self.active_list.selectedItems()]
         for ext in to_remove:
@@ -330,20 +334,26 @@ class FileScannerView(QWidget):
         self.toggle_dark_mode_btn.setText("🌙 Modo Oscuro")
 
     def _select_folder(self):
-        folder = QFileDialog.getExistingDirectory(self, "Seleccionar carpeta")
+        folder = QFileDialog.getExistingDirectory(
+            self,
+            get_text("select_folder_dialog", self.current_language)
+        )
         if folder:
             self.path_input.setText(folder)
 
     def _select_save_folder(self):
-        folder = QFileDialog.getExistingDirectory(self, "Seleccionar carpeta de guardado")
+        folder = QFileDialog.getExistingDirectory(
+            self,
+            get_text("select_save_folder_dialog", self.current_language)
+        )
         if folder:
             self.save_path_input.setText(folder)
 
     def _show_contact_info(self):
         QMessageBox.information(
             self,
-            "Contacto",
-            "📧 Contacto:\nÓscar Pérez\noscar.p.perez@renault.com"
+            get_text("contact_window_title", self.current_language),
+            get_text("contact_window_content", self.current_language)
         )
     
     def _change_language_by_code(self, lang_code):
@@ -400,6 +410,9 @@ class FileScannerView(QWidget):
         
         self.sort_btn.setText(get_text("sort_button", self.current_language))
         self.search_fav_input.setPlaceholderText(get_text("search_favorites_label", self.current_language))
+        
+        # Actualizar botón de contacto
+        self.contact_btn.setText(get_text("contact_label", self.current_language))
         
         # Actualizar etiquetas estáticas (QLabel)
         self._update_static_labels()

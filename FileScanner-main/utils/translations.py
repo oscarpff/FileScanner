@@ -22,7 +22,7 @@ TRANSLATIONS = {
         "custom_extension_label": "Añadir extensión personalizada:",
         "add_extension_button": "➕",
         "active_extensions_label": "Extensiones activas:",
-        "clear_extensions_button": "Limpiar todas",
+        "clear_extensions_button": "Limpiar extensiones",
         "remove_selected_button": "Eliminar seleccionadas",
         
         # Panel derecho - Favoritos
@@ -71,6 +71,9 @@ TRANSLATIONS = {
         "filter_files": "Filtrar archivos:",
         "open_location": "Abrir ubicación",
         "process_to_folder": "Procesar archivos a carpeta",
+        "close_button": "Cerrar",
+        "action_label": "Acción:",
+        "copy_button": "Copiar",
         
         # Estados
         "ready": "Listo",
@@ -87,7 +90,13 @@ TRANSLATIONS = {
         "code": "Código fuente",
         "data": "Datos",
         "web": "Web",
-        "other": "Otros"
+        "other": "Otros",
+
+        # Otros textos
+        "contact_window_name": "📧 Contacto",
+        "contact_label": "📧 Contacto",
+        "contact_window_title": "Contacto",
+        "contact_window_content": "Para soporte o sugerencias, escribe a: pefer.oscar@gmail.com",
     },
     
     "en": {
@@ -160,6 +169,9 @@ TRANSLATIONS = {
         "filter_files": "Filter files:",
         "open_location": "Open location",
         "process_to_folder": "Process files to folder",
+        "close_button": "Close",
+        "action_label": "Action:",
+        "copy_button": "Copy",
         
         # States
         "ready": "Ready",
@@ -176,7 +188,14 @@ TRANSLATIONS = {
         "code": "Source code",
         "data": "Data",
         "web": "Web",
-        "other": "Others"
+        "other": "Others",
+
+        # Other texts
+        "contact_window_name": "📧 Contact",
+        "contact_label": "📧 Contact",
+        "contact_window_title": "Contact",
+        "contact_window_content": "For support or suggestions, write to: pefer.oscar@gmail.com",
+
     },
     
     "fr": {
@@ -249,6 +268,9 @@ TRANSLATIONS = {
         "filter_files": "Filtrer les fichiers:",
         "open_location": "Ouvrir l'emplacement",
         "process_to_folder": "Traiter les fichiers vers un dossier",
+        "close_button": "Fermer",
+        "action_label": "Action :",
+        "copy_button": "Copier",
         
         # États
         "ready": "Prêt",
@@ -265,7 +287,13 @@ TRANSLATIONS = {
         "code": "Code source",
         "data": "Données",
         "web": "Web",
-        "other": "Autres"
+        "other": "Autres",
+
+        # Autres textes
+        "contact_window_name": "📧 Contact",
+        "contact_label": "📧 Contact",
+        "contact_window_title": "Contact",
+        "contact_window_content": "Pour le support ou des suggestions, écrivez à : pefer.oscar@gmail.com",
     }
 }
 
@@ -284,4 +312,4 @@ def get_language_name(lang_code: str) -> str:
         "en": "🇺🇸 English",
         "fr": "🇫🇷 Français"
     }
-    return names.get(lang_code, lang_code) 
+    return names.get(lang_code, lang_code)
