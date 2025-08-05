@@ -4,10 +4,12 @@ from PyQt5.QtWidgets import (
     QWidget, QApplication, QMessageBox,
     QLabel, QPushButton, QVBoxLayout, QHBoxLayout,
     QLineEdit, QCheckBox, QListWidget, QProgressBar,
-    QFileDialog, QShortcut
+    QFileDialog, QShortcut, QComboBox
 )
 from PyQt5.QtGui import QIcon, QPalette, QColor, QKeySequence
 from PyQt5.QtCore import Qt
+
+from utils.translations import get_text, get_available_languages, get_language_name
 
 class ActiveListWidget(QListWidget):
     """
@@ -49,7 +51,8 @@ class ActiveListWidget(QListWidget):
 class FileScannerView(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("FileScanner")
+        self.current_language = "es"  # Idioma por defecto
+        self.setWindowTitle(get_text("window_title", self.current_language))
         self.setWindowIcon(QIcon("detective_.ico"))
         self._ajustar_a_pantalla()
 
@@ -79,25 +82,50 @@ class FileScannerView(QWidget):
         self.build_right_panel()
 
     def build_left_panel(self):
+        # Panel superior con controles
+        top_controls = QHBoxLayout()
+        
         # Botón modo oscuro/Claro
-        self.toggle_dark_mode_btn = QPushButton("🌙 Modo Oscuro")
+        self.toggle_dark_mode_btn = QPushButton(get_text("dark_mode", self.current_language))
         self.toggle_dark_mode_btn.setCheckable(True)
         self.toggle_dark_mode_btn.clicked.connect(self._toggle_dark_mode_ui)
-        self.left_layout.addWidget(self.toggle_dark_mode_btn)
+        top_controls.addWidget(self.toggle_dark_mode_btn)
+        
+        # Selector de idioma con botones de bandera
+        language_layout = QHBoxLayout()
+        language_layout.setSpacing(5)
+        
+        # Botones de idioma con banderas
+        self.language_buttons = {}
+        for lang_code in get_available_languages():
+            btn = QPushButton(get_language_name(lang_code))
+            btn.setCheckable(True)
+            btn.setMaximumWidth(80)
+            btn.clicked.connect(lambda checked, code=lang_code: self._change_language_by_code(code))
+            self.language_buttons[lang_code] = btn
+            language_layout.addWidget(btn)
+        
+        # Marcar el idioma actual como seleccionado
+        self.language_buttons[self.current_language].setChecked(True)
+        self.language_buttons[self.current_language].setStyleSheet("background-color: #4CAF50; color: white; font-weight: bold;")
+        
+        top_controls.addLayout(language_layout)
+        
+        self.left_layout.addLayout(top_controls)
 
         # Ruta a escanear
-        self.left_layout.addWidget(QLabel("🔍 Ruta de la carpeta a escanear:"))
+        self.left_layout.addWidget(QLabel(get_text("scan_folder_label", self.current_language)))
         self.path_input = QLineEdit()
         self.left_layout.addWidget(self.path_input)
-        self.browse_button = QPushButton("Seleccionar carpeta para analizar")
+        self.browse_button = QPushButton(get_text("select_folder_button", self.current_language))
         self.browse_button.clicked.connect(self._select_folder)
         self.left_layout.addWidget(self.browse_button)
 
         # Ruta de guardado JSON
-        self.left_layout.addWidget(QLabel("💾 Ruta para guardar el JSON generado:"))
+        self.left_layout.addWidget(QLabel(get_text("save_json_label", self.current_language)))
         self.save_path_input = QLineEdit()
         self.left_layout.addWidget(self.save_path_input)
-        self.save_browse_button = QPushButton("Seleccionar carpeta de guardado")
+        self.save_browse_button = QPushButton(get_text("select_save_folder_button", self.current_language))
         self.save_browse_button.clicked.connect(self._select_save_folder)
         self.left_layout.addWidget(self.save_browse_button)
 
@@ -114,7 +142,7 @@ class FileScannerView(QWidget):
         self.left_layout.addLayout(ignore_layout)
 
         # Filtro rápido
-        self.left_layout.addWidget(QLabel("📂 Filtro rápido:"))
+        self.left_layout.addWidget(QLabel(get_text("quick_filters_label", self.current_language)))
         quick_exts = [".docx", ".pdf", ".txt", ".csv", ".xlsx", ".xml", ".json"]
         quick_layout = QHBoxLayout()
         for ext in quick_exts:
@@ -130,16 +158,16 @@ class FileScannerView(QWidget):
         # Añadir extensión personalizada
         custom_layout = QHBoxLayout()
         self.custom_ext_input = QLineEdit()
-        self.custom_ext_input.setPlaceholderText("Añadir extensión...")
+        self.custom_ext_input.setPlaceholderText(get_text("custom_extension_label", self.current_language))
         self.custom_ext_input.returnPressed.connect(self._add_custom_extension)
-        self.add_custom_btn = QPushButton("➕ Añadir")
+        self.add_custom_btn = QPushButton(get_text("add_extension_button", self.current_language))
         self.add_custom_btn.clicked.connect(self._add_custom_extension)
         custom_layout.addWidget(self.custom_ext_input)
         custom_layout.addWidget(self.add_custom_btn)
         self.left_layout.addLayout(custom_layout)
 
         # Lista de extensiones activas
-        self.left_layout.addWidget(QLabel("🎯 Extensiones activas:"))
+        self.left_layout.addWidget(QLabel(get_text("active_extensions_label", self.current_language)))
         self.active_list = ActiveListWidget()
         self.left_layout.addWidget(self.active_list)
         
@@ -150,14 +178,14 @@ class FileScannerView(QWidget):
         backspace_shortcut.activated.connect(self._remove_selected_active_extensions)
 
         # Botones de acción
-        clear_btn = QPushButton("🧹 Limpiar filtros")
+        clear_btn = QPushButton(get_text("clear_extensions_button", self.current_language))
         clear_btn.clicked.connect(self._clear_extensions)
         self.left_layout.addWidget(clear_btn)
 
         # Botones de escaneo: iniciar / detener
         h_scan = QHBoxLayout()
-        self.scan_button = QPushButton("▶️ Ejecutar escaneo")
-        self.stop_button = QPushButton("⏹️ Detener escaneo")
+        self.scan_button = QPushButton(get_text("scan_button", self.current_language))
+        self.stop_button = QPushButton(get_text("stop_button", self.current_language))
         self.stop_button.setEnabled(False)   # deshabilitado hasta que empiece
         h_scan.addWidget(self.scan_button)
         h_scan.addWidget(self.stop_button)
@@ -173,16 +201,16 @@ class FileScannerView(QWidget):
     def build_right_panel(self):
         
         # Favoritos de ubicaciones
-        self.right_layout.addWidget(QLabel("📁 Favoritos de ubicaciones:"))
+        self.right_layout.addWidget(QLabel(get_text("locations_label", self.current_language)))
         self.location_list = QListWidget()
         self.right_layout.addWidget(self.location_list)
 
         loc_btns = QHBoxLayout()
-        self.add_loc_btn      = QPushButton("➕ Añadir ubicación")
-        self.del_loc_btn      = QPushButton("❌ Eliminar ubicación")
-        self.save_loc_coll_btn= QPushButton("📂 Guardar colección")
-        self.load_loc_coll_btn= QPushButton("📥 Cargar colección")
-        self.edit_loc_coll_btn= QPushButton("✏️ Editar colección")
+        self.add_loc_btn      = QPushButton(get_text("add_location_button", self.current_language))
+        self.del_loc_btn      = QPushButton(get_text("delete_location_button", self.current_language))
+        self.save_loc_coll_btn= QPushButton(get_text("save_collection_button", self.current_language))
+        self.load_loc_coll_btn= QPushButton(get_text("load_collection_button", self.current_language))
+        self.edit_loc_coll_btn= QPushButton(get_text("edit_collection_button", self.current_language))
 
         for w in (
             self.add_loc_btn, self.del_loc_btn,
@@ -192,14 +220,14 @@ class FileScannerView(QWidget):
         self.right_layout.addLayout(loc_btns)
         
         # Favoritos de extensiones
-        self.right_layout.addWidget(QLabel("⭐ Favoritos de extensiones:"))
+        self.right_layout.addWidget(QLabel(get_text("favorites_label", self.current_language)))
 
         fav_top_layout = QHBoxLayout()
         self.search_fav_input = QLineEdit()
-        self.search_fav_input.setPlaceholderText("🔍 Buscar favorito...")
+        self.search_fav_input.setPlaceholderText(get_text("search_favorites_label", self.current_language))
         fav_top_layout.addWidget(self.search_fav_input)
 
-        self.sort_btn = QPushButton("🔃 A-Z/Z-A")
+        self.sort_btn = QPushButton(get_text("sort_button", self.current_language))
         fav_top_layout.addWidget(self.sort_btn)
         self.right_layout.addLayout(fav_top_layout)
 
@@ -207,10 +235,10 @@ class FileScannerView(QWidget):
         self.right_layout.addWidget(self.favorites_list)
 
         fav_btns = QHBoxLayout()
-        self.save_fav_btn = QPushButton("➕ Guardar colección")
-        self.load_fav_btn = QPushButton("📂 Cargar colección")
-        self.delete_fav_btn = QPushButton("❌ Eliminar colección")
-        self.edit_fav_btn = QPushButton("✏️ Editar colección")
+        self.save_fav_btn = QPushButton(get_text("save_favorite_button", self.current_language))
+        self.load_fav_btn = QPushButton(get_text("load_favorite_button", self.current_language))
+        self.delete_fav_btn = QPushButton(get_text("delete_favorite_button", self.current_language))
+        self.edit_fav_btn = QPushButton(get_text("edit_favorite_button", self.current_language))
         for w in (self.save_fav_btn, self.load_fav_btn, self.delete_fav_btn, self.edit_fav_btn):
             fav_btns.addWidget(w)
         self.right_layout.addLayout(fav_btns)
@@ -317,3 +345,96 @@ class FileScannerView(QWidget):
             "Contacto",
             "📧 Contacto:\nÓscar Pérez\noscar.p.perez@renault.com"
         )
+    
+    def _change_language_by_code(self, lang_code):
+        """Cambia el idioma de la aplicación por código"""
+        if lang_code == self.current_language:
+            return
+            
+        self.current_language = lang_code
+        
+        # Actualizar el estado visual de los botones
+        for code, btn in self.language_buttons.items():
+            if code == lang_code:
+                btn.setChecked(True)
+                btn.setStyleSheet("background-color: #4CAF50; color: white; font-weight: bold;")
+            else:
+                btn.setChecked(False)
+                btn.setStyleSheet("")
+        
+        # Actualizar todos los textos de la interfaz
+        self._update_all_texts()
+    
+    def _update_all_texts(self):
+        """Actualiza todos los textos de la interfaz al idioma actual"""
+        # Título de la ventana
+        self.setWindowTitle(get_text("window_title", self.current_language))
+        
+        # Botón modo oscuro
+        if self.dark_mode_active:
+            self.toggle_dark_mode_btn.setText(get_text("light_mode", self.current_language))
+        else:
+            self.toggle_dark_mode_btn.setText(get_text("dark_mode", self.current_language))
+        
+        # Panel izquierdo
+        self.browse_button.setText(get_text("select_folder_button", self.current_language))
+        self.save_browse_button.setText(get_text("select_save_folder_button", self.current_language))
+        self.scan_button.setText(get_text("scan_button", self.current_language))
+        self.stop_button.setText(get_text("stop_button", self.current_language))
+        
+        # Extensiones
+        self.custom_ext_input.setPlaceholderText(get_text("custom_extension_label", self.current_language))
+        self.add_custom_btn.setText(get_text("add_extension_button", self.current_language))
+        
+        # Panel derecho
+        self.add_loc_btn.setText(get_text("add_location_button", self.current_language))
+        self.del_loc_btn.setText(get_text("delete_location_button", self.current_language))
+        self.save_loc_coll_btn.setText(get_text("save_collection_button", self.current_language))
+        self.load_loc_coll_btn.setText(get_text("load_collection_button", self.current_language))
+        self.edit_loc_coll_btn.setText(get_text("edit_collection_button", self.current_language))
+        
+        self.save_fav_btn.setText(get_text("save_favorite_button", self.current_language))
+        self.load_fav_btn.setText(get_text("load_favorite_button", self.current_language))
+        self.delete_fav_btn.setText(get_text("delete_favorite_button", self.current_language))
+        self.edit_fav_btn.setText(get_text("edit_favorite_button", self.current_language))
+        
+        self.sort_btn.setText(get_text("sort_button", self.current_language))
+        self.search_fav_input.setPlaceholderText(get_text("search_favorites_label", self.current_language))
+        
+        # Actualizar etiquetas estáticas (QLabel)
+        self._update_static_labels()
+    
+    def _update_static_labels(self):
+        """Actualiza las etiquetas estáticas de la interfaz"""
+        # Buscar y actualizar todas las etiquetas en los layouts
+        self._update_labels_in_layout(self.left_layout)
+        self._update_labels_in_layout(self.right_layout)
+    
+    def _update_labels_in_layout(self, layout):
+        """Actualiza las etiquetas en un layout específico"""
+        for i in range(layout.count()):
+            item = layout.itemAt(i)
+            if item.widget():
+                widget = item.widget()
+                if isinstance(widget, QLabel):
+                    # Actualizar texto según el contenido actual
+                    current_text = widget.text()
+                    
+                    # Buscar patrones que coincidan con cualquier idioma
+                    if any(pattern in current_text for pattern in ["Ruta de la carpeta", "Folder path", "Chemin du dossier"]):
+                        widget.setText(get_text("scan_folder_label", self.current_language))
+                    elif any(pattern in current_text for pattern in ["Ruta para guardar", "Path to save", "Chemin pour sauvegarder"]):
+                        widget.setText(get_text("save_json_label", self.current_language))
+                    elif any(pattern in current_text for pattern in ["Filtro rápido", "Quick filters", "Filtres rapides"]):
+                        widget.setText(get_text("quick_filters_label", self.current_language))
+                    elif any(pattern in current_text for pattern in ["Extensiones activas", "Active extensions", "Extensions actives"]):
+                        widget.setText(get_text("active_extensions_label", self.current_language))
+                    elif any(pattern in current_text for pattern in ["Favoritos de ubicaciones", "Location favorites", "Favoris d'emplacements"]):
+                        widget.setText(get_text("locations_label", self.current_language))
+                    elif any(pattern in current_text for pattern in ["Favoritos de extensiones", "Extension favorites", "Favoris d'extensions"]):
+                        widget.setText(get_text("favorites_label", self.current_language))
+                    elif any(pattern in current_text for pattern in ["Progreso", "Progress", "Progression"]):
+                        widget.setText(get_text("progress_label", self.current_language))
+            elif item.layout():
+                # Recursivamente actualizar sub-layouts
+                self._update_labels_in_layout(item.layout())

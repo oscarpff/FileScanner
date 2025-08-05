@@ -12,18 +12,20 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 
 from utils.file_utils import open_folder  # <- IMPORT CORRECTO
+from utils.translations import get_text
 
 class LocationDialog(QDialog):
-    def __init__(self, parent=None, name: str = "", path: str = ""):
+    def __init__(self, parent=None, name: str = "", path: str = "", language: str = "es"):
         super().__init__(parent)
-        self.setWindowTitle("Editar colección de ubicaciones")
+        self.language = language
+        self.setWindowTitle(get_text("edit_location_dialog", self.language))
 
         layout = QVBoxLayout()
 
         # Campo nombre
         layout.addWidget(QLabel("Nombre de la colección:"))
         self.name_edit = QLineEdit(name)
-        self.name_edit.setPlaceholderText("Ej: Mis Proyectos")
+        self.name_edit.setPlaceholderText(get_text("location_name_placeholder", self.language))
         layout.addWidget(self.name_edit)
 
         # Campo ruta
@@ -39,8 +41,8 @@ class LocationDialog(QDialog):
 
         # Botones Guardar / Cancelar
         btns = QHBoxLayout()
-        save_btn   = QPushButton("Guardar")
-        cancel_btn = QPushButton("Cancelar")
+        save_btn   = QPushButton(get_text("save_button", self.language))
+        cancel_btn = QPushButton(get_text("cancel_button", self.language))
         save_btn.clicked.connect(self.accept)
         cancel_btn.clicked.connect(self.reject)
         btns.addWidget(save_btn)
@@ -51,7 +53,7 @@ class LocationDialog(QDialog):
         self.setMinimumSize(400, 200)   # ancho=400px, alto=200px como mínimo
 
     def _browse_folder(self):
-        carpeta = QFileDialog.getExistingDirectory(self, "Seleccionar carpeta")
+        carpeta = QFileDialog.getExistingDirectory(self, get_text("select_folder_dialog", self.language))
         if carpeta:
             self.path_edit.setText(carpeta)
 
@@ -67,16 +69,17 @@ class LocationDialog(QDialog):
 
 class FavoriteDialog(QDialog):
     
-    def __init__(self, parent=None, name: str = "", icon: str = "📂", extensions: list = None):
+    def __init__(self, parent=None, name: str = "", icon: str = "📂", extensions: list = None, language: str = "es"):
         super().__init__(parent)
-        self.setWindowTitle("Editar Colección de Favoritos")
+        self.language = language
+        self.setWindowTitle(get_text("edit_favorite_dialog", self.language))
         self.extensions = extensions or []
 
         layout = QVBoxLayout()
 
         # Nombre de la colección
         self.name_edit = QLineEdit(name)
-        self.name_edit.setPlaceholderText("Nombre de la colección...")
+        self.name_edit.setPlaceholderText(get_text("favorite_name_placeholder", self.language))
         layout.addWidget(self.name_edit)
 
         # Selección de icono

@@ -111,7 +111,7 @@ class MainController(QObject):
             if not current or not Path(current).is_dir():
                 raise ValueError("Selecciona primero una ruta válida.")
             
-            dlg = LocationDialog(v, name="", path=current)
+            dlg = LocationDialog(v, name="", path=current, language=v.current_language)
             if dlg.exec_() != QDialog.Accepted:
                 return
             new_name, new_path = dlg.get_data()
@@ -164,7 +164,7 @@ class MainController(QObject):
         old_path = self.location_collections[old_name]
 
         # Lanzamos el diálogo con nombre y ruta actuales
-        dlg = LocationDialog(v, name=old_name, path=old_path)
+        dlg = LocationDialog(v, name=old_name, path=old_path, language=v.current_language)
         if dlg.exec_() != QDialog.Accepted:
             return
 
@@ -215,7 +215,7 @@ class MainController(QObject):
         if not exts:
             QMessageBox.warning(v, "Extensiones vacías", "No hay extensiones activas para guardar.")
             return
-        dlg = FavoriteDialog(v, extensions=exts)
+        dlg = FavoriteDialog(v, extensions=exts, language=v.current_language)
         if dlg.exec_() == QDialog.Accepted:
             name, icon, new_exts = dlg.get_data()
             if not name:
@@ -295,7 +295,8 @@ class MainController(QObject):
         dlg = FavoriteDialog(
             v, name=name,
             icon=data.get("icon","📂"),
-            extensions=data.get("extensions",[])
+            extensions=data.get("extensions",[]),
+            language=v.current_language
         )
         if dlg.exec_() == QDialog.Accepted:
             new_name, new_icon, new_exts = dlg.get_data()
