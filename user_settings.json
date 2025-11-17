@@ -1,0 +1,11 @@
+{
+  "theme_dark": false,
+  "ignore_enabled": {
+    ".exe": false,
+    ".dll": true
+  },
+  "allowed_exts": [],
+  "yara_paths": [
+    "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\examples\\example.yar"
+  ]
+}

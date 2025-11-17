@@ -1,0 +1,1943 @@
+{
+  "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner",
+  "tree": {
+    "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner",
+    "files": [
+      {
+        "name": "detective_.ico",
+        "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\detective_.ico",
+        "size": 108849,
+        "mtime": "2025-11-16T19:19:05.095565+01:00",
+        "hashes": {
+          "sha256": "e51623b0319496f987e5f8c79b37e85b450629ec27b1c29536cf4c00571d1499",
+          "sha1": "19afbbc3d9ea7821ddcebe870c23b4e6dac4801d",
+          "md5": "cba7f2e368bcf14e8b5b693b97e34a88"
+        },
+        "preview": "",
+        "mtime_epoch": 1763317145.0955653
+      },
+      {
+        "name": "FileScanner.json",
+        "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner.json",
+        "size": 98417,
+        "mtime": "2025-11-16T20:46:02.129518+01:00",
+        "hashes": {
+          "sha256": "db0d084f511201d2ac570fcf1d59c82e5a4bb714bb1cac886f8a2399aa0233b6",
+          "sha1": "0b085a58a739ed350e3996c3fad567dec4d8f37d",
+          "md5": "98a36a0ed94b454534e075d906b1799d"
+        },
+        "preview": "{   \"path\": \"C:\\\\Users\\\\oscar\\\\OneDrive\\\\Desktop\\\\FileScanner\",   \"tree\": {     \"path\": \"C:\\\\Users\\\\oscar\\\\OneDrive\\\\Desktop\\\\FileScanner\",     \"files\": [       {         \"name\": \"detective_.ico\",         \"path\": \"C:\\\\Users\\\\oscar\\\\OneDrive\\\\Desktop\\\\FileScanner\\\\detective_.ico\",         \"size\": 108",
+        "mtime_epoch": 1763322362.1295178
+      },
+      {
+        "name": "FileScanner.spec",
+        "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner.spec",
+        "size": 755,
+        "mtime": "2025-11-16T19:19:05.092565+01:00",
+        "hashes": {
+          "sha256": "bfa60b8d282ab9f22f29a97fac1ad90d3f7636209734f19b81d977cab90d5e53",
+          "sha1": "b5e1c55b1a9f6c52cdb0d26e178a20538381e693",
+          "md5": "fa8d22120d4161b78169d00ddf0cf5c1"
+        },
+        "preview": "",
+        "mtime_epoch": 1763317145.0925653
+      },
+      {
+        "name": "LICENSE",
+        "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\LICENSE",
+        "size": 1113,
+        "mtime": "2025-11-16T19:19:05.093565+01:00",
+        "hashes": {
+          "sha256": "8017c69e6da03bcaee76cc6400c9c0790a983ac0faa9a59bb71b6c5ff6cb1588",
+          "sha1": "b41775e8da86e5f36a5749b2ee58720016cd31dd",
+          "md5": "032f5a738704e115dd96ce9bee77ce58"
+        },
+        "preview": "",
+        "mtime_epoch": 1763317145.0935647
+      },
+      {
+        "name": "main.py",
+        "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\main.py",
+        "size": 986,
+        "mtime": "2025-11-16T19:19:05.095565+01:00",
+        "hashes": {
+          "sha256": "94512c8372e8fa5cbe14e68a93965132af1b381b2d80eebbfb4066d4b2cfaf84",
+          "sha1": "60c88b7c71340d077b186da5dfc9d8617b60802c",
+          "md5": "7006b06871f27775a6c4ce14511a92bb"
+        },
+        "preview": "import sys import os  from PyQt5.QtWidgets import QApplication from PyQt5.QtGui     import QIcon  from views.main_view        import FileScannerView from controllers.main_controller import MainController   def resource_path(relpath):     \"\"\"     Devuelve la ruta absoluta en modo PyInstaller (sys._ME",
+        "mtime_epoch": 1763317145.0955653
+      },
+      {
+        "name": "sospechoso.exe",
+        "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\sospechoso.exe",
+        "size": 0,
+        "mtime": "2025-11-16T20:43:02.137442+01:00",
+        "hashes": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+          "md5": "d41d8cd98f00b204e9800998ecf8427e"
+        },
+        "preview": "",
+        "ioc_matches": [
+          "hash:sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "name:sospechoso.exe"
+        ],
+        "mtime_epoch": 1763322182.137442
+      }
+    ],
+    "subfolders": [
+      {
+        "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git",
+        "files": [
+          {
+            "name": "config",
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\config",
+            "size": 441,
+            "mtime": "2025-11-16T19:19:30.027947+01:00",
+            "hashes": {
+              "sha256": "67787be545ef1b97308b6e3eb6ca052f64c58309d8cb45df9a60e0a82db19724",
+              "sha1": "9327300ed194a21365c724b54e0782d7256ce09f",
+              "md5": "9a8bd558b72ee013ec8dc86af615f3b5"
+            },
+            "preview": "",
+            "mtime_epoch": 1763317170.0279467
+          },
+          {
+            "name": "description",
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\description",
+            "size": 73,
+            "mtime": "2025-11-16T19:18:55.955652+01:00",
+            "hashes": {
+              "sha256": "85ab6c163d43a17ea9cf7788308bca1466f1b0a8d1cc92e26e9bf63da4062aee",
+              "sha1": "9635f1b7e12c045212819dd934d809ef07efa2f4",
+              "md5": "a0a7c3fff21f2aea3cfa1d0316dd816c"
+            },
+            "preview": "",
+            "mtime_epoch": 1763317135.9556515
+          },
+          {
+            "name": "FETCH_HEAD",
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\FETCH_HEAD",
+            "size": 463,
+            "mtime": "2025-11-16T20:55:19.071513+01:00",
+            "hashes": {
+              "sha256": "b753bdd11991e0d49c4a48edc24544ca02005df2625afd372f78439d9fd1bfb1",
+              "sha1": "dbb3cb316420c2cbe3af8f1270fb00d3a4dbdd39",
+              "md5": "7b7bd50a5bd342919d350f4127799c36"
+            },
+            "preview": "",
+            "mtime_epoch": 1763322919.0715134
+          },
+          {
+            "name": "HEAD",
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\HEAD",
+            "size": 32,
+            "mtime": "2025-11-16T19:19:27.240301+01:00",
+            "hashes": {
+              "sha256": "ae1ee29b658796dbed2cd4dec95758fb48bc8a6086522eef81bc96efeb75d7e5",
+              "sha1": "5647b78a37e96919dc39156d96756cde5ea48f83",
+              "md5": "ccdc6aa2fb28f582382f28feb32de7ed"
+            },
+            "preview": "",
+            "mtime_epoch": 1763317167.2403014
+          },
+          {
+            "name": "index",
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\index",
+            "size": 8709,
+            "mtime": "2025-11-16T19:19:27.239293+01:00",
+            "hashes": {
+              "sha256": "a043a7f7ef349ab68bb2b167a0087fa8642f252880d944cc22b1c4c4dfc6bc05",
+              "sha1": "92e149ca47af93e277b9a1673c1fcba156c3aaa7",
+              "md5": "0b73ee30777fe77c1ee609ce55907884"
+            },
+            "preview": "",
+            "mtime_epoch": 1763317167.239293
+          },
+          {
+            "name": "packed-refs",
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\packed-refs",
+            "size": 261,
+            "mtime": "2025-11-16T19:19:04.710444+01:00",
+            "hashes": {
+              "sha256": "376b5dbe08f3332e17b45386684307b61898ba14f5d1b9a47909425a3d16a128",
+              "sha1": "d2bc3ea719ceb5ba08482c1d652aa0a140f160d7",
+              "md5": "915bdaae9f719b4e4f5b2f750e505422"
+            },
+            "preview": "",
+            "mtime_epoch": 1763317144.710444
+          }
+        ],
+        "subfolders": [
+          {
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\hooks",
+            "files": [
+              {
+                "name": "applypatch-msg.sample",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\hooks\\applypatch-msg.sample",
+                "size": 478,
+                "mtime": "2025-11-16T19:18:55.963169+01:00",
+                "hashes": {
+                  "sha256": "0223497a0b8b033aa58a3a521b8629869386cf7ab0e2f101963d328aa62193f7",
+                  "sha1": "4de88eb95a5e93fd27e78b5fb3b5231a8d8917dd",
+                  "md5": "ce562e08d8098926a3862fc6e7905199"
+                },
+                "preview": "",
+                "mtime_epoch": 1763317135.963169
+              },
+              {
+                "name": "commit-msg.sample",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\hooks\\commit-msg.sample",
+                "size": 896,
+                "mtime": "2025-11-16T19:18:55.969812+01:00",
+                "hashes": {
+                  "sha256": "1f74d5e9292979b573ebd59741d46cb93ff391acdd083d340b94370753d92437",
+                  "sha1": "ee1ed5aad98a435f2020b6de35c173b75d9affac",
+                  "md5": "579a3c1e12a1e74a98169175fb913012"
+                },
+                "preview": "",
+                "mtime_epoch": 1763317135.969812
+              },
+              {
+                "name": "fsmonitor-watchman.sample",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\hooks\\fsmonitor-watchman.sample",
+                "size": 4726,
+                "mtime": "2025-11-16T19:18:55.978369+01:00",
+                "hashes": {
+                  "sha256": "e0549964e93897b519bd8e333c037e51fff0f88ba13e086a331592bf801fa1d0",
+                  "sha1": "0ec0ec9ac11111433d17ea79e0ae8cec650dcfa4",
+                  "md5": "a0b2633a2c8e97501610bd3f73da66fc"
+                },
+                "preview": "",
+                "mtime_epoch": 1763317135.9783695
+              },
+              {
+                "name": "post-update.sample",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\hooks\\post-update.sample",
+                "size": 189,
+                "mtime": "2025-11-16T19:18:55.984375+01:00",
+                "hashes": {
+                  "sha256": "81765af2daef323061dcbc5e61fc16481cb74b3bac9ad8a174b186523586f6c5",
+                  "sha1": "b614c2f63da7dca9f1db2e7ade61ef30448fc96c",
+                  "md5": "2b7ea5cee3c49ff53d41e00785eb974c"
+                },
+                "preview": "",
+                "mtime_epoch": 1763317135.9843745
+              },
+              {
+                "name": "pre-applypatch.sample",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\hooks\\pre-applypatch.sample",
+                "size": 424,
+                "mtime": "2025-11-16T19:18:55.990944+01:00",
+                "hashes": {
+                  "sha256": "e15c5b469ea3e0a695bea6f2c82bcf8e62821074939ddd85b77e0007ff165475",
+                  "sha1": "f208287c1a92525de9f5462e905a9d31de1e2d75",
+                  "md5": "054f9ffb8bfe04a599751cc757226dda"
+                },
+                "preview": "",
+                "mtime_epoch": 1763317135.9909444
+              },
+              {
+                "name": "pre-commit.sample",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\hooks\\pre-commit.sample",
+                "size": 1649,
+                "mtime": "2025-11-16T19:18:55.997510+01:00",
+                "hashes": {
+                  "sha256": "57185b7b9f05239d7ab52db045f5b89eb31348d7b2177eab214f5eb872e1971b",
+                  "sha1": "8093d68e142db52dcab2215e770ba0bbe4cfbf24",
+                  "md5": "5029bfab85b1c39281aa9697379ea444"
+                },
+                "preview": "",
+                "mtime_epoch": 1763317135.9975104
+              },
+              {
+                "name": "pre-merge-commit.sample",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\hooks\\pre-merge-commit.sample",
+                "size": 416,
+                "mtime": "2025-11-16T19:18:56.003521+01:00",
+                "hashes": {
+                  "sha256": "d3825a70337940ebbd0a5c072984e13245920cdf8898bd225c8d27a6dfc9cb53",
+                  "sha1": "04c64e58bc25c149482ed45dbd79e40effb89eb7",
+                  "md5": "39cb268e2a85d436b9eb6f47614c3cbc"
+                },
+                "preview": "",
+                "mtime_epoch": 1763317136.0035212
+              },
+              {
+                "name": "pre-push.sample",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\hooks\\pre-push.sample",
+                "size": 1374,
+                "mtime": "2025-11-16T19:18:56.010033+01:00",
+                "hashes": {
+                  "sha256": "ecce9c7e04d3f5dd9d8ada81753dd1d549a9634b26770042b58dda00217d086a",
+                  "sha1": "a599b773b930ca83dbc3a5c7c13059ac4a6eaedc",
+                  "md5": "2c642152299a94e05ea26eae11993b13"
+                },
+                "preview": "",
+                "mtime_epoch": 1763317136.010033
+              },
+              {
+                "name": "pre-rebase.sample",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\hooks\\pre-rebase.sample",
+                "size": 4898,
+                "mtime": "2025-11-16T19:18:56.021057+01:00",
+                "hashes": {
+                  "sha256": "4febce867790052338076f4e66cc47efb14879d18097d1d61c8261859eaaa7b3",
+                  "sha1": "288efdc0027db4cfd8b7c47c4aeddba09b6ded12",
+                  "md5": "56e45f2bcbc8226d2b4200f7c46371bf"
+                },
+                "preview": "",
+                "mtime_epoch": 1763317136.0210571
+              },
+              {
+                "name": "pre-receive.sample",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\hooks\\pre-receive.sample",
+                "size": 544,
+                "mtime": "2025-11-16T19:18:56.027563+01:00",
+                "hashes": {
+                  "sha256": "a4c3d2b9c7bb3fd8d1441c31bd4ee71a595d66b44fcf49ddb310252320169989",
+                  "sha1": "705a17d259e7896f0082fe2e9f2c0c3b127be5ac",
+                  "md5": "2ad18ec82c20af7b5926ed9cea6aeedd"
+                },
+                "preview": "",
+                "mtime_epoch": 1763317136.027563
+              },
+              {
+                "name": "prepare-commit-msg.sample",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\hooks\\prepare-commit-msg.sample",
+                "size": 1492,
+                "mtime": "2025-11-16T19:18:56.034653+01:00",
+                "hashes": {
+                  "sha256": "e9ddcaa4189fddd25ed97fc8c789eca7b6ca16390b2392ae3276f0c8e1aa4619",
+                  "sha1": "2584806ba147152ae005cb675aa4f01d5d068456",
+                  "md5": "2b5c047bdb474555e1787db32b2d2fc5"
+                },
+                "preview": "",
+                "mtime_epoch": 1763317136.0346527
+              },
+              {
+                "name": "push-to-checkout.sample",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\hooks\\push-to-checkout.sample",
+                "size": 2783,
+                "mtime": "2025-11-16T19:18:56.042244+01:00",
+                "hashes": {
+                  "sha256": "a53d0741798b287c6dd7afa64aee473f305e65d3f49463bb9d7408ec3b12bf5f",
+                  "sha1": "508240328c8b55f8157c93c43bf5e291e5d2fbcb",
+                  "md5": "c7ab00c7784efeadad3ae9b228d4b4db"
+                },
+                "preview": "",
+                "mtime_epoch": 1763317136.0422437
+              },
+              {
+                "name": "sendemail-validate.sample",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\hooks\\sendemail-validate.sample",
+                "size": 2308,
+                "mtime": "2025-11-16T19:18:56.048756+01:00",
+                "hashes": {
+                  "sha256": "44ebfc923dc5466bc009602f0ecf067b9c65459abfe8868ddc49b78e6ced7a92",
+                  "sha1": "74cf1d5415a5c03c110240f749491297d65c4c98",
+                  "md5": "4d67df3a8d5c98cb8565c07e42be0b04"
+                },
+                "preview": "",
+                "mtime_epoch": 1763317136.048756
+              },
+              {
+                "name": "update.sample",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\hooks\\update.sample",
+                "size": 3650,
+                "mtime": "2025-11-16T19:18:56.055914+01:00",
+                "hashes": {
+                  "sha256": "8d5f2fa83e103cf08b57eaa67521df9194f45cbdbcb37da52ad586097a14d106",
+                  "sha1": "730e6bd5225478bab6147b7a62a6e2ae21d40507",
+                  "md5": "647ae13c682f7827c22f5fc08a03674e"
+                },
+                "preview": "",
+                "mtime_epoch": 1763317136.0559137
+              }
+            ],
+            "subfolders": []
+          },
+          {
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\info",
+            "files": [
+              {
+                "name": "exclude",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\info\\exclude",
+                "size": 240,
+                "mtime": "2025-11-16T19:18:56.057433+01:00",
+                "hashes": {
+                  "sha256": "6671fe83b7a07c8932ee89164d1f2793b2318058eb8b98dc5c06ee0a5a3b0ec1",
+                  "sha1": "c879df015d97615050afa7b9641e3352a1e701ac",
+                  "md5": "036208b4a1ab4a235d75c181e685e5a3"
+                },
+                "preview": "",
+                "mtime_epoch": 1763317136.057433
+              }
+            ],
+            "subfolders": []
+          },
+          {
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\logs",
+            "files": [
+              {
+                "name": "HEAD",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\logs\\HEAD",
+                "size": 360,
+                "mtime": "2025-11-16T19:19:27.241797+01:00",
+                "hashes": {
+                  "sha256": "533147765cabc4ac8980ad32c4ab6bba3bde601751bb576c122a144df37c7d9f",
+                  "sha1": "7a49219ead6cc49f6f7ad3158232bd0b7569a9fe",
+                  "md5": "b090c16ecad37b53e2e1fc256cc2202d"
+                },
+                "preview": "",
+                "mtime_epoch": 1763317167.2417972
+              }
+            ],
+            "subfolders": [
+              {
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\logs\\refs",
+                "files": [],
+                "subfolders": [
+                  {
+                    "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\logs\\refs\\heads",
+                    "files": [
+                      {
+                        "name": "FileScanner-2.0",
+                        "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\logs\\refs\\heads\\FileScanner-2.0",
+                        "size": 155,
+                        "mtime": "2025-11-16T19:19:26.775784+01:00",
+                        "hashes": {
+                          "sha256": "47328620876e5b71efadbdc7fbbcbf63c7e86517b0e07a0c85a3e71ba6de04da",
+                          "sha1": "77d2136bb6e133803f1b5e408cfcaae9ea056d2f",
+                          "md5": "6a89a4f941b3b6a353a6e6179a7dd427"
+                        },
+                        "preview": "",
+                        "mtime_epoch": 1763317166.775784
+                      },
+                      {
+                        "name": "main",
+                        "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\logs\\refs\\heads\\main",
+                        "size": 185,
+                        "mtime": "2025-11-16T19:19:04.727984+01:00",
+                        "hashes": {
+                          "sha256": "ed17060f553896a7d0c49b738f962372af72a5a1583746bab10e3b48ca4bb062",
+                          "sha1": "93ab3ec28480c3deeae490ba96389331396a4f95",
+                          "md5": "d1c6873589301e439f74910a31e6a6ef"
+                        },
+                        "preview": "",
+                        "mtime_epoch": 1763317144.727984
+                      }
+                    ],
+                    "subfolders": []
+                  },
+                  {
+                    "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\logs\\refs\\remotes",
+                    "files": [],
+                    "subfolders": [
+                      {
+                        "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\logs\\refs\\remotes\\origin",
+                        "files": [
+                          {
+                            "name": "FileScanner-2.0",
+                            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\logs\\refs\\remotes\\origin\\FileScanner-2.0",
+                            "size": 144,
+                            "mtime": "2025-11-16T19:19:30.037018+01:00",
+                            "hashes": {
+                              "sha256": "76a4fab9bd55d1f933ad1419b9417406f9a284ffe48cf2279e30b6e84a23a533",
+                              "sha1": "267eeb34e57871640e5dc82984ac577178a3984f",
+                              "md5": "e8b106653de232946981ebc85cffd784"
+                            },
+                            "preview": "",
+                            "mtime_epoch": 1763317170.0370183
+                          },
+                          {
+                            "name": "HEAD",
+                            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\logs\\refs\\remotes\\origin\\HEAD",
+                            "size": 785,
+                            "mtime": "2025-11-16T20:55:19.588877+01:00",
+                            "hashes": {
+                              "sha256": "8f4a36482d0ab98b3522881a83c46fe583e05c5c4ecef89829e4b9447c5b5b3c",
+                              "sha1": "14dedb3b9b3b53c38449c8e6bbe934abd80b0331",
+                              "md5": "0ca9af98b4625ed68d4350ee6080dc6b"
+                            },
+                            "preview": "",
+                            "mtime_epoch": 1763322919.5888767
+                          }
+                        ],
+                        "subfolders": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\objects",
+            "files": [],
+            "subfolders": [
+              {
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\objects\\info",
+                "files": [],
+                "subfolders": []
+              },
+              {
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\objects\\pack",
+                "files": [
+                  {
+                    "name": "pack-1a10e1ee1208bc1925c102a6cd768348e991dcfd.idx",
+                    "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\objects\\pack\\pack-1a10e1ee1208bc1925c102a6cd768348e991dcfd.idx",
+                    "size": 6840,
+                    "mtime": "2025-11-16T19:19:04.578762+01:00",
+                    "hashes": {
+                      "sha256": "001aebcbb2bda2116df391afd54d9f50b79fc3243a7e2682abb4ab9ceea6be54",
+                      "sha1": "b1ae4602a9e4db011bf33c8802624ed417f7980b",
+                      "md5": "27d6555ade98328dd4889b1895aad8a4"
+                    },
+                    "preview": "",
+                    "mtime_epoch": 1763317144.5787618
+                  },
+                  {
+                    "name": "pack-1a10e1ee1208bc1925c102a6cd768348e991dcfd.pack",
+                    "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\objects\\pack\\pack-1a10e1ee1208bc1925c102a6cd768348e991dcfd.pack",
+                    "size": 128258128,
+                    "mtime": "2025-11-16T19:19:04.577757+01:00",
+                    "hashes": {
+                      "sha256": "078de824d03d522fbf5a7150cec71a9fdaa4636627e4d848dcc3d1d7b1c030d7",
+                      "sha1": "48357925fb8389cefb2825fcdb4932e99d8b2471",
+                      "md5": "d2017e4b302ca991cf81c8becbcc79d4"
+                    },
+                    "preview": "",
+                    "mtime_epoch": 1763317144.5777566
+                  },
+                  {
+                    "name": "pack-1a10e1ee1208bc1925c102a6cd768348e991dcfd.rev",
+                    "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\objects\\pack\\pack-1a10e1ee1208bc1925c102a6cd768348e991dcfd.rev",
+                    "size": 876,
+                    "mtime": "2025-11-16T19:19:04.578762+01:00",
+                    "hashes": {
+                      "sha256": "286fa99e2d0f884d70971e262b9c32bc82b8be3ec714b156bc11fbc4036e774e",
+                      "sha1": "c5bf0d23a1e5c2e97f1209529f9a5e1e8b2197c9",
+                      "md5": "617c19cf669a2bfd76ffc3db601e029f"
+                    },
+                    "preview": "",
+                    "mtime_epoch": 1763317144.5787618
+                  }
+                ],
+                "subfolders": []
+              }
+            ]
+          },
+          {
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\refs",
+            "files": [],
+            "subfolders": [
+              {
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\refs\\heads",
+                "files": [
+                  {
+                    "name": "FileScanner-2.0",
+                    "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\refs\\heads\\FileScanner-2.0",
+                    "size": 41,
+                    "mtime": "2025-11-16T19:19:26.774784+01:00",
+                    "hashes": {
+                      "sha256": "aa8882d6ad073c81ac06bf061aa5dc7b9ae903e8c2e7edcd68a0a4759c002e92",
+                      "sha1": "22919420a8bc5236344a1d3b8fe600b790c92d9b",
+                      "md5": "cbd527de7a98b9f24ac97c5a470a08ed"
+                    },
+                    "preview": "",
+                    "mtime_epoch": 1763317166.774784
+                  },
+                  {
+                    "name": "main",
+                    "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\refs\\heads\\main",
+                    "size": 41,
+                    "mtime": "2025-11-16T19:19:04.727479+01:00",
+                    "hashes": {
+                      "sha256": "aa8882d6ad073c81ac06bf061aa5dc7b9ae903e8c2e7edcd68a0a4759c002e92",
+                      "sha1": "22919420a8bc5236344a1d3b8fe600b790c92d9b",
+                      "md5": "cbd527de7a98b9f24ac97c5a470a08ed"
+                    },
+                    "preview": "",
+                    "mtime_epoch": 1763317144.7274792
+                  }
+                ],
+                "subfolders": []
+              },
+              {
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\refs\\remotes",
+                "files": [],
+                "subfolders": [
+                  {
+                    "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\refs\\remotes\\origin",
+                    "files": [
+                      {
+                        "name": "FileScanner-2.0",
+                        "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\refs\\remotes\\origin\\FileScanner-2.0",
+                        "size": 41,
+                        "mtime": "2025-11-16T19:19:30.036006+01:00",
+                        "hashes": {
+                          "sha256": "aa8882d6ad073c81ac06bf061aa5dc7b9ae903e8c2e7edcd68a0a4759c002e92",
+                          "sha1": "22919420a8bc5236344a1d3b8fe600b790c92d9b",
+                          "md5": "cbd527de7a98b9f24ac97c5a470a08ed"
+                        },
+                        "preview": "",
+                        "mtime_epoch": 1763317170.036006
+                      },
+                      {
+                        "name": "HEAD",
+                        "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\refs\\remotes\\origin\\HEAD",
+                        "size": 30,
+                        "mtime": "2025-11-16T20:55:19.578361+01:00",
+                        "hashes": {
+                          "sha256": "2bb6a24aa0fc6c484100f5d51a29bbad841cd2c755f5d93faa204e5dbb4eb2b4",
+                          "sha1": "5ae7c22895c35af5f56ba1891a4dd62b4dc1f955",
+                          "md5": "98b16e0b650190870f1b40bc8f4aec4e"
+                        },
+                        "preview": "",
+                        "mtime_epoch": 1763322919.5783608
+                      }
+                    ],
+                    "subfolders": []
+                  }
+                ]
+              },
+              {
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\.git\\refs\\tags",
+                "files": [],
+                "subfolders": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\controllers",
+        "files": [
+          {
+            "name": "init.py",
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\controllers\\init.py",
+            "size": 48,
+            "mtime": "2025-11-16T19:19:05.094565+01:00",
+            "hashes": {
+              "sha256": "f2b4ea3511763158a8aa6f75335901965003b05f2d29e2d911d66c6145c7db73",
+              "sha1": "de5e75c5ad83ebf7d575feef892b4a9c5dfd1139",
+              "md5": "fc8cbf6252de7c2621ce8643518e8be5"
+            },
+            "preview": "# vacío, para tratar controllers como paquete ",
+            "mtime_epoch": 1763317145.0945647
+          },
+          {
+            "name": "main_controller.py",
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\controllers\\main_controller.py",
+            "size": 18659,
+            "mtime": "2025-11-16T20:47:42.823538+01:00",
+            "hashes": {
+              "sha256": "2339f8ba18c8a3f2b452bdc4bea81afdfea38164d072c624c3e277b1bd2fccbd",
+              "sha1": "eb93119575f20e1e6d7993e6def5833a20134ec0",
+              "md5": "3eabdafc8fdf6f04d2ffe5636094324c"
+            },
+            "preview": "import json from pathlib import Path import socket import datetime  from PyQt5.QtCore import QObject, Qt from PyQt5.QtWidgets import (     QMessageBox, QListWidgetItem, QFileDialog, QDialog )  from models.scanner import ScannerWorker from models.favorites import load_favorites, save_favorites from u",
+            "mtime_epoch": 1763322462.8235376
+          }
+        ],
+        "subfolders": [
+          {
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\controllers\\__pycache__",
+            "files": [
+              {
+                "name": "main_controller.cpython-311.pyc",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\controllers\\__pycache__\\main_controller.cpython-311.pyc",
+                "size": 31459,
+                "mtime": "2025-11-16T20:51:12.106391+01:00",
+                "hashes": {
+                  "sha256": "dbd405582820ac2d6bee1face52597d333af18e064e997cb540bebab1743cd3c",
+                  "sha1": "fa74ffe7c7ff751cc693672189bb40d42428fe7e",
+                  "md5": "81f5f6b3cdf713249012bef72ba0580c"
+                },
+                "preview": "",
+                "mtime_epoch": 1763322672.106391
+              },
+              {
+                "name": "main_controller.cpython-312.pyc",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\controllers\\__pycache__\\main_controller.cpython-312.pyc",
+                "size": 14131,
+                "mtime": "2025-11-16T19:19:05.094565+01:00",
+                "hashes": {
+                  "sha256": "71000fe20cc4b20f5adaabd2c528899e0dd25ff01770e4ed8ab861ba8f851323",
+                  "sha1": "78718040b6fc3317bcc696974301e1dbe53f7a10",
+                  "md5": "ee834919762fc0c8e607b6fac31fefad"
+                },
+                "preview": "",
+                "mtime_epoch": 1763317145.0945647
+              },
+              {
+                "name": "main_controller.cpython-313.pyc",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\controllers\\__pycache__\\main_controller.cpython-313.pyc",
+                "size": 24373,
+                "mtime": "2025-11-16T19:19:05.094565+01:00",
+                "hashes": {
+                  "sha256": "de614d1e34c860867c00bb3a3065d37055b8c49c4f668a552cad76d8c089440d",
+                  "sha1": "fe94c94dddcf7bbcc6ef38052d37c78aec9a092c",
+                  "md5": "fdad326a202ee6dcf02a3b5950496a76"
+                },
+                "preview": "",
+                "mtime_epoch": 1763317145.0945647
+              }
+            ],
+            "subfolders": []
+          }
+        ]
+      },
+      {
+        "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\examples",
+        "files": [
+          {
+            "name": "iocs_example.json",
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\examples\\iocs_example.json",
+            "size": 352,
+            "mtime": "2025-11-16T20:44:32.374933+01:00",
+            "hashes": {
+              "sha256": "ad5a90cf84d119f537b97f10fe49ce9b94cc2e22fa8926e3438d03e1a800772f",
+              "sha1": "7baa818971c1856a5f9df20cbb59c1883290ae55",
+              "md5": "cbd7e9ba4ed5072a39725264a0d09c56"
+            },
+            "preview": "{   \"hashes\": [     \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",     \"3a7bd3e2360a3d8d6f7b9d2e5a4c6f7d8e9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c\"   ],   \"names\": [     \"sospechoso.exe\",     \"bad_document.docx\"   ],   \"paths\": [     \"C:\\\\Users\\\\oscar\\\\OneDrive\\\\Desktop\\\\malware\\\\bad.dll\"",
+            "mtime_epoch": 1763322272.374933
+          }
+        ],
+        "subfolders": []
+      },
+      {
+        "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main",
+        "files": [
+          {
+            "name": "detective_.ico",
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\detective_.ico",
+            "size": 108849,
+            "mtime": "2025-11-16T19:19:04.968738+01:00",
+            "hashes": {
+              "sha256": "e51623b0319496f987e5f8c79b37e85b450629ec27b1c29536cf4c00571d1499",
+              "sha1": "19afbbc3d9ea7821ddcebe870c23b4e6dac4801d",
+              "md5": "cba7f2e368bcf14e8b5b693b97e34a88"
+            },
+            "preview": "",
+            "mtime_epoch": 1763317144.968738
+          },
+          {
+            "name": "FileScanner.spec",
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\FileScanner.spec",
+            "size": 755,
+            "mtime": "2025-11-16T19:19:04.751046+01:00",
+            "hashes": {
+              "sha256": "bfa60b8d282ab9f22f29a97fac1ad90d3f7636209734f19b81d977cab90d5e53",
+              "sha1": "b5e1c55b1a9f6c52cdb0d26e178a20538381e693",
+              "md5": "fa8d22120d4161b78169d00ddf0cf5c1"
+            },
+            "preview": "",
+            "mtime_epoch": 1763317144.7510462
+          },
+          {
+            "name": "main.py",
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\main.py",
+            "size": 986,
+            "mtime": "2025-11-16T19:19:05.082930+01:00",
+            "hashes": {
+              "sha256": "94512c8372e8fa5cbe14e68a93965132af1b381b2d80eebbfb4066d4b2cfaf84",
+              "sha1": "60c88b7c71340d077b186da5dfc9d8617b60802c",
+              "md5": "7006b06871f27775a6c4ce14511a92bb"
+            },
+            "preview": "import sys import os  from PyQt5.QtWidgets import QApplication from PyQt5.QtGui     import QIcon  from views.main_view        import FileScannerView from controllers.main_controller import MainController   def resource_path(relpath):     \"\"\"     Devuelve la ruta absoluta en modo PyInstaller (sys._ME",
+            "mtime_epoch": 1763317145.0829296
+          }
+        ],
+        "subfolders": [
+          {
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\build",
+            "files": [],
+            "subfolders": [
+              {
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\build\\FileScanner",
+                "files": [
+                  {
+                    "name": "Analysis-00.toc",
+                    "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\build\\FileScanner\\Analysis-00.toc",
+                    "size": 96885,
+                    "mtime": "2025-11-16T19:19:04.752042+01:00",
+                    "hashes": {
+                      "sha256": "18be56af4c762745dba68fb52e8c5c04ff1982da678aedf72c9ad7ff5fcf6824",
+                      "sha1": "b5459e4c2941901f001bfd892e9039b25439dcf7",
+                      "md5": "6d651e72e35747a672fd762c3ecab01e"
+                    },
+                    "preview": "",
+                    "mtime_epoch": 1763317144.752042
+                  },
+                  {
+                    "name": "base_library.zip",
+                    "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\build\\FileScanner\\base_library.zip",
+                    "size": 1332808,
+                    "mtime": "2025-11-16T19:19:04.960220+01:00",
+                    "hashes": {
+                      "sha256": "79056585f9509a6cb9dd5213aa7e550016a94e25385882232d355a8ff847bb47",
+                      "sha1": "bc506628bc955d5d49c7df38c45f8aa1cc943953",
+                      "md5": "cad996aac64260ae8c9920adc011abec"
+                    },
+                    "preview": "",
+                    "mtime_epoch": 1763317144.9602196
+                  },
+                  {
+                    "name": "EXE-00.toc",
+                    "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\build\\FileScanner\\EXE-00.toc",
+                    "size": 37545,
+                    "mtime": "2025-11-16T19:19:04.753042+01:00",
+                    "hashes": {
+                      "sha256": "b888a47f775732246c08624827cfb2d66f8fa49e3b546039713c146b016c4cab",
+                      "sha1": "8e855e994099df50d472e97a92d11f83b39c272d",
+                      "md5": "88e558f200601c9e5596493ea79a850c"
+                    },
+                    "preview": "",
+                    "mtime_epoch": 1763317144.7530425
+                  },
+                  {
+                    "name": "FileScanner.pkg",
+                    "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\build\\FileScanner\\FileScanner.pkg",
+                    "size": 57225100,
+                    "mtime": "2025-11-16T19:19:04.933578+01:00",
+                    "hashes": {
+                      "sha256": "9bc64a5656a30b730438381a0c8ea54f5b80b48861bc9a7d5c18f0dcaa02bee7",
+                      "sha1": "40a9eb08d64c9ae8da08ce57dea7c48d8986e14e",
+                      "md5": "93124589d343847bc3c5be747fb9bf55"
+                    },
+                    "preview": "",
+                    "mtime_epoch": 1763317144.9335783
+                  },
+                  {
+                    "name": "PKG-00.toc",
+                    "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\build\\FileScanner\\PKG-00.toc",
+                    "size": 35919,
+                    "mtime": "2025-11-16T19:19:04.937083+01:00",
+                    "hashes": {
+                      "sha256": "15ac62c6a3ab164b26c67a785766e88fce55a678767bbe5351a708e57d47cd43",
+                      "sha1": "a7cd9af3033a08f9248c14eab45d3982249a477f",
+                      "md5": "ba312339875a526323b81d26b4d1be69"
+                    },
+                    "preview": "",
+                    "mtime_epoch": 1763317144.937083
+                  },
+                  {
+                    "name": "PYZ-00.pyz",
+                    "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\build\\FileScanner\\PYZ-00.pyz",
+                    "size": 6120024,
+                    "mtime": "2025-11-16T19:19:04.953699+01:00",
+                    "hashes": {
+                      "sha256": "163addbb35cad34362cee7379b336e8ddbec2fb7a9f97c9176784eb9a48ce323",
+                      "sha1": "eb6e8f83feac39c36a5dd442675d0b82d06a8d99",
+                      "md5": "091e8350828f4c2bf34b6a08cd64c946"
+                    },
+                    "preview": "",
+                    "mtime_epoch": 1763317144.9536986
+                  },
+                  {
+                    "name": "PYZ-00.toc",
+                    "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\build\\FileScanner\\PYZ-00.toc",
+                    "size": 61822,
+                    "mtime": "2025-11-16T19:19:04.954725+01:00",
+                    "hashes": {
+                      "sha256": "0589508946d8b39453972eda8d34490b23c0f94091b4084fff4531fc888bc999",
+                      "sha1": "af4ff67db4c0a53a42d36fd9378122947b07bb3f",
+                      "md5": "b6d8f49bccd4e76422d1a43c94874e88"
+                    },
+                    "preview": "",
+                    "mtime_epoch": 1763317144.9547248
+                  },
+                  {
+                    "name": "warn-FileScanner.txt",
+                    "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\build\\FileScanner\\warn-FileScanner.txt",
+                    "size": 28298,
+                    "mtime": "2025-11-16T19:19:04.963224+01:00",
+                    "hashes": {
+                      "sha256": "e736145cb397f602535ae046a18aed1befc6962d22a1ec8e499f4d326ca5509b",
+                      "sha1": "853687584bbfdd6b30f4b7d38c0268259637593b",
+                      "md5": "f312794e5c3a02ea1661a11b0997e621"
+                    },
+                    "preview": " This file lists modules PyInstaller was not able to find. This does not necessarily mean this module is required for running your program. Python and Python 3rd-party packages include a lot of conditional or optional modules. For example the module 'ntpath' only exists on Windows, whereas the modul",
+                    "mtime_epoch": 1763317144.9632237
+                  },
+                  {
+                    "name": "xref-FileScanner.html",
+                    "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\build\\FileScanner\\xref-FileScanner.html",
+                    "size": 1051960,
+                    "mtime": "2025-11-16T19:19:04.966223+01:00",
+                    "hashes": {
+                      "sha256": "fae18d1d6937f0bf642f664eb8b61d45c7e4ef10c0566ebb937ceace811e048a",
+                      "sha1": "fd78a40879d9af2ef5081bea192a860a9c0e38e4",
+                      "md5": "bd24947106e92515c01382e3d3891413"
+                    },
+                    "preview": "<!DOCTYPE html> <html>   <head>     <meta charset=\"UTF-8\">     <title>modulegraph cross reference for main.py, pyi_rth_inspect.py, pyi_rth_multiprocessing.py, pyi_rth_pkgutil.py, pyi_rth_pyqt5.py</title>     <style>       .node { padding: 0.5em 0 0.5em; border-top: thin grey dotted; }       .modulet",
+                    "mtime_epoch": 1763317144.9662228
+                  }
+                ],
+                "subfolders": [
+                  {
+                    "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\build\\FileScanner\\localpycs",
+                    "files": [
+                      {
+                        "name": "pyimod01_archive.pyc",
+                        "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\build\\FileScanner\\localpycs\\pyimod01_archive.pyc",
+                        "size": 4743,
+                        "mtime": "2025-11-16T19:19:04.961223+01:00",
+                        "hashes": {
+                          "sha256": "3fe278a74974cb1d92f25616c0a663807bfd6904e45f985d78ebdabbb9d4f08f",
+                          "sha1": "9d2bc9bcd9de4df815eebdf34357244e102465b1",
+                          "md5": "0f9b1c8f2f8fb3732077a7253d10ed02"
+                        },
+                        "preview": "",
+                        "mtime_epoch": 1763317144.9612226
+                      },
+                      {
+                        "name": "pyimod02_importers.pyc",
+                        "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\build\\FileScanner\\localpycs\\pyimod02_importers.pyc",
+                        "size": 32186,
+                        "mtime": "2025-11-16T19:19:04.961223+01:00",
+                        "hashes": {
+                          "sha256": "0c31bf7a6ff12d92c80ab5775ba2d7a3a309c2fefae743028fe1b18bf9baa056",
+                          "sha1": "5523739d46e88b8f99ed15b65c95d9f8f49d4941",
+                          "md5": "8c93d45c6e2999d44c35bcb35df336b5"
+                        },
+                        "preview": "",
+                        "mtime_epoch": 1763317144.9612226
+                      },
+                      {
+                        "name": "pyimod03_ctypes.pyc",
+                        "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\build\\FileScanner\\localpycs\\pyimod03_ctypes.pyc",
+                        "size": 6165,
+                        "mtime": "2025-11-16T19:19:04.962223+01:00",
+                        "hashes": {
+                          "sha256": "9e8dee1a174ad3e65818d260d724eb57607364a99584939d831829706feffdb5",
+                          "sha1": "864a96a86816a9ba16aceee51fdc8d27f8d5e76c",
+                          "md5": "ae8bab5a0c2e24b7b6159622b18450a8"
+                        },
+                        "preview": "",
+                        "mtime_epoch": 1763317144.9622228
+                      },
+                      {
+                        "name": "pyimod04_pywin32.pyc",
+                        "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\build\\FileScanner\\localpycs\\pyimod04_pywin32.pyc",
+                        "size": 1649,
+                        "mtime": "2025-11-16T19:19:04.962223+01:00",
+                        "hashes": {
+                          "sha256": "6112f8366e50b1aa2fdbff35a26f27e3f92e298120af64fd610d0dffc100af5c",
+                          "sha1": "f7d772d19eac91d37911a59da5227fa39abdf7f1",
+                          "md5": "a801bd1c102a64cda8ff5a2a24f517ab"
+                        },
+                        "preview": "",
+                        "mtime_epoch": 1763317144.9622228
+                      },
+                      {
+                        "name": "struct.pyc",
+                        "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\build\\FileScanner\\localpycs\\struct.pyc",
+                        "size": 305,
+                        "mtime": "2025-11-16T19:19:04.963224+01:00",
+                        "hashes": {
+                          "sha256": "eda2f45c238b798e1ca78ebce2b4b6c44776e0f2e41575ffe3c3f72b8f01c3bd",
+                          "sha1": "d63627de3c9879aa4ea0eb13358b069a68e96fff",
+                          "md5": "fb4d1be9dd47ca318366df9537c96c49"
+                        },
+                        "preview": "",
+                        "mtime_epoch": 1763317144.9632237
+                      }
+                    ],
+                    "subfolders": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\controllers",
+            "files": [
+              {
+                "name": "init.py",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\controllers\\init.py",
+                "size": 48,
+                "mtime": "2025-11-16T19:19:04.967731+01:00",
+                "hashes": {
+                  "sha256": "f2b4ea3511763158a8aa6f75335901965003b05f2d29e2d911d66c6145c7db73",
+                  "sha1": "de5e75c5ad83ebf7d575feef892b4a9c5dfd1139",
+                  "md5": "fc8cbf6252de7c2621ce8643518e8be5"
+                },
+                "preview": "# vacío, para tratar controllers como paquete ",
+                "mtime_epoch": 1763317144.9677308
+              },
+              {
+                "name": "main_controller.py",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\controllers\\main_controller.py",
+                "size": 14679,
+                "mtime": "2025-11-16T19:19:04.967731+01:00",
+                "hashes": {
+                  "sha256": "a694970122a4fe8269e5c3cf209222c1d1d016f6959c3f3976e53f650bb89221",
+                  "sha1": "419e294907b98a4d71b3a1f43bbc2cce10c74848",
+                  "md5": "209ba66a6fceef23a9f07311cdecfe2e"
+                },
+                "preview": "import json from pathlib import Path  from PyQt5.QtCore import QObject, Qt from PyQt5.QtWidgets import (     QMessageBox, QListWidgetItem, QFileDialog, QDialog )  from models.scanner import ScannerWorker from models.favorites import load_favorites, save_favorites from utils.file_utils import open_fo",
+                "mtime_epoch": 1763317144.9677308
+              }
+            ],
+            "subfolders": [
+              {
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\controllers\\__pycache__",
+                "files": [
+                  {
+                    "name": "main_controller.cpython-312.pyc",
+                    "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\controllers\\__pycache__\\main_controller.cpython-312.pyc",
+                    "size": 24348,
+                    "mtime": "2025-11-16T19:19:04.967223+01:00",
+                    "hashes": {
+                      "sha256": "14d38bf0741e6f258110366849f48079c576c37a9f8fe53b25dce493ce7f71e0",
+                      "sha1": "77c2ea4b05dd4ad10b21f913066746531d3473d7",
+                      "md5": "28c59a90e833603405d295442f9a8d96"
+                    },
+                    "preview": "",
+                    "mtime_epoch": 1763317144.9672227
+                  },
+                  {
+                    "name": "main_controller.cpython-313.pyc",
+                    "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\controllers\\__pycache__\\main_controller.cpython-313.pyc",
+                    "size": 24373,
+                    "mtime": "2025-11-16T19:19:04.967731+01:00",
+                    "hashes": {
+                      "sha256": "de614d1e34c860867c00bb3a3065d37055b8c49c4f668a552cad76d8c089440d",
+                      "sha1": "fe94c94dddcf7bbcc6ef38052d37c78aec9a092c",
+                      "md5": "fdad326a202ee6dcf02a3b5950496a76"
+                    },
+                    "preview": "",
+                    "mtime_epoch": 1763317144.9677308
+                  }
+                ],
+                "subfolders": []
+              }
+            ]
+          },
+          {
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\dist",
+            "files": [
+              {
+                "name": "FileScanner.exe",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\dist\\FileScanner.exe",
+                "size": 57603468,
+                "mtime": "2025-11-16T19:19:05.082930+01:00",
+                "hashes": {
+                  "sha256": "4c3da604e2edfe597e6802efbc9622a0b31484c309d17d04f0fc493d99091a4b",
+                  "sha1": "83edefe5c71143a0420295460b1a2ea3e3935a16",
+                  "md5": "7e33eee54ef4bab30b3e1e0eb48f192a"
+                },
+                "preview": "",
+                "mtime_epoch": 1763317145.0829296
+              }
+            ],
+            "subfolders": []
+          },
+          {
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\models",
+            "files": [
+              {
+                "name": "favorites.py",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\models\\favorites.py",
+                "size": 562,
+                "mtime": "2025-11-16T19:19:05.084930+01:00",
+                "hashes": {
+                  "sha256": "087d47153d980f64e7312b3a0490a78b3d4a2ad57f42fe491978ca9e4efbfa48",
+                  "sha1": "f73e04c4a4edc20502298b4550716f8757417786",
+                  "md5": "19286218c93bfce82db24a3ea9cc8302"
+                },
+                "preview": "import json from pathlib import Path from PyQt5.QtCore import QStandardPaths  _CFG_DIR = Path(QStandardPaths.writableLocation(QStandardPaths.ConfigLocation)) / \"FileScannerApp\" _FAV_FILE = _CFG_DIR / \"favorites.json\" _CFG_DIR.mkdir(parents=True, exist_ok=True)  def load_favorites() -> dict:     if _",
+                "mtime_epoch": 1763317145.0849302
+              },
+              {
+                "name": "init.py",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\models\\init.py",
+                "size": 43,
+                "mtime": "2025-11-16T19:19:05.086047+01:00",
+                "hashes": {
+                  "sha256": "63e3b92b41b98ff76bd2aff7529bc695a94ce598c8ce2b9f53f56b72c6603c74",
+                  "sha1": "7ea5a34c3b1c25049dab0967d5152a0ca4015793",
+                  "md5": "79585564eb7af251e6455447bafe7886"
+                },
+                "preview": "# vacío, para tratar models como paquete ",
+                "mtime_epoch": 1763317145.0860472
+              },
+              {
+                "name": "scanner.py",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\models\\scanner.py",
+                "size": 3791,
+                "mtime": "2025-11-16T19:19:05.086047+01:00",
+                "hashes": {
+                  "sha256": "cee41a28d01f832c9ae6f04b8bc8f07dc873f90ea5560ff32d733e6cd7ffd771",
+                  "sha1": "f5ad3bb0a737fab4bc5b34ca88ec28b6e98fb171",
+                  "md5": "236169c52e8f6a597c02c26bf1cf61b7"
+                },
+                "preview": "# models/scanner.py  import traceback2 from pathlib import Path from PyQt5.QtCore import QThread, pyqtSignal from utils.file_utils import get_file_preview  class ScannerWorker(QThread):     # Ahora `files_counted` nos dice cuántos ficheros hay en total     files_counted = pyqtSignal(int)     # `prog",
+                "mtime_epoch": 1763317145.0860472
+              }
+            ],
+            "subfolders": [
+              {
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\models\\__pycache__",
+                "files": [
+                  {
+                    "name": "favorites.cpython-312.pyc",
+                    "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\models\\__pycache__\\favorites.cpython-312.pyc",
+                    "size": 1254,
+                    "mtime": "2025-11-16T19:19:05.083932+01:00",
+                    "hashes": {
+                      "sha256": "6d6de2a9bac3b6fa1cf808348e50dba0d52ffa07d2c48bdb1eb6353dcd88d95d",
+                      "sha1": "af8eee4e39e84db3500e183aa0c87254fb14b534",
+                      "md5": "ba0d51be56c5fff5e01cddb1b52ed401"
+                    },
+                    "preview": "",
+                    "mtime_epoch": 1763317145.0839322
+                  },
+                  {
+                    "name": "favorites.cpython-313.pyc",
+                    "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\models\\__pycache__\\favorites.cpython-313.pyc",
+                    "size": 1261,
+                    "mtime": "2025-11-16T19:19:05.083932+01:00",
+                    "hashes": {
+                      "sha256": "ccdb2b5280d6f98cfc094abfe2b9ec69a89f34bb64cff47de262d1135dbd5def",
+                      "sha1": "e21cb468bc4c5b85f91b85f13a25b20ea27b748b",
+                      "md5": "9d987ff969d756364ad05889a6fcf941"
+                    },
+                    "preview": "",
+                    "mtime_epoch": 1763317145.0839322
+                  },
+                  {
+                    "name": "scanner.cpython-312.pyc",
+                    "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\models\\__pycache__\\scanner.cpython-312.pyc",
+                    "size": 5240,
+                    "mtime": "2025-11-16T19:19:05.084930+01:00",
+                    "hashes": {
+                      "sha256": "a9114c54106dcf7e994f1841ba7c092c40138afdce7611a2445fae828d08d467",
+                      "sha1": "a72d6f5379f05307bb2d2bd4de24524946676cab",
+                      "md5": "062b5767be462341eb931869c1c0f594"
+                    },
+                    "preview": "",
+                    "mtime_epoch": 1763317145.0849302
+                  },
+                  {
+                    "name": "scanner.cpython-313.pyc",
+                    "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\models\\__pycache__\\scanner.cpython-313.pyc",
+                    "size": 5448,
+                    "mtime": "2025-11-16T19:19:05.084930+01:00",
+                    "hashes": {
+                      "sha256": "559dd47fba4599a8b06bb99651312cfb7110c07a95cda47ce73276c463234685",
+                      "sha1": "97b330ae2c4ad34a5950fe42e24e649039dc15ab",
+                      "md5": "f6d7518ef0184eb53265afcb15591ed4"
+                    },
+                    "preview": "",
+                    "mtime_epoch": 1763317145.0849302
+                  }
+                ],
+                "subfolders": []
+              }
+            ]
+          },
+          {
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\utils",
+            "files": [
+              {
+                "name": "file_utils.py",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\utils\\file_utils.py",
+                "size": 1654,
+                "mtime": "2025-11-16T19:19:05.088560+01:00",
+                "hashes": {
+                  "sha256": "2d3fc0f870294fb2a66efc4eb9258e2475bbf0fc80a9b6a3cb9f90919aa24d51",
+                  "sha1": "88208178b3d0622b2e8f3a51b0ee9b3b3d692f55",
+                  "md5": "088f62830a0d3940dbef7ac3bff3d352"
+                },
+                "preview": "import os import platform import subprocess from pathlib import Path import PyPDF2 from docx import Document  def open_folder(path: str):     try:         if os.path.isdir(path):             if platform.system() == \"Windows\":                 os.startfile(path)             elif platform.system() == \"",
+                "mtime_epoch": 1763317145.0885599
+              },
+              {
+                "name": "init.py",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\utils\\init.py",
+                "size": 42,
+                "mtime": "2025-11-16T19:19:05.088560+01:00",
+                "hashes": {
+                  "sha256": "d26869e6be5f098c08b8cedd59657d06399c47231f32ca9a4cf3d2dec9e532c0",
+                  "sha1": "cebb50d18fca63115ef30b3489e8fc8253cdf17d",
+                  "md5": "8926748c7a7b203b46ce4fe7a58fd7ea"
+                },
+                "preview": "# vacío, para tratar utils como paquete ",
+                "mtime_epoch": 1763317145.0885599
+              },
+              {
+                "name": "location_utils.py",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\utils\\location_utils.py",
+                "size": 545,
+                "mtime": "2025-11-16T19:19:05.089565+01:00",
+                "hashes": {
+                  "sha256": "017404d465c599eb76975c02992f140d0fecc16f50b01b236488088b45008c27",
+                  "sha1": "a7273497f6fac7ffb7b28ce5fc2167dad8aa2198",
+                  "md5": "22e8666417bbff9590a0b446ce664449"
+                },
+                "preview": " import json from pathlib import Path from PyQt5.QtCore import QStandardPaths  CONFIG_DIR = Path(QStandardPaths.writableLocation(QStandardPaths.ConfigLocation)) / \"FileScannerApp\" CONFIG_DIR.mkdir(parents=True, exist_ok=True) LOCATIONS_FILE = CONFIG_DIR / \"locations.json\"  def load_locations():     ",
+                "mtime_epoch": 1763317145.089565
+              },
+              {
+                "name": "translations.py",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\utils\\translations.py",
+                "size": 12459,
+                "mtime": "2025-11-16T19:19:05.089565+01:00",
+                "hashes": {
+                  "sha256": "20016cfffdb8e4c4a9a922ce5bf2a04dc1901d0141899bb29898afd7603aa4f8",
+                  "sha1": "d8453dd56d1e01296a30c0036adb20eecf79d82a",
+                  "md5": "0f8f7e2c3a8583f6626e8507eed1156a"
+                },
+                "preview": "# utils/translations.py  TRANSLATIONS = {     \"es\": {         # Ventana principal         \"window_title\": \"FileScanner\",         \"dark_mode\": \"🌙 Modo Oscuro\",         \"light_mode\": \"☀️ Modo Claro\",                  # Panel izquierdo         \"scan_folder_label\": \"🔍 Ruta de la carpeta a escanear:\",   ",
+                "mtime_epoch": 1763317145.089565
+              }
+            ],
+            "subfolders": [
+              {
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\utils\\__pycache__",
+                "files": [
+                  {
+                    "name": "file_utils.cpython-312.pyc",
+                    "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\utils\\__pycache__\\file_utils.cpython-312.pyc",
+                    "size": 3264,
+                    "mtime": "2025-11-16T19:19:05.086047+01:00",
+                    "hashes": {
+                      "sha256": "0016848765fa15d6054117a0f66f08230740a710cae79afffb6f7c236924f53c",
+                      "sha1": "8aabddf7287a0a2470b49513ba44ac620136c057",
+                      "md5": "48f0652f5ceb2f5cf0ea9fe4ebcbeccb"
+                    },
+                    "preview": "",
+                    "mtime_epoch": 1763317145.0860472
+                  },
+                  {
+                    "name": "file_utils.cpython-313.pyc",
+                    "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\utils\\__pycache__\\file_utils.cpython-313.pyc",
+                    "size": 3356,
+                    "mtime": "2025-11-16T19:19:05.086047+01:00",
+                    "hashes": {
+                      "sha256": "da3f2cb968f60ce64e5ef23663d349372ac55b31babcb4e4bb006a99563afe87",
+                      "sha1": "1ff413f4758b2330930cc35a4af333812cf96c06",
+                      "md5": "cefc05f18a2ebca5cc8ec39f2b045559"
+                    },
+                    "preview": "",
+                    "mtime_epoch": 1763317145.0860472
+                  },
+                  {
+                    "name": "location_utils.cpython-312.pyc",
+                    "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\utils\\__pycache__\\location_utils.cpython-312.pyc",
+                    "size": 1216,
+                    "mtime": "2025-11-16T19:19:05.087554+01:00",
+                    "hashes": {
+                      "sha256": "2a006c6fcc28c5e614992ea06ca747b4a4debd1a5e0f753543358cd1966d5e6c",
+                      "sha1": "0c82e56ab1a8203fd3fddb717164c2663460e6af",
+                      "md5": "d16db57e7d06c08706a65a2dca022002"
+                    },
+                    "preview": "",
+                    "mtime_epoch": 1763317145.0875535
+                  },
+                  {
+                    "name": "location_utils.cpython-313.pyc",
+                    "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\utils\\__pycache__\\location_utils.cpython-313.pyc",
+                    "size": 1237,
+                    "mtime": "2025-11-16T19:19:05.087554+01:00",
+                    "hashes": {
+                      "sha256": "81326f6e66badd31cb193addd561efbd84642a448198a36ae9d91244dfcb46f3",
+                      "sha1": "8416bda02f92551612cd47c7a9479d10db77ec07",
+                      "md5": "674edd3b6031bd3f34bae2adc9ea6061"
+                    },
+                    "preview": "",
+                    "mtime_epoch": 1763317145.0875535
+                  },
+                  {
+                    "name": "translations.cpython-312.pyc",
+                    "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\utils\\__pycache__\\translations.cpython-312.pyc",
+                    "size": 10339,
+                    "mtime": "2025-11-16T19:19:05.088560+01:00",
+                    "hashes": {
+                      "sha256": "97d149a1421d2e6331d5e104ac699524b12e856ef260af5757d7b5c699b078ba",
+                      "sha1": "459d27780a0446831028fcfc756ffb43ec8b72c8",
+                      "md5": "ffddb1582d916cb6d75590a20bd35f33"
+                    },
+                    "preview": "",
+                    "mtime_epoch": 1763317145.0885599
+                  }
+                ],
+                "subfolders": []
+              }
+            ]
+          },
+          {
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\views",
+            "files": [
+              {
+                "name": "dialogs.py",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\views\\dialogs.py",
+                "size": 9006,
+                "mtime": "2025-11-16T19:19:05.091564+01:00",
+                "hashes": {
+                  "sha256": "10bcd7462321eeb3ade196bb23eb204091910409c15664c765033fec93cf94aa",
+                  "sha1": "531b92785c6b3986e22dd2841c64c0cf1027bc60",
+                  "md5": "1e1e218877d62a231e55fbce64ac44ea"
+                },
+                "preview": "import os import platform import subprocess import shutil from pathlib import Path  from PyQt5.QtWidgets import (     QDialog, QVBoxLayout, QLineEdit, QComboBox, QListWidget, QInputDialog,     QPushButton, QHBoxLayout, QLabel, QFileDialog, QMessageBox ) from PyQt5.QtGui import QIcon from PyQt5.QtCor",
+                "mtime_epoch": 1763317145.0915644
+              },
+              {
+                "name": "init.py",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\views\\init.py",
+                "size": 42,
+                "mtime": "2025-11-16T19:19:05.092565+01:00",
+                "hashes": {
+                  "sha256": "44d1f6008922bc101c8a3837f6ebda748e8d8d78e4c7bca9fa80e87c9122cdca",
+                  "sha1": "0d4a9507518b71704eaba87d918b9cace6528975",
+                  "md5": "23bc7686e92de2833a9f437a5b22bedf"
+                },
+                "preview": "# vacío, para tratar views como paquete ",
+                "mtime_epoch": 1763317145.0925653
+              },
+              {
+                "name": "main_view.py",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\views\\main_view.py",
+                "size": 21916,
+                "mtime": "2025-11-16T19:19:05.092565+01:00",
+                "hashes": {
+                  "sha256": "ce8a3b7a41d5f1bef0171ea95be82fce15f8ce70f632b8a204acfc6ba47236bc",
+                  "sha1": "a4512f145175ec3096ff053c60c2cb6de5e0e600",
+                  "md5": "18a144d7091bddfe8f69473c7bf7be58"
+                },
+                "preview": "from pathlib import Path  from PyQt5.QtWidgets import (     QWidget, QApplication, QMessageBox,     QLabel, QPushButton, QVBoxLayout, QHBoxLayout,     QLineEdit, QCheckBox, QListWidget, QProgressBar,     QFileDialog, QShortcut, QComboBox ) from PyQt5.QtGui import QIcon, QPalette, QColor, QKeySequenc",
+                "mtime_epoch": 1763317145.0925653
+              }
+            ],
+            "subfolders": [
+              {
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\views\\__pycache__",
+                "files": [
+                  {
+                    "name": "dialogs.cpython-312.pyc",
+                    "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\views\\__pycache__\\dialogs.cpython-312.pyc",
+                    "size": 14893,
+                    "mtime": "2025-11-16T19:19:05.090565+01:00",
+                    "hashes": {
+                      "sha256": "88baa83f5dbf7fd47e2e36a8cd770b1c4648bc74599e0d088d8f4436bedd7037",
+                      "sha1": "1876c2a5a2c69e35fe1f30944656a4e5efbc7153",
+                      "md5": "cc80c64f11ffe5a5a896dda494bc1eac"
+                    },
+                    "preview": "",
+                    "mtime_epoch": 1763317145.0905652
+                  },
+                  {
+                    "name": "dialogs.cpython-313.pyc",
+                    "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\views\\__pycache__\\dialogs.cpython-313.pyc",
+                    "size": 14703,
+                    "mtime": "2025-11-16T19:19:05.090565+01:00",
+                    "hashes": {
+                      "sha256": "ecd6c662afc427cbaa3c8132f410ba822d6095a9d0baea3f125baf5ca9ff6009",
+                      "sha1": "b1eb484f9f9bfdf8e2a0fb101c8536f9c9b9cbe4",
+                      "md5": "2f951880c134add72d07112b18fd8968"
+                    },
+                    "preview": "",
+                    "mtime_epoch": 1763317145.0905652
+                  },
+                  {
+                    "name": "main_view.cpython-312.pyc",
+                    "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\views\\__pycache__\\main_view.cpython-312.pyc",
+                    "size": 31608,
+                    "mtime": "2025-11-16T19:19:05.091564+01:00",
+                    "hashes": {
+                      "sha256": "88c3d94f5195356b3d1a48fca69673a98935c3f96db8d917201e11d236c61747",
+                      "sha1": "e823f617a706be3ef4aad97cd2f2de438a29aceb",
+                      "md5": "e334e82536fc3bd43af346165d3f046f"
+                    },
+                    "preview": "",
+                    "mtime_epoch": 1763317145.0915644
+                  },
+                  {
+                    "name": "main_view.cpython-313.pyc",
+                    "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\FileScanner-main\\views\\__pycache__\\main_view.cpython-313.pyc",
+                    "size": 20843,
+                    "mtime": "2025-11-16T19:19:05.091564+01:00",
+                    "hashes": {
+                      "sha256": "525296764cbef5583e07ae1ec268d43c505ef8e0c5d0580c4d3ef74810c0eac8",
+                      "sha1": "7922bcf9c5cb4a961b6ea1d40d709aaf162f3a15",
+                      "md5": "7570984c9d20f6c72634084afb79dbd0"
+                    },
+                    "preview": "",
+                    "mtime_epoch": 1763317145.0915644
+                  }
+                ],
+                "subfolders": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\models",
+        "files": [
+          {
+            "name": "favorites.py",
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\models\\favorites.py",
+            "size": 562,
+            "mtime": "2025-11-16T19:19:05.098111+01:00",
+            "hashes": {
+              "sha256": "087d47153d980f64e7312b3a0490a78b3d4a2ad57f42fe491978ca9e4efbfa48",
+              "sha1": "f73e04c4a4edc20502298b4550716f8757417786",
+              "md5": "19286218c93bfce82db24a3ea9cc8302"
+            },
+            "preview": "import json from pathlib import Path from PyQt5.QtCore import QStandardPaths  _CFG_DIR = Path(QStandardPaths.writableLocation(QStandardPaths.ConfigLocation)) / \"FileScannerApp\" _FAV_FILE = _CFG_DIR / \"favorites.json\" _CFG_DIR.mkdir(parents=True, exist_ok=True)  def load_favorites() -> dict:     if _",
+            "mtime_epoch": 1763317145.098111
+          },
+          {
+            "name": "init.py",
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\models\\init.py",
+            "size": 43,
+            "mtime": "2025-11-16T19:19:05.098111+01:00",
+            "hashes": {
+              "sha256": "63e3b92b41b98ff76bd2aff7529bc695a94ce598c8ce2b9f53f56b72c6603c74",
+              "sha1": "7ea5a34c3b1c25049dab0967d5152a0ca4015793",
+              "md5": "79585564eb7af251e6455447bafe7886"
+            },
+            "preview": "# vacío, para tratar models como paquete ",
+            "mtime_epoch": 1763317145.098111
+          },
+          {
+            "name": "scanner.py",
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\models\\scanner.py",
+            "size": 5958,
+            "mtime": "2025-11-16T20:52:07.533966+01:00",
+            "hashes": {
+              "sha256": "c00dcb4ac1b369b1f8d36220e465eab63071ce0ca49c31da8ef4db62542c0582",
+              "sha1": "b01bb576b466b4ad7ac5e9012dc12be02eb89365",
+              "md5": "017a3e94329e399b909953bcefcc72c0"
+            },
+            "preview": "# models/scanner.py  import traceback2 from pathlib import Path from PyQt5.QtCore import QThread, pyqtSignal from utils.file_utils import get_file_preview, hash_file  class ScannerWorker(QThread):     # Ahora `files_counted` nos dice cuántos ficheros hay en total     files_counted = pyqtSignal(int) ",
+            "mtime_epoch": 1763322727.533966
+          }
+        ],
+        "subfolders": [
+          {
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\models\\__pycache__",
+            "files": [
+              {
+                "name": "favorites.cpython-311.pyc",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\models\\__pycache__\\favorites.cpython-311.pyc",
+                "size": 1397,
+                "mtime": "2025-11-16T19:34:52.118064+01:00",
+                "hashes": {
+                  "sha256": "9522b28517602d2567ac11659fe3963e0891ae12e773e3d71040e77b304eb23b",
+                  "sha1": "71b71c015e41b9c3f199b4027aaf1b472375aa28",
+                  "md5": "dec95569801da9c77d526207d1f814af"
+                },
+                "preview": "",
+                "mtime_epoch": 1763318092.1180642
+              },
+              {
+                "name": "favorites.cpython-312.pyc",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\models\\__pycache__\\favorites.cpython-312.pyc",
+                "size": 1241,
+                "mtime": "2025-11-16T19:19:05.097105+01:00",
+                "hashes": {
+                  "sha256": "98490cc8195e820f302ad50972cf47b91bfe8fafa0d727d84eebc788888e82da",
+                  "sha1": "c9a306c380dda3ba9356a35eb179f7623d407567",
+                  "md5": "58f588068acca33fb66835af8289febc"
+                },
+                "preview": "",
+                "mtime_epoch": 1763317145.0971053
+              },
+              {
+                "name": "favorites.cpython-313.pyc",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\models\\__pycache__\\favorites.cpython-313.pyc",
+                "size": 1261,
+                "mtime": "2025-11-16T19:19:05.097105+01:00",
+                "hashes": {
+                  "sha256": "ccdb2b5280d6f98cfc094abfe2b9ec69a89f34bb64cff47de262d1135dbd5def",
+                  "sha1": "e21cb468bc4c5b85f91b85f13a25b20ea27b748b",
+                  "md5": "9d987ff969d756364ad05889a6fcf941"
+                },
+                "preview": "",
+                "mtime_epoch": 1763317145.0971053
+              },
+              {
+                "name": "scanner.cpython-311.pyc",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\models\\__pycache__\\scanner.cpython-311.pyc",
+                "size": 8074,
+                "mtime": "2025-11-16T20:54:59.866804+01:00",
+                "hashes": {
+                  "sha256": "9118f0ca67b8d92634fe2ac25bd4bb8786aae18d5089e99c08a5adeaeccc3948",
+                  "sha1": "1ca283105b15059153c29f0977e7ba09762a76b0",
+                  "md5": "59feed2167edebb60488ea4f4d54cebb"
+                },
+                "preview": "",
+                "mtime_epoch": 1763322899.866804
+              },
+              {
+                "name": "scanner.cpython-312.pyc",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\models\\__pycache__\\scanner.cpython-312.pyc",
+                "size": 3992,
+                "mtime": "2025-11-16T19:19:05.097105+01:00",
+                "hashes": {
+                  "sha256": "9499ff3fe35d2fb357e8454bf524541dc375797810ca72acee74281d1dedaa21",
+                  "sha1": "6bb6bf238fb457651ff1da0eeeb9ab5cbbcee2a4",
+                  "md5": "d261a4bb9594dbb5a016e8e49b6d50de"
+                },
+                "preview": "",
+                "mtime_epoch": 1763317145.0971053
+              },
+              {
+                "name": "scanner.cpython-313.pyc",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\models\\__pycache__\\scanner.cpython-313.pyc",
+                "size": 5448,
+                "mtime": "2025-11-16T19:19:05.098111+01:00",
+                "hashes": {
+                  "sha256": "559dd47fba4599a8b06bb99651312cfb7110c07a95cda47ce73276c463234685",
+                  "sha1": "97b330ae2c4ad34a5950fe42e24e649039dc15ab",
+                  "md5": "f6d7518ef0184eb53265afcb15591ed4"
+                },
+                "preview": "",
+                "mtime_epoch": 1763317145.098111
+              }
+            ],
+            "subfolders": []
+          }
+        ]
+      },
+      {
+        "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\utils",
+        "files": [
+          {
+            "name": "file_utils.py",
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\utils\\file_utils.py",
+            "size": 3936,
+            "mtime": "2025-11-16T19:35:35.520705+01:00",
+            "hashes": {
+              "sha256": "4cc338689a662ec17715ead8ec8df818516ae29ea9e2fb83baca0e4318e86b44",
+              "sha1": "5db510936287125fb33e5f9a61ee94609d380fe3",
+              "md5": "b5d48a9b6b68e94d96cf6094b5524c1f"
+            },
+            "preview": "import os import platform import subprocess from pathlib import Path import hashlib import PyPDF2 try:     from docx import Document     HAVE_DOCX = True except Exception as _e:     Document = None     HAVE_DOCX = False     print(\"Aviso: python-docx no está disponible o es incompatible; las previews",
+            "mtime_epoch": 1763318135.520705
+          },
+          {
+            "name": "init.py",
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\utils\\init.py",
+            "size": 42,
+            "mtime": "2025-11-16T19:19:05.100116+01:00",
+            "hashes": {
+              "sha256": "d26869e6be5f098c08b8cedd59657d06399c47231f32ca9a4cf3d2dec9e532c0",
+              "sha1": "cebb50d18fca63115ef30b3489e8fc8253cdf17d",
+              "md5": "8926748c7a7b203b46ce4fe7a58fd7ea"
+            },
+            "preview": "# vacío, para tratar utils como paquete ",
+            "mtime_epoch": 1763317145.1001155
+          },
+          {
+            "name": "ioc_store.py",
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\utils\\ioc_store.py",
+            "size": 2929,
+            "mtime": "2025-11-16T20:44:32.373927+01:00",
+            "hashes": {
+              "sha256": "4492947805a1e5dafe537b11dae3ee53935f61d461044659997558fe56270597",
+              "sha1": "10b49015ba95bb7731dc7f95113f054cac362ba3",
+              "md5": "4403873bfc14cd352d3e59b7b4999479"
+            },
+            "preview": "import json import csv from pathlib import Path   class IOCStore:     \"\"\"Almacena IOCs simples: hashes, filenames y paths.      Formatos aceptados:     - JSON con claves `hashes`, `names`, `paths` (listas)     - CSV con columna `hash` o `name` o `path` (detecta la cabecera)     \"\"\"     def __init__(",
+            "mtime_epoch": 1763322272.3739269
+          },
+          {
+            "name": "location_utils.py",
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\utils\\location_utils.py",
+            "size": 545,
+            "mtime": "2025-11-16T19:19:05.101116+01:00",
+            "hashes": {
+              "sha256": "017404d465c599eb76975c02992f140d0fecc16f50b01b236488088b45008c27",
+              "sha1": "a7273497f6fac7ffb7b28ce5fc2167dad8aa2198",
+              "md5": "22e8666417bbff9590a0b446ce664449"
+            },
+            "preview": " import json from pathlib import Path from PyQt5.QtCore import QStandardPaths  CONFIG_DIR = Path(QStandardPaths.writableLocation(QStandardPaths.ConfigLocation)) / \"FileScannerApp\" CONFIG_DIR.mkdir(parents=True, exist_ok=True) LOCATIONS_FILE = CONFIG_DIR / \"locations.json\"  def load_locations():     ",
+            "mtime_epoch": 1763317145.101116
+          },
+          {
+            "name": "quarantine.py",
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\utils\\quarantine.py",
+            "size": 1500,
+            "mtime": "2025-11-16T20:44:32.373927+01:00",
+            "hashes": {
+              "sha256": "1b663123432eef84ab87aba258b63092459d799f5437039a14dfd7ccc8ce1da1",
+              "sha1": "e8cadd829ba500ce6773876dfa48cf3e8ff30ea5",
+              "md5": "6f7c5f3d9b4905b3b97bbf22079ed3a4"
+            },
+            "preview": "import json import shutil from pathlib import Path from datetime import datetime from uuid import uuid4   def ensure_dir(p: Path):     p.mkdir(parents=True, exist_ok=True)   def quarantine_file(src: str, quarantine_dir: str, reason: str = None) -> dict:     \"\"\"Move `src` into `quarantine_dir` with a",
+            "mtime_epoch": 1763322272.3739269
+          }
+        ],
+        "subfolders": [
+          {
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\utils\\__pycache__",
+            "files": [
+              {
+                "name": "file_utils.cpython-311.pyc",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\utils\\__pycache__\\file_utils.cpython-311.pyc",
+                "size": 7154,
+                "mtime": "2025-11-16T19:49:22.182597+01:00",
+                "hashes": {
+                  "sha256": "f2a24f8c23b49aeeb64aabccb7c7efc1ae93539a5f1efb554db965392a259bd3",
+                  "sha1": "9b7dc90c067b7092a2944fd9681eba62d86a09b9",
+                  "md5": "b5905b172a50b654c86b9b31682cb208"
+                },
+                "preview": "",
+                "mtime_epoch": 1763318962.1825974
+              },
+              {
+                "name": "file_utils.cpython-312.pyc",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\utils\\__pycache__\\file_utils.cpython-312.pyc",
+                "size": 3251,
+                "mtime": "2025-11-16T19:19:05.099111+01:00",
+                "hashes": {
+                  "sha256": "a97354f70583acf2f94d7a60b79a69f3d15f29359c21f481651f14f7f4bb90c0",
+                  "sha1": "a25b2fd8282219116f94f192ae5fd116e1384ed0",
+                  "md5": "409bdce8ae613c9d8edfec443c5a07c1"
+                },
+                "preview": "",
+                "mtime_epoch": 1763317145.0991108
+              },
+              {
+                "name": "file_utils.cpython-313.pyc",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\utils\\__pycache__\\file_utils.cpython-313.pyc",
+                "size": 3356,
+                "mtime": "2025-11-16T19:19:05.100116+01:00",
+                "hashes": {
+                  "sha256": "da3f2cb968f60ce64e5ef23663d349372ac55b31babcb4e4bb006a99563afe87",
+                  "sha1": "1ff413f4758b2330930cc35a4af333812cf96c06",
+                  "md5": "cefc05f18a2ebca5cc8ec39f2b045559"
+                },
+                "preview": "",
+                "mtime_epoch": 1763317145.1001155
+              },
+              {
+                "name": "ioc_store.cpython-311.pyc",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\utils\\__pycache__\\ioc_store.cpython-311.pyc",
+                "size": 5815,
+                "mtime": "2025-11-16T20:55:48.597307+01:00",
+                "hashes": {
+                  "sha256": "8195a781d3b9193e9569c1741cfe623d28a7bb69507f78720b975522329ef3ce",
+                  "sha1": "364070aa0eceefa75c468472f663cb58d3eb881f",
+                  "md5": "b2f10d488cbf6ac3b29c53a7a54bc13d"
+                },
+                "preview": "",
+                "mtime_epoch": 1763322948.5973074
+              },
+              {
+                "name": "location_utils.cpython-311.pyc",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\utils\\__pycache__\\location_utils.cpython-311.pyc",
+                "size": 1345,
+                "mtime": "2025-11-16T19:34:52.120080+01:00",
+                "hashes": {
+                  "sha256": "967aed63678e11ce602bbccc63ae68436764d4b4ac85a48a0bf63917c7a952b7",
+                  "sha1": "9c00a8c42766b8ca437592d70c30ce94270ae693",
+                  "md5": "aad0970309f2bb6592d8f1f8a8c3f33d"
+                },
+                "preview": "",
+                "mtime_epoch": 1763318092.1200802
+              },
+              {
+                "name": "location_utils.cpython-313.pyc",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\utils\\__pycache__\\location_utils.cpython-313.pyc",
+                "size": 1237,
+                "mtime": "2025-11-16T19:19:05.100116+01:00",
+                "hashes": {
+                  "sha256": "81326f6e66badd31cb193addd561efbd84642a448198a36ae9d91244dfcb46f3",
+                  "sha1": "8416bda02f92551612cd47c7a9479d10db77ec07",
+                  "md5": "674edd3b6031bd3f34bae2adc9ea6061"
+                },
+                "preview": "",
+                "mtime_epoch": 1763317145.1001155
+              },
+              {
+                "name": "quarantine.cpython-311.pyc",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\utils\\__pycache__\\quarantine.cpython-311.pyc",
+                "size": 2741,
+                "mtime": "2025-11-16T20:55:48.609885+01:00",
+                "hashes": {
+                  "sha256": "cd305c708a6b969b9477b5ba33e9f458a6aaa7fbbb9711ec87e4bf97acf80cb2",
+                  "sha1": "c784acb04b032befab420557919a2345c1b71b03",
+                  "md5": "12ebe55b02d613cebc1f221994c217eb"
+                },
+                "preview": "",
+                "mtime_epoch": 1763322948.6098852
+              }
+            ],
+            "subfolders": []
+          }
+        ]
+      },
+      {
+        "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\views",
+        "files": [
+          {
+            "name": "dialogs.py",
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\views\\dialogs.py",
+            "size": 13558,
+            "mtime": "2025-11-16T20:52:28.811636+01:00",
+            "hashes": {
+              "sha256": "a3c6397851ab718201d527175c857bc0ed9d100bdd71690cd22ccdd5565031e2",
+              "sha1": "4e2488f3f89b54bc7611164fc1587600d6aeb8ba",
+              "md5": "7daa20ad50ed540155c036c148a873da"
+            },
+            "preview": "import os import platform import subprocess import shutil from pathlib import Path  from PyQt5.QtWidgets import (     QDialog, QVBoxLayout, QLineEdit, QComboBox, QListWidget, QInputDialog,     QPushButton, QHBoxLayout, QLabel, QFileDialog, QMessageBox ) from PyQt5.QtGui import QIcon from PyQt5.QtCor",
+            "mtime_epoch": 1763322748.811636
+          },
+          {
+            "name": "init.py",
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\views\\init.py",
+            "size": 42,
+            "mtime": "2025-11-16T19:19:05.103117+01:00",
+            "hashes": {
+              "sha256": "44d1f6008922bc101c8a3837f6ebda748e8d8d78e4c7bca9fa80e87c9122cdca",
+              "sha1": "0d4a9507518b71704eaba87d918b9cace6528975",
+              "md5": "23bc7686e92de2833a9f437a5b22bedf"
+            },
+            "preview": "# vacío, para tratar views como paquete ",
+            "mtime_epoch": 1763317145.1031165
+          },
+          {
+            "name": "main_view.py",
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\views\\main_view.py",
+            "size": 13842,
+            "mtime": "2025-11-16T20:44:32.373927+01:00",
+            "hashes": {
+              "sha256": "1a6beaed46fa3564eef154f2729c9655f2c107196d6429870ed8a140d38b5e9c",
+              "sha1": "37016374699d8c95d9977296b3dc6bd3fe5f95cf",
+              "md5": "51595683c1894c902fd762e4e1320422"
+            },
+            "preview": "from pathlib import Path  from PyQt5.QtWidgets import (     QWidget, QApplication, QMessageBox,     QLabel, QPushButton, QVBoxLayout, QHBoxLayout,     QLineEdit, QCheckBox, QListWidget, QProgressBar,     QFileDialog, QShortcut ) from PyQt5.QtGui import QIcon, QPalette, QColor, QKeySequence from PyQt",
+            "mtime_epoch": 1763322272.3739269
+          }
+        ],
+        "subfolders": [
+          {
+            "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\views\\__pycache__",
+            "files": [
+              {
+                "name": "dialogs.cpython-311.pyc",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\views\\__pycache__\\dialogs.cpython-311.pyc",
+                "size": 22706,
+                "mtime": "2025-11-16T20:54:59.880846+01:00",
+                "hashes": {
+                  "sha256": "69b155aa03f611cc5927f68f8fff4a7f3e14d9523ba56d341968712038bf429f",
+                  "sha1": "76f5f14f2981b64512368ec3fd9d230c3d969635",
+                  "md5": "24254bb205668cb38481f5c4ee4f7c85"
+                },
+                "preview": "",
+                "mtime_epoch": 1763322899.8808455
+              },
+              {
+                "name": "dialogs.cpython-312.pyc",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\views\\__pycache__\\dialogs.cpython-312.pyc",
+                "size": 6286,
+                "mtime": "2025-11-16T19:19:05.101116+01:00",
+                "hashes": {
+                  "sha256": "d0ea775717916660aaaf1d94d693e688ab3d8e481da7ce9b3f38e05610c49ef5",
+                  "sha1": "9cb9c9fb872c18c73fe1227e95f903de77a303b2",
+                  "md5": "3fb6bc6c023ee2cea6c8f55f1b9be016"
+                },
+                "preview": "",
+                "mtime_epoch": 1763317145.101116
+              },
+              {
+                "name": "dialogs.cpython-313.pyc",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\views\\__pycache__\\dialogs.cpython-313.pyc",
+                "size": 14703,
+                "mtime": "2025-11-16T19:19:05.102116+01:00",
+                "hashes": {
+                  "sha256": "ecd6c662afc427cbaa3c8132f410ba822d6095a9d0baea3f125baf5ca9ff6009",
+                  "sha1": "b1eb484f9f9bfdf8e2a0fb101c8536f9c9b9cbe4",
+                  "md5": "2f951880c134add72d07112b18fd8968"
+                },
+                "preview": "",
+                "mtime_epoch": 1763317145.102116
+              },
+              {
+                "name": "main_view.cpython-311.pyc",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\views\\__pycache__\\main_view.cpython-311.pyc",
+                "size": 22795,
+                "mtime": "2025-11-16T20:55:48.452116+01:00",
+                "hashes": {
+                  "sha256": "c59fc141d299ebcdf4bd7a8ee0f5a69a0065e1961860ffe841ebf1c7b3d03441",
+                  "sha1": "a6f176114fcb871451c531e0e583c1eaf283bdeb",
+                  "md5": "a3ab51e1a9c896e7097c917651f261ba"
+                },
+                "preview": "",
+                "mtime_epoch": 1763322948.4521158
+              },
+              {
+                "name": "main_view.cpython-312.pyc",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\views\\__pycache__\\main_view.cpython-312.pyc",
+                "size": 15783,
+                "mtime": "2025-11-16T19:19:05.102116+01:00",
+                "hashes": {
+                  "sha256": "ad34d163e032612d41da3cf73f8687d47bc1fec4931e4cf3d6ef2c314679ca39",
+                  "sha1": "91f2b7dbf2973a61829e4815ad3ad6a832cb6f79",
+                  "md5": "604903c6993078003325c049461ec99f"
+                },
+                "preview": "",
+                "mtime_epoch": 1763317145.102116
+              },
+              {
+                "name": "main_view.cpython-313.pyc",
+                "path": "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\views\\__pycache__\\main_view.cpython-313.pyc",
+                "size": 20843,
+                "mtime": "2025-11-16T19:19:05.103117+01:00",
+                "hashes": {
+                  "sha256": "525296764cbef5583e07ae1ec268d43c505ef8e0c5d0580c4d3ef74810c0eac8",
+                  "sha1": "7922bcf9c5cb4a961b6ea1d40d709aaf162f3a15",
+                  "md5": "7570984c9d20f6c72634084afb79dbd0"
+                },
+                "preview": "",
+                "mtime_epoch": 1763317145.1031165
+              }
+            ],
+            "subfolders": []
+          }
+        ]
+      }
+    ]
+  },
+  "preview_files": [
+    "detective_.ico",
+    "FileScanner.json",
+    "FileScanner.spec",
+    "LICENSE",
+    "main.py",
+    "sospechoso.exe",
+    "config",
+    "description",
+    "FETCH_HEAD",
+    "HEAD",
+    "index",
+    "packed-refs",
+    "applypatch-msg.sample",
+    "commit-msg.sample",
+    "fsmonitor-watchman.sample",
+    "post-update.sample",
+    "pre-applypatch.sample",
+    "pre-commit.sample",
+    "pre-merge-commit.sample",
+    "pre-push.sample",
+    "pre-rebase.sample",
+    "pre-receive.sample",
+    "prepare-commit-msg.sample",
+    "push-to-checkout.sample",
+    "sendemail-validate.sample",
+    "update.sample",
+    "exclude",
+    "HEAD",
+    "FileScanner-2.0",
+    "main",
+    "FileScanner-2.0",
+    "HEAD",
+    "pack-1a10e1ee1208bc1925c102a6cd768348e991dcfd.idx",
+    "pack-1a10e1ee1208bc1925c102a6cd768348e991dcfd.pack",
+    "pack-1a10e1ee1208bc1925c102a6cd768348e991dcfd.rev",
+    "FileScanner-2.0",
+    "main",
+    "FileScanner-2.0",
+    "HEAD",
+    "init.py",
+    "main_controller.py",
+    "main_controller.cpython-311.pyc",
+    "main_controller.cpython-312.pyc",
+    "main_controller.cpython-313.pyc",
+    "iocs_example.json",
+    "detective_.ico",
+    "FileScanner.spec",
+    "main.py",
+    "Analysis-00.toc",
+    "base_library.zip",
+    "EXE-00.toc",
+    "FileScanner.pkg",
+    "PKG-00.toc",
+    "PYZ-00.pyz",
+    "PYZ-00.toc",
+    "warn-FileScanner.txt",
+    "xref-FileScanner.html",
+    "pyimod01_archive.pyc",
+    "pyimod02_importers.pyc",
+    "pyimod03_ctypes.pyc",
+    "pyimod04_pywin32.pyc",
+    "struct.pyc",
+    "init.py",
+    "main_controller.py",
+    "main_controller.cpython-312.pyc",
+    "main_controller.cpython-313.pyc",
+    "FileScanner.exe",
+    "favorites.py",
+    "init.py",
+    "scanner.py",
+    "favorites.cpython-312.pyc",
+    "favorites.cpython-313.pyc",
+    "scanner.cpython-312.pyc",
+    "scanner.cpython-313.pyc",
+    "file_utils.py",
+    "init.py",
+    "location_utils.py",
+    "translations.py",
+    "file_utils.cpython-312.pyc",
+    "file_utils.cpython-313.pyc",
+    "location_utils.cpython-312.pyc",
+    "location_utils.cpython-313.pyc",
+    "translations.cpython-312.pyc",
+    "dialogs.py",
+    "init.py",
+    "main_view.py",
+    "dialogs.cpython-312.pyc",
+    "dialogs.cpython-313.pyc",
+    "main_view.cpython-312.pyc",
+    "main_view.cpython-313.pyc",
+    "favorites.py",
+    "init.py",
+    "scanner.py",
+    "favorites.cpython-311.pyc",
+    "favorites.cpython-312.pyc",
+    "favorites.cpython-313.pyc",
+    "scanner.cpython-311.pyc",
+    "scanner.cpython-312.pyc",
+    "scanner.cpython-313.pyc",
+    "file_utils.py",
+    "init.py",
+    "ioc_store.py",
+    "location_utils.py",
+    "quarantine.py",
+    "file_utils.cpython-311.pyc",
+    "file_utils.cpython-312.pyc",
+    "file_utils.cpython-313.pyc",
+    "ioc_store.cpython-311.pyc",
+    "location_utils.cpython-311.pyc",
+    "location_utils.cpython-313.pyc",
+    "quarantine.cpython-311.pyc",
+    "dialogs.py",
+    "init.py",
+    "main_view.py",
+    "dialogs.cpython-311.pyc",
+    "dialogs.cpython-312.pyc",
+    "dialogs.cpython-313.pyc",
+    "main_view.cpython-311.pyc",
+    "main_view.cpython-312.pyc",
+    "main_view.cpython-313.pyc"
+  ],
+  "total_files": 120,
+  "scan_date": "2025-11-16T20:56:05.299052+01:00",
+  "host": "oscarpf",
+  "hash_algorithms": [
+    "md5",
+    "sha1",
+    "sha256"
+  ],
+  "hash_error_count": 0
+}

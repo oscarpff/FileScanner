@@ -6,28 +6,36 @@ from pathlib import Path
 
 from PyQt5.QtWidgets import (
     QDialog, QVBoxLayout, QLineEdit, QComboBox, QListWidget, QInputDialog,
-    QPushButton, QHBoxLayout, QLabel, QFileDialog, QMessageBox
+    QPushButton, QHBoxLayout, QLabel, QFileDialog, QMessageBox, QWidget, QCheckBox, QListWidgetItem
 )
-from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QIcon, QPixmap, QPainter, QColor, QFont
+from PyQt5.QtCore import Qt, QSize
 
 from utils.file_utils import open_folder  # <- IMPORT CORRECTO
+from utils.quarantine import quarantine_file
+from utils.ioc_store import IOCStore
 
 class LocationDialog(QDialog):
     def __init__(self, parent=None, name: str = "", path: str = ""):
         super().__init__(parent)
         self.setWindowTitle("Editar colección de ubicaciones")
-
+        
         layout = QVBoxLayout()
+        layout.setSpacing(8)
+        layout.setContentsMargins(10, 10, 10, 10)
 
         # Campo nombre
-        layout.addWidget(QLabel("Nombre de la colección:"))
+        lbl = QLabel("Nombre de la colección:")
+        lbl.setStyleSheet("font-weight:600;")
+        layout.addWidget(lbl)
         self.name_edit = QLineEdit(name)
         self.name_edit.setPlaceholderText("Ej: Mis Proyectos")
         layout.addWidget(self.name_edit)
 
         # Campo ruta
-        layout.addWidget(QLabel("Ruta de la carpeta:"))
+        lbl2 = QLabel("Ruta de la carpeta:")
+        lbl2.setStyleSheet("font-weight:600;")
+        layout.addWidget(lbl2)
         h = QHBoxLayout()
         self.path_edit = QLineEdit(path)
         btn_browse = QPushButton("📂")
@@ -40,6 +48,7 @@ class LocationDialog(QDialog):
         # Botones Guardar / Cancelar
         btns = QHBoxLayout()
         save_btn   = QPushButton("Guardar")
+        save_btn.setProperty("role", "primary")
         cancel_btn = QPushButton("Cancelar")
         save_btn.clicked.connect(self.accept)
         cancel_btn.clicked.connect(self.reject)
@@ -71,8 +80,9 @@ class FavoriteDialog(QDialog):
         super().__init__(parent)
         self.setWindowTitle("Editar Colección de Favoritos")
         self.extensions = extensions or []
-
         layout = QVBoxLayout()
+        layout.setSpacing(8)
+        layout.setContentsMargins(10,10,10,10)
 
         # Nombre de la colección
         self.name_edit = QLineEdit(name)
@@ -111,6 +121,7 @@ class FavoriteDialog(QDialog):
         # Guardar / Cancelar
         ctrl_btns = QHBoxLayout()
         save_btn = QPushButton("Guardar")
+        save_btn.setProperty("role", "primary")
         cancel_btn = QPushButton("Cancelar")
         save_btn.clicked.connect(self.accept)
         cancel_btn.clicked.connect(self.reject)
@@ -159,30 +170,129 @@ class FavoriteDialog(QDialog):
         )
 
 
+class IgnoreEditorDialog(QDialog):
+    """Dialog to edit the list of ignored extensions and their enabled state.
+
+    Provides a simple list editor with add/delete and the ability to toggle
+    whether each extension is enabled for ignoring.
+    """
+    def __init__(self, parent=None, extensions=None, enabled_map=None):
+        super().__init__(parent)
+        self.setWindowTitle("Editar extensiones a ignorar")
+        self.resize(480, 360)
+
+        self.extensions = list(extensions or [])
+        self.enabled_map = dict(enabled_map or {})
+
+        layout = QVBoxLayout()
+        layout.setSpacing(8)
+        layout.setContentsMargins(10, 10, 10, 10)
+
+        self.list_widget = QListWidget()
+        self._reload_list()
+        layout.addWidget(self.list_widget)
+
+        btn_h = QHBoxLayout()
+        add_btn = QPushButton("Añadir")
+        add_btn.clicked.connect(self._add)
+        del_btn = QPushButton("Eliminar seleccionada")
+        del_btn.clicked.connect(self._delete_selected)
+        toggle_btn = QPushButton("Alternar estado")
+        toggle_btn.clicked.connect(self._toggle_selected)
+        btn_h.addWidget(add_btn)
+        btn_h.addWidget(del_btn)
+        btn_h.addWidget(toggle_btn)
+        layout.addLayout(btn_h)
+
+        ctrl = QHBoxLayout()
+        save_btn = QPushButton("Guardar")
+        save_btn.setProperty("role", "primary")
+        save_btn.clicked.connect(self.accept)
+        cancel_btn = QPushButton("Cancelar")
+        cancel_btn.clicked.connect(self.reject)
+        ctrl.addStretch()
+        ctrl.addWidget(save_btn)
+        ctrl.addWidget(cancel_btn)
+        layout.addLayout(ctrl)
+
+        self.setLayout(layout)
+
+    def _reload_list(self):
+        self.list_widget.clear()
+        for e in sorted(self.extensions):
+            state = self.enabled_map.get(e, True)
+            it = QListWidgetItem(f"{e}  {'(habilitado)' if state else '(deshabilitado)'}")
+            it.setData(Qt.UserRole, e)
+            self.list_widget.addItem(it)
+
+    def _add(self):
+        text, ok = QInputDialog.getText(self, "Nueva extensión", "Introduce extensión (ej: .tmp)")
+        if not ok or not text.strip():
+            return
+        ext = text.strip().lower()
+        if not ext.startswith('.'):
+            ext = '.' + ext
+        if ext not in self.extensions:
+            self.extensions.append(ext)
+            self.enabled_map[ext] = True
+            self._reload_list()
+
+    def _delete_selected(self):
+        for it in list(self.list_widget.selectedItems()):
+            ext = it.data(Qt.UserRole)
+            if ext in self.extensions:
+                self.extensions.remove(ext)
+            self.enabled_map.pop(ext, None)
+            self.list_widget.takeItem(self.list_widget.row(it))
+
+    def _toggle_selected(self):
+        for it in list(self.list_widget.selectedItems()):
+            ext = it.data(Qt.UserRole)
+            cur = self.enabled_map.get(ext, True)
+            self.enabled_map[ext] = not cur
+        self._reload_list()
+
+    def get_data(self):
+        return list(self.extensions), dict(self.enabled_map)
+
+
 class FileResultsDialog(QDialog):
-    def __init__(self, file_paths, output_dir):
+    def __init__(self, file_paths, output_dir, ioc_map=None):
         super().__init__()
         self.setWindowTitle("Resultados del escaneo")
         self.resize(700,500)
         self.setWindowIcon(QIcon("detective_.ico"))
         self.file_paths = [str(Path(p).resolve()) for p in file_paths]
         self.output_dir = output_dir
+        self.ioc_map = ioc_map or {}
 
         layout = QVBoxLayout()
+        layout.setSpacing(8)
+        layout.setContentsMargins(10,10,10,10)
+
+        # Search bar and IOC-only toggle on the same row
+        top_h = QHBoxLayout()
         self.search_bar = QLineEdit()
         self.search_bar.setPlaceholderText("🔍 Buscar archivo...")
-        self.search_bar.textChanged.connect(self.filter_files)
-        layout.addWidget(self.search_bar)
+        self.search_bar.textChanged.connect(self.apply_list_filter)
+        top_h.addWidget(self.search_bar)
+
+        self.only_iocs_cb = QCheckBox("Mostrar sólo sospechosos")
+        self.only_iocs_cb.setToolTip("Filtrar la lista para mostrar sólo archivos marcados como IOC")
+        self.only_iocs_cb.toggled.connect(self.apply_list_filter)
+        top_h.addWidget(self.only_iocs_cb)
+
+        layout.addLayout(top_h)
 
         self.list_widget = QListWidget()
-        self.list_widget.addItems(self.file_paths)
+        self.list_widget.setAlternatingRowColors(True)
         self.list_widget.itemDoubleClicked.connect(self.open_file_location)
         layout.addWidget(self.list_widget)
 
         action_layout = QHBoxLayout()
         action_layout.addWidget(QLabel("Acción:"))
         self.action_combo = QComboBox()
-        self.action_combo.addItems(["Copiar","Mover"])
+        self.action_combo.addItems(["Copiar", "Mover", "Cuarentena"])
         action_layout.addWidget(self.action_combo)
         layout.addLayout(action_layout)
 
@@ -190,6 +300,7 @@ class FileResultsDialog(QDialog):
         open_btn = QPushButton("Abrir carpeta de resultados")
         open_btn.clicked.connect(lambda: open_folder(self.output_dir))  # ahora sí importado
         proc_btn = QPushButton("Procesar archivos…")
+        proc_btn.setProperty("role", "primary")
         proc_btn.clicked.connect(self.process_files_to_folder)
         close_btn = QPushButton("Cerrar")
         close_btn.clicked.connect(self.accept)
@@ -200,11 +311,325 @@ class FileResultsDialog(QDialog):
 
         self.setLayout(layout)
 
-    def filter_files(self, txt):
+        # Si hay IOCs, mostrar un resumen emergente y ofrecer filtrar
+        if self.ioc_map:
+            summary_lines = []
+            for path, matches in list(self.ioc_map.items())[:10]:
+                summary_lines.append(f"{Path(path).name}: {', '.join(matches)}")
+            summary = "\n".join(summary_lines)
+            if len(self.ioc_map) > 10:
+                summary += f"\n... y {len(self.ioc_map)-10} más"
+
+            resp = QMessageBox.question(self, "IOCs detectadas",
+                f"Se han detectado {len(self.ioc_map)} archivos sospechosos:\n\n{summary}\n\n¿Filtrar la lista para mostrar sólo los sospechosos?",
+                QMessageBox.Yes | QMessageBox.No)
+            if resp == QMessageBox.Yes:
+                # toggle the checkbox to the 'on' position and refresh
+                self.only_iocs_cb.setChecked(True)
+                self.apply_list_filter()
+        # Ensure the list is populated according to current filter/search state
+        self.apply_list_filter()
+
+        # Conectar selección para mostrar detalles
+        self.list_widget.itemSelectionChanged.connect(self._on_selection_changed)
+
+        # Detalles del archivo seleccionado
+        self.details_label = QLabel("")
+        layout.addWidget(self.details_label)
+
+        # Botón para mover selección a cuarentena
+        self.quarantine_selected_btn = QPushButton("Mover seleccionados a cuarentena")
+        self.quarantine_selected_btn.setProperty("role", "primary")
+        self.quarantine_selected_btn.clicked.connect(self.move_selected_to_quarantine)
+        layout.addWidget(self.quarantine_selected_btn)
+
+    def apply_list_filter(self, _=None):
+        """Repoblates the list_widget according to search text and IOC-only toggle."""
+        txt = self.search_bar.text().lower().strip()
+        show_only_iocs = self.only_iocs_cb.isChecked()
         self.list_widget.clear()
         for p in self.file_paths:
-            if txt.lower() in p.lower():
+            if txt and txt not in p.lower():
+                continue
+            if show_only_iocs and p not in self.ioc_map:
+                continue
+            display = p
+            if p in self.ioc_map:
+                display = f"{p} [IOC]"
+            item = QListWidgetItem(display)
+            # dynamic sizing based on font metrics so items don't appear cramped
+            try:
+                fm = self.list_widget.fontMetrics()
+                height = max(36, fm.height() + 14)
+                item.setSizeHint(QSize(0, height))
+            except Exception:
+                try:
+                    item.setSizeHint(QSize(0, 36))
+                except Exception:
+                    pass
+
+            # set an icon based on file extension
+            try:
+                icon = self._icon_for_path(p)
+                if icon:
+                    item.setIcon(icon)
+            except Exception:
+                pass
+
+            item.setData(Qt.UserRole, p)
+            self.list_widget.addItem(item)
+            if p in self.ioc_map:
+                try:
+                    item.setForeground(QColor('red'))
+                except Exception:
+                    pass
+
+    def filter_only_iocs(self):
+        # Mostrar sólo ficheros que aparecen en ioc_map
+        self.list_widget.clear()
+        for p in self.file_paths:
+            if p in self.ioc_map:
                 self.list_widget.addItem(p)
+
+    def _on_selection_changed(self):
+        sels = self.list_widget.selectedItems()
+        if not sels:
+            self.details_label.setText("")
+            return
+        # usamos el dato guardado para obtener la ruta real
+        item = sels[0]
+        path = item.data(Qt.UserRole) or item.text()
+        matches = self.ioc_map.get(path) or []
+        lines = [f"Path: {path}"]
+        if matches:
+            lines.append("IOC matches:")
+            for m in matches:
+                lines.append(f" - {m}")
+        self.details_label.setText("\n".join(lines))
+
+    def open_file_location(self, item):
+        """Open the folder containing the selected file item."""
+        # try to use the stored path (Qt.UserRole) if present
+        try:
+            path = item.data(Qt.UserRole) or item.text()
+        except Exception:
+            path = item.text()
+        folder = str(Path(path).parent)
+        open_folder(folder)
+
+    def process_files_to_folder(self):
+        """Copy/Move selected files to a chosen folder (used by Results dialog)."""
+        dst = QFileDialog.getExistingDirectory(self, "Seleccionar carpeta destino")
+        if not dst:
+            return
+
+        action = self.action_combo.currentText()  # "Copiar" o "Mover"
+        count_ok = 0
+        errors = []
+
+        # iterate over currently selected items to respect user choice
+        sources = [it.data(Qt.UserRole) or it.text() for it in list(self.list_widget.selectedItems())]
+        if not sources:
+            # fallback: operate over all files
+            sources = list(self.file_paths)
+
+        for src in sources:
+            # Sólo tratamos ficheros
+            if not os.path.isfile(src):
+                continue
+
+            fn = os.path.basename(src)
+            tgt = os.path.join(dst, fn)
+
+            try:
+                if action == "Copiar":
+                    # Si ya existe, sobreescribir:
+                    shutil.copy2(src, tgt)
+                elif action == "Mover":
+                    shutil.move(src, tgt)
+                else:  # Cuarentena
+                    # Confirmación adicional por seguridad
+                    ans = QMessageBox.question(self, "Confirmar cuarentena",
+                        f"Vas a mover {fn} a la cuarentena en: {dst}\n¿Continuar?",
+                        QMessageBox.Yes | QMessageBox.No)
+                    if ans != QMessageBox.Yes:
+                        continue
+                    # Mover con renombrado seguro y log
+                    try:
+                        quarantine_file(src, dst, reason="manual from UI")
+                    except Exception:
+                        raise
+
+                count_ok += 1
+
+            except Exception as e:
+                errors.append(f"{fn}: {e}")
+
+        # Preparamos mensaje de respuesta
+        verbo = "copiaron" if action == "Copiar" else "movieron"
+        msg = f"Se {verbo} {count_ok} archivos."
+
+        if errors:
+            msg += "\n\nErrores en algunos archivos:\n" + "\n".join(errors)
+
+        QMessageBox.information(self, "Operación completada", msg)
+
+    def move_selected_to_quarantine(self):
+        sels = self.list_widget.selectedItems()
+        if not sels:
+            QMessageBox.information(self, "Nada seleccionado", "Selecciona al menos un fichero para mover a cuarentena.")
+            return
+
+        # Preguntar carpeta de cuarentena
+        qdir = QFileDialog.getExistingDirectory(self, "Seleccionar carpeta de cuarentena", self.output_dir)
+        if not qdir:
+            return
+
+        count = 0
+        errors = []
+        for item in list(sels):
+            path = item.data(Qt.UserRole) or item.text()
+            try:
+                quarantine_file(path, qdir, reason="manual from Results dialog")
+                count += 1
+                # eliminar del listado y del mapa
+                if path in self.file_paths:
+                    self.file_paths.remove(path)
+                if path in self.ioc_map:
+                    self.ioc_map.pop(path, None)
+                self.list_widget.takeItem(self.list_widget.row(item))
+            except Exception as e:
+                errors.append(f"{path}: {e}")
+
+        msg = f"Se movieron {count} archivos a la cuarentena."
+        if errors:
+            msg += "\n\nErrores:\n" + "\n".join(errors)
+        QMessageBox.information(self, "Cuarentena", msg)
+
+
+class IOCViewerDialog(QDialog):
+    """Diálogo simple para ver y gestionar las IOCs cargadas en memoria.
+
+    Muestra tres listas: hashes, names y paths. Permite eliminar selecciones y vaciar todo.
+    """
+    def __init__(self, parent=None, ioc_store: IOCStore = None):
+        super().__init__(parent)
+        self.setWindowTitle("IOCs cargadas")
+        self.resize(600, 400)
+        self.ioc_store = ioc_store or IOCStore()
+
+        layout = QVBoxLayout()
+
+        # Counts
+        counts_lbl = QLabel(self._counts_text())
+        layout.addWidget(counts_lbl)
+
+        lists_layout = QHBoxLayout()
+
+        # Hashes list
+        self.hash_list = QListWidget()
+        self.hash_list.addItems(sorted(self.ioc_store.hashes))
+        lists_layout.addWidget(self._wrap_list_with_label("Hashes", self.hash_list))
+
+        # Names list
+        self.name_list = QListWidget()
+        self.name_list.addItems(sorted(self.ioc_store.names))
+        lists_layout.addWidget(self._wrap_list_with_label("Names", self.name_list))
+
+        # Paths list
+        self.path_list = QListWidget()
+        self.path_list.addItems(sorted(self.ioc_store.paths))
+        lists_layout.addWidget(self._wrap_list_with_label("Paths", self.path_list))
+
+        layout.addLayout(lists_layout)
+
+        btns = QHBoxLayout()
+        remove_btn = QPushButton("Eliminar seleccionados")
+        remove_btn.clicked.connect(self._remove_selected)
+        clear_btn = QPushButton("Vaciar IOCs")
+        clear_btn.clicked.connect(self._clear_all)
+        close_btn = QPushButton("Cerrar")
+        close_btn.clicked.connect(self.accept)
+        btns.addWidget(remove_btn)
+        btns.addWidget(clear_btn)
+        btns.addStretch()
+        btns.addWidget(close_btn)
+        layout.addLayout(btns)
+
+        self.setLayout(layout)
+
+    def _counts_text(self):
+        return f"Hashes: {len(self.ioc_store.hashes)}  —  Names: {len(self.ioc_store.names)}  —  Paths: {len(self.ioc_store.paths)}"
+
+    def _wrap_list_with_label(self, label_text, widget):
+        w = QVBoxLayout()
+        w.addWidget(QLabel(label_text))
+        w.addWidget(widget)
+        container = QWidget()
+        container.setLayout(w)
+        return container
+
+    def _remove_selected(self):
+        # Remove from store and update lists
+        for lst, kind in ((self.hash_list, 'hashes'), (self.name_list, 'names'), (self.path_list, 'paths')):
+            for it in list(lst.selectedItems()):
+                val = it.text()
+                if kind == 'hashes':
+                    self.ioc_store.hashes.discard(val)
+                elif kind == 'names':
+                    self.ioc_store.names.discard(val)
+                else:
+                    self.ioc_store.paths.discard(val)
+                lst.takeItem(lst.row(it))
+        # Update counts label
+        # find counts label (first widget)
+        if isinstance(self.layout().itemAt(0).widget(), QLabel):
+            self.layout().itemAt(0).widget().setText(self._counts_text())
+
+    def _clear_all(self):
+        self.ioc_store.clear()
+        self.hash_list.clear(); self.name_list.clear(); self.path_list.clear()
+        if isinstance(self.layout().itemAt(0).widget(), QLabel):
+            self.layout().itemAt(0).widget().setText(self._counts_text())
+
+    def _icon_for_path(self, path: str) -> QIcon:
+        """Generate a small colored icon for a file based on its extension.
+
+        Uses a deterministic color derived from the extension and draws
+        a short label (e.g. "PDF", "DOC") on a colored square pixmap.
+        """
+        try:
+            ext = Path(path).suffix.lower().lstrip('.')
+            if not ext:
+                label = "FILE"
+            else:
+                label = ext.upper()[:3]
+
+            # simple color map by hashing extension
+            h = sum(ord(c) for c in ext) if ext else 0
+            colors = [QColor('#4f83ff'), QColor('#6aa0ff'), QColor('#ff8a65'), QColor('#9ccc65'), QColor('#ffca28'), QColor('#b39ddb')]
+            color = colors[h % len(colors)]
+
+            size = 24
+            pix = QPixmap(size, size)
+            pix.fill(Qt.transparent)
+            p = QPainter(pix)
+            p.setRenderHint(QPainter.Antialiasing)
+            p.setBrush(color)
+            p.setPen(Qt.NoPen)
+            p.drawRoundedRect(0, 0, size, size, 6, 6)
+            f = QFont()
+            f.setPointSize(8)
+            f.setBold(True)
+            p.setFont(f)
+            p.setPen(QColor('#ffffff'))
+            rect = pix.rect()
+            # draw centered text (short label)
+            p.drawText(rect, Qt.AlignCenter, label)
+            p.end()
+            return QIcon(pix)
+        except Exception:
+            return QIcon()
 
     def open_file_location(self, item):
         folder = str(Path(item.text()).parent)
@@ -231,8 +656,21 @@ class FileResultsDialog(QDialog):
                 if action == "Copiar":
                     # Si ya existe, sobreescribir:
                     shutil.copy2(src, tgt)
-                else:
+                elif action == "Mover":
                     shutil.move(src, tgt)
+                else:  # Cuarentena
+                    # Confirmación adicional por seguridad
+                    ans = QMessageBox.question(self, "Confirmar cuarentena",
+                        f"Vas a mover {fn} a la cuarentena en: {dst}\n¿Continuar?",
+                        QMessageBox.Yes | QMessageBox.No)
+                    if ans != QMessageBox.Yes:
+                        continue
+                    # Mover con renombrado seguro y log
+                    try:
+                        quarantine_file(src, dst, reason="manual from UI")
+                    except Exception as e:
+                        raise
+
                 count_ok += 1
 
             except Exception as e:

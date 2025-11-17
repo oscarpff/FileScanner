@@ -201,10 +201,16 @@ class FileScannerView(QWidget):
         self.left_layout.addWidget(self.contact_btn)
 
     def build_right_panel(self):
-        
+        # Ajustes de layout: reducir espacios y márgenes para acercar títulos a cuadros
+        self.right_layout.setSpacing(4)
+        self.right_layout.setContentsMargins(6, 6, 6, 6)
+
         # Favoritos de ubicaciones
-        self.right_layout.addWidget(QLabel(get_text("locations_label", self.current_language)))
+        loc_label = QLabel(get_text("locations_label", self.current_language))
+        loc_label.setContentsMargins(0, 0, 0, 0)
+        self.right_layout.addWidget(loc_label)
         self.location_list = QListWidget()
+        self.location_list.setMaximumHeight(240)
         self.right_layout.addWidget(self.location_list)
 
         loc_btns = QHBoxLayout()
@@ -222,7 +228,9 @@ class FileScannerView(QWidget):
         self.right_layout.addLayout(loc_btns)
         
         # Favoritos de extensiones
-        self.right_layout.addWidget(QLabel(get_text("favorites_label", self.current_language)))
+        fav_label = QLabel(get_text("favorites_label", self.current_language))
+        fav_label.setContentsMargins(0, 0, 0, 0)
+        self.right_layout.addWidget(fav_label)
 
         fav_top_layout = QHBoxLayout()
         self.search_fav_input = QLineEdit()
@@ -234,6 +242,7 @@ class FileScannerView(QWidget):
         self.right_layout.addLayout(fav_top_layout)
 
         self.favorites_list = QListWidget()
+        self.favorites_list.setMaximumHeight(240)
         self.right_layout.addWidget(self.favorites_list)
 
         fav_btns = QHBoxLayout()

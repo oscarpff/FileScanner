@@ -1,0 +1,14 @@
+{
+  "hashes": [
+    "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "3a7bd3e2360a3d8d6f7b9d2e5a4c6f7d8e9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c"
+  ],
+  "names": [
+    "sospechoso.exe",
+    "bad_document.docx"
+  ],
+  "paths": [
+    "C:\\Users\\oscar\\OneDrive\\Desktop\\malware\\bad.dll",
+    "C:\\temp\\dangerous.bin"
+  ]
+}
