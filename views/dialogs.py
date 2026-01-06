@@ -14,42 +14,178 @@ from PyQt5.QtCore import Qt, QSize
 from utils.file_utils import open_folder  # <- IMPORT CORRECTO
 from utils.quarantine import quarantine_file
 from utils.ioc_store import IOCStore
+from utils.settings import get_setting, set_setting
+
+
+class WelcomeDialog(QDialog):
+    """Welcome dialog with instructions for using FileScanner."""
+    
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("🔍 Welcome to FileScanner")
+        self.setModal(True)
+        self.setup_ui()
+        
+    def setup_ui(self):
+        layout = QVBoxLayout()
+        layout.setSpacing(15)
+        layout.setContentsMargins(20, 20, 20, 20)
+        
+        # Main title
+        title = QLabel("🔍 FileScanner - Forensic File Analyzer")
+        title_font = QFont()
+        title_font.setPointSize(14)
+        title_font.setBold(True)
+        title.setFont(title_font)
+        title.setAlignment(Qt.AlignCenter)
+        title.setStyleSheet("color: #2196F3; padding: 10px;")
+        layout.addWidget(title)
+        
+        # Main description
+        desc = QLabel(
+            "FileScanner is a professional tool for forensic analysis of file systems "
+            "that allows you to detect suspicious files using hashes, names, paths, and YARA rules."
+        )
+        desc.setWordWrap(True)
+        desc.setAlignment(Qt.AlignCenter)
+        desc.setStyleSheet("padding: 0px 10px 10px 10px; font-size: 11pt;")
+        layout.addWidget(desc)
+        
+        # Instructions section
+        instructions_label = QLabel("📖 <b>How to use FileScanner?</b>")
+        instructions_label.setStyleSheet("font-size: 12pt; padding-top: 10px;")
+        layout.addWidget(instructions_label)
+        
+        # Steps list - using plain text numbers to avoid emoji bugs
+        steps = [
+            ("1.", "Select folder to scan", 
+             "Click 'Select folder to analyze' or use location favorites in the right panel."),
+            
+            ("2.", "Configure file filter", 
+             "Enable the extensions you want to analyze (.pdf, .docx, etc.) or use quick filter."),
+            
+            ("3.", "(Optional) Load IOCs and YARA rules", 
+             "In the right panel, load indicators of compromise (hashes/names) and YARA rules to detect threats."),
+            
+            ("4.", "Run scan", 
+             "Press 'Run scan' and wait until it finishes. Results will be saved in JSON format."),
+            
+            ("5.", "Review results", 
+             "When finished, you'll see a dialog with all found files. Those matching IOCs/YARA will be marked in red.")
+        ]
+        
+        for num, title_text, desc_text in steps:
+            step_widget = QWidget()
+            step_layout = QHBoxLayout()
+            step_layout.setContentsMargins(0, 5, 0, 5)
+            
+            # Number
+            num_label = QLabel(num)
+            num_label.setStyleSheet("font-size: 16pt; font-weight: bold; color: #2196F3;")
+            num_label.setFixedWidth(40)
+            num_label.setAlignment(Qt.AlignRight | Qt.AlignTop)
+            step_layout.addWidget(num_label)
+            
+            # Text
+            text_layout = QVBoxLayout()
+            text_layout.setSpacing(2)
+            
+            title_step = QLabel(title_text)
+            title_step.setStyleSheet("font-size: 10pt; font-weight: bold;")
+            text_layout.addWidget(title_step)
+            
+            desc_step = QLabel(desc_text)
+            desc_step.setWordWrap(True)
+            desc_step.setStyleSheet("font-size: 9pt; color: #666;")
+            text_layout.addWidget(desc_step)
+            
+            step_layout.addLayout(text_layout)
+            step_widget.setLayout(step_layout)
+            layout.addWidget(step_widget)
+        
+        # Additional tips
+        tips_label = QLabel("💡 <b>Useful tips:</b>")
+        tips_label.setStyleSheet("font-size: 11pt; padding-top: 15px;")
+        layout.addWidget(tips_label)
+        
+        tips_text = QLabel(
+            "• Use <b>Extension favorites</b> to save common configurations\n"
+            "• Files can be <b>quarantined</b> from the results dialog\n"
+            "• <b>Location collections</b> let you save frequent paths"
+        )
+        tips_text.setWordWrap(True)
+        tips_text.setStyleSheet("font-size: 9pt; padding-left: 10px; color: #555;")
+        layout.addWidget(tips_text)
+        
+        # "Don't show again" checkbox
+        self.dont_show_checkbox = QCheckBox("Don't show this message again")
+        self.dont_show_checkbox.setStyleSheet("padding-top: 15px; font-size: 10pt;")
+        layout.addWidget(self.dont_show_checkbox)
+        
+        # Start button
+        btn_layout = QHBoxLayout()
+        btn_layout.addStretch()
+        
+        start_btn = QPushButton("✅ Got it, let's start!")
+        start_btn.setProperty("role", "accent")
+        start_btn.setMinimumHeight(40)
+        start_btn.setStyleSheet("font-size: 11pt; padding: 10px 30px;")
+        start_btn.setCursor(Qt.PointingHandCursor)
+        start_btn.clicked.connect(self.accept)
+        btn_layout.addWidget(start_btn)
+        btn_layout.addStretch()
+        
+        layout.addLayout(btn_layout)
+        
+        self.setLayout(layout)
+        self.setMinimumSize(700, 650)
+        self.setMaximumSize(800, 750)
+    
+    def accept(self):
+        """Guarda la preferencia del usuario antes de cerrar."""
+        if self.dont_show_checkbox.isChecked():
+            set_setting("hide_welcome_dialog", True)
+        super().accept()
+
 
 class LocationDialog(QDialog):
     def __init__(self, parent=None, name: str = "", path: str = ""):
         super().__init__(parent)
-        self.setWindowTitle("Editar colección de ubicaciones")
+        self.setWindowTitle("Edit location collection")
         
         layout = QVBoxLayout()
         layout.setSpacing(8)
         layout.setContentsMargins(10, 10, 10, 10)
 
-        # Campo nombre
-        lbl = QLabel("Nombre de la colección:")
+        # Name field
+        lbl = QLabel("Collection name:")
         lbl.setStyleSheet("font-weight:600;")
         layout.addWidget(lbl)
         self.name_edit = QLineEdit(name)
-        self.name_edit.setPlaceholderText("Ej: Mis Proyectos")
+        self.name_edit.setPlaceholderText("Ex: My Projects")
         layout.addWidget(self.name_edit)
 
-        # Campo ruta
-        lbl2 = QLabel("Ruta de la carpeta:")
+        # Path field
+        lbl2 = QLabel("Folder path:")
         lbl2.setStyleSheet("font-weight:600;")
         layout.addWidget(lbl2)
         h = QHBoxLayout()
         self.path_edit = QLineEdit(path)
         btn_browse = QPushButton("📂")
         btn_browse.setMaximumWidth(30)
+        btn_browse.setCursor(Qt.PointingHandCursor)
         btn_browse.clicked.connect(self._browse_folder)
         h.addWidget(self.path_edit)
         h.addWidget(btn_browse)
         layout.addLayout(h)
 
-        # Botones Guardar / Cancelar
+        # Save / Cancel buttons
         btns = QHBoxLayout()
-        save_btn   = QPushButton("Guardar")
+        save_btn   = QPushButton("Save")
         save_btn.setProperty("role", "primary")
-        cancel_btn = QPushButton("Cancelar")
+        save_btn.setCursor(Qt.PointingHandCursor)
+        cancel_btn = QPushButton("Cancel")
+        cancel_btn.setCursor(Qt.PointingHandCursor)
         save_btn.clicked.connect(self.accept)
         cancel_btn.clicked.connect(self.reject)
         btns.addWidget(save_btn)
@@ -57,16 +193,16 @@ class LocationDialog(QDialog):
         layout.addLayout(btns)
 
         self.setLayout(layout)
-        self.setMinimumSize(400, 200)   # ancho=400px, alto=200px como mínimo
+        self.setMinimumSize(400, 200)   # width=400px, height=200px minimum
 
     def _browse_folder(self):
-        carpeta = QFileDialog.getExistingDirectory(self, "Seleccionar carpeta")
-        if carpeta:
-            self.path_edit.setText(carpeta)
+        folder = QFileDialog.getExistingDirectory(self, "Select folder")
+        if folder:
+            self.path_edit.setText(folder)
 
     def get_data(self):
         """
-        Devuelve (nombre, ruta)
+        Returns (name, path)
         """
         return (
             self.name_edit.text().strip(),
@@ -78,18 +214,18 @@ class FavoriteDialog(QDialog):
     
     def __init__(self, parent=None, name: str = "", icon: str = "📂", extensions: list = None):
         super().__init__(parent)
-        self.setWindowTitle("Editar Colección de Favoritos")
+        self.setWindowTitle("Edit Favorites Collection")
         self.extensions = extensions or []
         layout = QVBoxLayout()
         layout.setSpacing(8)
         layout.setContentsMargins(10,10,10,10)
 
-        # Nombre de la colección
+        # Collection name
         self.name_edit = QLineEdit(name)
-        self.name_edit.setPlaceholderText("Nombre de la colección...")
+        self.name_edit.setPlaceholderText("Collection name...")
         layout.addWidget(self.name_edit)
 
-        # Selección de icono
+        # Icon selection
         self.icon_combo = QComboBox()
         self.icon_combo.addItems([
             "⭐", "📂", "💻", "🎨", "📄", "🔧",
@@ -102,27 +238,31 @@ class FavoriteDialog(QDialog):
                 self.icon_combo.setCurrentIndex(idx)
         layout.addWidget(self.icon_combo)
 
-        # Lista editable de extensiones
+        # Editable extensions list
         self.ext_list = QListWidget()
         self.ext_list.addItems(self.extensions)
         self.ext_list.itemDoubleClicked.connect(self._edit_extension)
         layout.addWidget(self.ext_list)
 
-        # Botones para añadir / eliminar
+        # Buttons to add / remove
         btns = QHBoxLayout()
-        add_btn = QPushButton("➕ Añadir extensión")
-        del_btn = QPushButton("❌ Eliminar seleccionada")
+        add_btn = QPushButton("➕ Add extension")
+        add_btn.setCursor(Qt.PointingHandCursor)
+        del_btn = QPushButton("❌ Remove selected")
+        del_btn.setCursor(Qt.PointingHandCursor)
         add_btn.clicked.connect(self._add_extension)
         del_btn.clicked.connect(self._delete_extension)
         btns.addWidget(add_btn)
         btns.addWidget(del_btn)
         layout.addLayout(btns)
 
-        # Guardar / Cancelar
+        # Save / Cancel
         ctrl_btns = QHBoxLayout()
-        save_btn = QPushButton("Guardar")
+        save_btn = QPushButton("Save")
         save_btn.setProperty("role", "primary")
-        cancel_btn = QPushButton("Cancelar")
+        save_btn.setCursor(Qt.PointingHandCursor)
+        cancel_btn = QPushButton("Cancel")
+        cancel_btn.setCursor(Qt.PointingHandCursor)
         save_btn.clicked.connect(self.accept)
         cancel_btn.clicked.connect(self.reject)
         ctrl_btns.addWidget(save_btn)
@@ -132,7 +272,7 @@ class FavoriteDialog(QDialog):
         self.setLayout(layout)
 
     def _add_extension(self):
-        ext, ok = QInputDialog.getText(self, "Nueva extensión", "Introduce extensión (ej: .pdf)")
+        ext, ok = QInputDialog.getText(self, "New extension", "Enter extension (ex: .pdf)")
         if not ok or not ext.strip():
             return
         ext = ext.strip().lower()

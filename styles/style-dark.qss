@@ -22,27 +22,78 @@ QPushButton {
 	padding: 6px 10px;
 	color: #e6eef8;
 }
-QPushButton:hover { background: #292929; }
+QPushButton:hover {
+	background: #292929;
+	border: 2px solid #3b82f6;
+	padding: 7px 12px;
+	font-size: 11.5pt;
+}
+QPushButton:pressed {
+	background: #1a1a1a;
+	padding: 5px 9px;
+}
 QPushButton[role="primary"] {
 	background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #3b82f6, stop:1 #60a5fa);
 	color: #ffffff; border: 0px; font-weight: 600;
+}
+QPushButton[role="primary"]:hover {
+	background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #60a5fa, stop:1 #7bb5ff);
+}
+QPushButton[role="primary"]:pressed {
+	background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #2d6edf, stop:1 #5095e8);
 }
 
 QPushButton[role="accent"] {
 	background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #22c55e, stop:1 #16a34a);
 	color: #ffffff; border: 0px; font-weight: 600;
 }
+QPushButton[role="accent"]:hover {
+	background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #34d570, stop:1 #20b45c);
+}
+QPushButton[role="accent"]:pressed {
+	background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #1eb54f, stop:1 #14923e);
+}
 
 QPushButton[role="danger"] {
 	background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #ff6b6b, stop:1 #ff4d4d);
 	color: #ffffff; border: 0px; font-weight: 600;
 }
+QPushButton[role="danger"]:hover {
+	background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #ff8080, stop:1 #ff6666);
+}
+QPushButton[role="danger"]:pressed {
+	background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #ff5555, stop:1 #ff3333);
+}
 
 QPushButton[role="secondary"] {
 	background: #1f1f1f; color: #e6eef8; border: 1px solid #2e2e2e; padding: 6px 10px; border-radius: 8px;
 }
+QPushButton[role="secondary"]:hover {
+	background: #2a2a2a;
+	border: 1px solid #22c55e;
+}
+QPushButton[role="secondary"]:pressed {
+	background: #1a1a1a;
+}
 QPushButton[role="secondary"]:checked {
 	background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #22c55e, stop:1 #16a34a);
+	color: white;
+	border: 0px;
+}
+
+/* Ignore buttons (red theme for dark mode) */
+QPushButton[role="ignore"] {
+	background: #1f1f1f; color: #e6eef8; border: 1px solid #4a2e2e; padding: 6px 10px; border-radius: 8px;
+}
+QPushButton[role="ignore"]:hover {
+	background: #2a1f1f;
+	border: 1px solid #ff6b6b;
+}
+QPushButton[role="ignore"]:pressed {
+	background: #1a1414;
+}
+QPushButton[role="ignore"]:checked {
+	background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #ff6b6b, stop:1 #ff4d4d);
 	color: white;
 	border: 0px;
 }

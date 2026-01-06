@@ -8,6 +8,8 @@ from PyQt5.QtWidgets import (
     QMessageBox, QListWidgetItem, QFileDialog, QDialog
 )
 
+from utils.settings import set_setting
+
 from models.scanner import ScannerWorker
 from models.favorites import load_favorites, save_favorites
 from utils.file_utils import open_folder
@@ -245,17 +247,15 @@ class MainController(QObject):
         if data:
             v = self.view
             v.allowed_exts.clear()
-            v.active_list.clear()
-            for ext in data["extensions"]:
-                v.allowed_exts.add(ext)
-                v.active_list.addItem(ext)
+            v.allowed_exts.update(data["extensions"])
+            v._refresh_active_list()
+            
+            # Sync all analyze buttons
             for btn, ext in v.quick_filter_buttons:
-                if ext in v.allowed_exts:
-                    btn.setChecked(True)
-                    btn.setStyleSheet("background-color: lightgreen;")
-                else:
-                    btn.setChecked(False)
-                    btn.setStyleSheet("background-color: lightgray;")
+                btn.setChecked(ext in v.allowed_exts)
+            
+            # Also persist the loaded extensions
+            set_setting("allowed_exts", sorted(list(v.allowed_exts)))
 
     def import_favorites(self):
         v = self.view
@@ -366,9 +366,9 @@ class MainController(QObject):
         v = self.view
         base = v.path_input.text().strip()
         if not Path(base).is_dir():
-            QMessageBox.critical(v, "Error", "Por favor, introduce una ruta válida para escanear.")
+            QMessageBox.critical(v, "Error", "Please enter a valid path to scan.")
             return
-        ignored = {ext for ext, cb in v.ignore_checkboxes.items() if cb.isChecked()}
+        ignored = v.ignored_exts if hasattr(v, 'ignored_exts') else set()
         allowed = v.allowed_exts or None
         v.progress_bar.setRange(0, 100)
         v.progress_bar.setValue(0)

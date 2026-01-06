@@ -2,10 +2,24 @@
   "theme_dark": false,
   "ignore_enabled": {
     ".exe": false,
-    ".dll": true
+    ".dll": true,
+    ".env": true
   },
-  "allowed_exts": [],
+  "allowed_exts": [
+    ".csv",
+    ".docx",
+    ".json",
+    ".pdf",
+    ".txt",
+    ".xlsx",
+    ".xml"
+  ],
   "yara_paths": [
     "C:\\Users\\oscar\\OneDrive\\Desktop\\FileScanner\\examples\\example.yar"
-  ]
+  ],
+  "ignore_extensions": [
+    ".env"
+  ],
+  "hide_welcome_dialog": true,
+  "ignored_exts": []
 }
