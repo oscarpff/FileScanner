@@ -20,6 +20,15 @@ def resource_path(relpath):
 def main():
     # 1) Crear la aplicación
     app = QApplication(sys.argv)
+    # Cargar hoja de estilos global (si existe)
+    try:
+        here = os.path.dirname(__file__)
+        qss_path = os.path.join(here, "styles", "style.qss")
+        if os.path.isfile(qss_path):
+            with open(qss_path, "r", encoding="utf-8") as f:
+                app.setStyleSheet(f.read())
+    except Exception:
+        pass
 
     # 2) Instanciar la vista y ponerle el icono
     view = FileScannerView()

@@ -1,14 +1,20 @@
 import json
 from pathlib import Path
+import socket
+import datetime
 
 from PyQt5.QtCore import QObject, Qt
 from PyQt5.QtWidgets import (
     QMessageBox, QListWidgetItem, QFileDialog, QDialog
 )
 
+from utils.settings import set_setting
+
 from models.scanner import ScannerWorker
 from models.favorites import load_favorites, save_favorites
 from utils.file_utils import open_folder
+from utils.ioc_store import IOCStore
+from views.dialogs import IOCViewerDialog
 from utils.location_utils import load_locations, save_locations
 from views.dialogs import (
     FavoriteDialog, FileResultsDialog, LocationDialog
@@ -19,6 +25,8 @@ class MainController(QObject):
     def __init__(self, view):
         super().__init__()
         self.view = view
+        # IOC store local (hashes, names, paths)
+        self.ioc_store = IOCStore()
 
         # Favoritos de extensiones
         self.favorites = load_favorites()
@@ -48,6 +56,9 @@ class MainController(QObject):
         v.load_fav_btn.clicked.connect(self.import_favorites)
         v.delete_fav_btn.clicked.connect(self.delete_favorite)
         v.edit_fav_btn.clicked.connect(self.edit_favorite)
+        # IOCs
+        if hasattr(v, 'load_ioc_btn'):
+            v.load_ioc_btn.clicked.connect(self.import_iocs)
         # Favoritos de ubicaciones (lista simple)
         v.add_loc_btn.clicked.connect(self.add_location)
         v.del_loc_btn.clicked.connect(self.delete_location)
@@ -236,17 +247,15 @@ class MainController(QObject):
         if data:
             v = self.view
             v.allowed_exts.clear()
-            v.active_list.clear()
-            for ext in data["extensions"]:
-                v.allowed_exts.add(ext)
-                v.active_list.addItem(ext)
+            v.allowed_exts.update(data["extensions"])
+            v._refresh_active_list()
+            
+            # Sync all analyze buttons
             for btn, ext in v.quick_filter_buttons:
-                if ext in v.allowed_exts:
-                    btn.setChecked(True)
-                    btn.setStyleSheet("background-color: lightgreen;")
-                else:
-                    btn.setChecked(False)
-                    btn.setStyleSheet("background-color: lightgray;")
+                btn.setChecked(ext in v.allowed_exts)
+            
+            # Also persist the loaded extensions
+            set_setting("allowed_exts", sorted(list(v.allowed_exts)))
 
     def import_favorites(self):
         v = self.view
@@ -274,6 +283,53 @@ class MainController(QObject):
                 )
         except Exception as e:
             QMessageBox.critical(v, "Error", f"No se pudo importar: {e}")
+
+    def import_iocs(self):
+        v = self.view
+        path, _ = QFileDialog.getOpenFileName(
+            v, "Cargar lista de IOCs (JSON/CSV)", "", "IOC Files (*.json *.csv *.txt);;All Files (*)"
+        )
+        if not path:
+            return
+        try:
+            self.ioc_store.clear()
+            self.ioc_store.load(Path(path))
+            QMessageBox.information(v, "IOCs cargadas", "Se han cargado las IOCs correctamente.")
+            # Actualizar contador en la UI si existe
+            try:
+                if hasattr(v, 'ioc_count_label'):
+                    v.ioc_count_label.setText(f"Hash:{len(self.ioc_store.hashes)} Name:{len(self.ioc_store.names)} Path:{len(self.ioc_store.paths)}")
+            except Exception:
+                pass
+            # Actualizar lista visual de IOCs si existe
+            try:
+                if hasattr(v, 'ioc_list'):
+                    self._refresh_ioc_list()
+            except Exception:
+                pass
+        except Exception as e:
+            QMessageBox.critical(v, "Error IOCs", f"No se pudo cargar IOCs: {e}")
+
+    def _refresh_ioc_list(self):
+        v = self.view
+        if not hasattr(v, 'ioc_list'):
+            return
+        v.ioc_list.clear()
+        # Mostrar hashes primero, luego names, luego paths, con prefijos legibles
+        for h in sorted(self.ioc_store.hashes):
+            v.ioc_list.addItem(f"Hash: {h}")
+        for n in sorted(self.ioc_store.names):
+            v.ioc_list.addItem(f"Name: {n}")
+        for p in sorted(self.ioc_store.paths):
+            v.ioc_list.addItem(f"Path: {p}")
+
+    def show_iocs(self):
+        v = self.view
+        try:
+            dlg = IOCViewerDialog(v, self.ioc_store)
+            dlg.exec_()
+        except Exception as e:
+            QMessageBox.critical(v, "Error", f"No se pudo abrir visor de IOCs: {e}")
 
     def delete_favorite(self):
         v = self.view
@@ -310,9 +366,9 @@ class MainController(QObject):
         v = self.view
         base = v.path_input.text().strip()
         if not Path(base).is_dir():
-            QMessageBox.critical(v, "Error", "Por favor, introduce una ruta válida para escanear.")
+            QMessageBox.critical(v, "Error", "Please enter a valid path to scan.")
             return
-        ignored = {ext for ext, cb in v.ignore_checkboxes.items() if cb.isChecked()}
+        ignored = v.ignored_exts if hasattr(v, 'ignored_exts') else set()
         allowed = v.allowed_exts or None
         v.progress_bar.setRange(0, 100)
         v.progress_bar.setValue(0)
@@ -320,10 +376,19 @@ class MainController(QObject):
         v.stop_button.setEnabled(True)
         v.browse_button.setEnabled(False)
         v.save_browse_button.setEnabled(False)
+        # Try to compile YARA rules (may return None if yara not available)
+        try:
+            from utils.yara_manager import compile_yara_rules
+            yara_rules = compile_yara_rules()
+        except Exception:
+            yara_rules = None
+
         self.worker = ScannerWorker(
             base,
             ignored_exts=ignored,
-            allowed_exts=allowed
+            allowed_exts=allowed,
+            ioc_store=getattr(self, 'ioc_store', None),
+            yara_rules=yara_rules
         )
         self.worker.files_counted.connect(lambda total: v.progress_bar.setRange(0, total))
         self.worker.progress.connect(lambda done: v.progress_bar.setValue(done))
@@ -346,16 +411,99 @@ class MainController(QObject):
             out_dir = Path.home()
         v.progress_bar.setValue(v.progress_bar.maximum())
         file_paths = []
+        # Además de la lista de paths, recolectamos un mapa path -> ioc_matches (si existe)
+        ioc_map = {}
         def collect_paths(node):
             for f in node.get("files", []):
-                file_paths.append(f.get("path"))
+                p = f.get("path")
+                if p:
+                    file_paths.append(p)
+                    if f.get("ioc_matches"):
+                        ioc_map[p] = f.get("ioc_matches")
             for sub in node.get("subfolders", []):
                 collect_paths(sub)
         collect_paths(result.get("tree", {}))
+        # Añadimos metadatos top-level útiles para análisis
         result["preview_files"] = [Path(p).name for p in file_paths]
+        result["total_files"] = len(file_paths)
+        result["scan_date"] = datetime.datetime.now().astimezone().isoformat()
+        try:
+            result["host"] = socket.gethostname()
+        except Exception:
+            result["host"] = None
+
+        # Normalizamos y enriquecemos cada entrada de fichero en el árbol:
+        def enrich_node(node):
+            for f in node.get("files", []):
+                # Preserve epoch mtime if present and convert to ISO
+                try:
+                    m = f.get("mtime")
+                    if m is not None:
+                        f["mtime_epoch"] = m
+                        try:
+                            f["mtime"] = datetime.datetime.fromtimestamp(float(m)).astimezone().isoformat()
+                        except Exception:
+                            f["mtime"] = None
+                except Exception:
+                    pass
+
+                # Hashes: no duplicamos algoritmos por archivo (se normaliza a top-level)
+                # Dejamos la clave `hashes` tal cual (con los hexdigests) y
+                # evitamos añadir metadatos redundantes por archivo.
+
+            for sub in node.get("subfolders", []):
+                enrich_node(sub)
+
+        try:
+            tree = result.get("tree") or {}
+            enrich_node(tree)
+        except Exception:
+            pass
+
+        # Eliminar posibles entradas de fichero duplicadas por `path` (mantener la última)
+        def dedupe_node(node):
+            files = node.get("files", [])
+            if files:
+                seen = {}
+                for f in files:
+                    p = f.get("path")
+                    if p:
+                        seen[p] = f
+                node["files"] = list(seen.values())
+            for sub in node.get("subfolders", []):
+                dedupe_node(sub)
+
+        try:
+            dedupe_node(tree)
+        except Exception:
+            pass
+
+        # Recopilar algoritmos de hash presentes y contar errores de hashing
+        def collect_hash_stats(node, algs:set, error_counter:dict):
+            for f in node.get("files", []):
+                hashes = f.get("hashes") or {}
+                if isinstance(hashes, dict) and hashes:
+                    for k in hashes.keys():
+                        algs.add(k)
+                else:
+                    error_counter['count'] = error_counter.get('count', 0) + 1
+            for sub in node.get("subfolders", []):
+                collect_hash_stats(sub, algs, error_counter)
+
+        hash_algs = set()
+        hash_errors = {'count': 0}
+        try:
+            collect_hash_stats(tree, hash_algs, hash_errors)
+        except Exception:
+            pass
+
+        # Top-level hashes info (evita repetir algoritmos por archivo)
+        result['hash_algorithms'] = sorted(list(hash_algs))
+        result['hash_error_count'] = int(hash_errors.get('count', 0))
+
         json_file = out_dir / (Path(result.get("path", "")).name + ".json")
         json_file.write_text(json.dumps(result, indent=2, ensure_ascii=False), encoding="utf-8")
-        dlg = FileResultsDialog(file_paths, str(out_dir))
+        dlg = FileResultsDialog(file_paths, str(out_dir), ioc_map)
         dlg.exec_()
         v.progress_bar.setRange(0, 100)
         v.progress_bar.setValue(0)

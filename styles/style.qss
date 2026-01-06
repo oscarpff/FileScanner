@@ -1,0 +1,149 @@
+/* Modern flat QSS for FileScanner (neutral, no heavy gradients)
+	 - Neutral background
+	 - Rounded controls
+	 - Soft blue accent
+	 - Consistent paddings and readable fonts
+*/
+
+QWidget {
+	background: #f6f7f9;
+	color: #222;
+	font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+	font-size: 11pt;
+}
+
+QLabel { color: #263238; margin: 0px; padding: 0px; }
+
+QLineEdit, QComboBox {
+	background: #ffffff;
+	border: 1px solid #d6d9de;
+	border-radius: 6px;
+	padding: 6px 8px;
+}
+QLineEdit:focus, QComboBox:focus { border: 1px solid #4f83ff; }
+
+QPushButton {
+	background: #ffffff;
+	border: 1px solid #cfd6df;
+	border-radius: 8px;
+	padding: 6px 10px;
+	min-height: 28px;
+}
+QPushButton:hover {
+	background: #f3f6fb;
+	border: 2px solid #4f83ff;
+	padding: 7px 12px;
+	font-size: 11.5pt;
+}
+QPushButton:pressed {
+	background: #e9eef9;
+	padding: 5px 9px;
+}
+QPushButton:checked { background: #eaf3ff; border: 1px solid #4f83ff; }
+QPushButton[role="primary"] {
+	background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #4f83ff, stop:1 #6aa0ff);
+	color: white; border: 0px; font-weight: 600;
+}
+QPushButton[role="primary"]:hover {
+	background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #6aa0ff, stop:1 #7bb0ff);
+}
+QPushButton[role="primary"]:pressed {
+	background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #3d6eef, stop:1 #5888ff);
+}
+
+/* Accent (green) for primary actions like Scan */
+QPushButton[role="accent"] {
+	background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #36c36b, stop:1 #2fb657);
+	color: white; border: 0px; font-weight: 600;
+}
+QPushButton[role="accent"]:hover {
+	background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #48d47c, stop:1 #3ec768);
+}
+QPushButton[role="accent"]:pressed {
+	background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #2ab35a, stop:1 #25a54e);
+}
+
+/* Danger (red) for destructive actions */
+QPushButton[role="danger"] {
+	background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #ff6b6b, stop:1 #ff4d4d);
+	color: white; border: 0px; font-weight: 600;
+}
+QPushButton[role="danger"]:hover {
+	background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #ff8080, stop:1 #ff6666);
+}
+QPushButton[role="danger"]:pressed {
+	background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #ff5555, stop:1 #ff3333);
+}
+
+/* Secondary subtle buttons */
+QPushButton[role="secondary"] {
+	background: #ffffff; color: #2b2b2b; border: 1px solid #d6d9de; padding: 6px 10px; border-radius: 8px;
+}
+QPushButton[role="secondary"]:hover {
+	background: #f8fafc;
+	border: 1px solid #36c36b;
+}
+QPushButton[role="secondary"]:pressed {
+	background: #f0f4f8;
+}
+QPushButton[role="secondary"]:checked {
+	background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #36c36b, stop:1 #2fb657);
+	color: white;
+	border: 0px;
+}
+
+/* Ignore buttons (red theme to differentiate from analyze) */
+QPushButton[role="ignore"] {
+	background: #ffffff; color: #2b2b2b; border: 1px solid #ffd6d6; padding: 6px 10px; border-radius: 8px;
+}
+QPushButton[role="ignore"]:hover {
+	background: #fff5f5;
+	border: 1px solid #ff6b6b;
+}
+QPushButton[role="ignore"]:pressed {
+	background: #ffe8e8;
+}
+QPushButton[role="ignore"]:checked {
+	background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #ff6b6b, stop:1 #ff4d4d);
+	color: white;
+	border: 0px;
+}
+
+QListWidget {
+	background: #ffffff;
+	border: 1px solid #d6d9de;
+	border-radius: 6px;
+	padding: 6px;
+}
+QListWidget::item { padding: 6px 8px; }
+QListWidget::item:selected { background: #eaf3ff; color: #000; }
+
+QProgressBar { height: 14px; border-radius: 6px; background: #ffffff; border: 1px solid #d6d9de; }
+QProgressBar::chunk { background: #4f83ff; border-radius: 6px; }
+
+QToolTip { background: #333; color: #fff; padding: 4px; border-radius: 4px; }
+
+/* Minor helpers */
+QLabel.sectionTitle { font-weight: 600; }
+
+/* Section panel to reduce large white areas and add gentle contrast */
+.sectionPanel, QWidget[class="sectionPanel"] {
+	background: #f3f6f9;
+	border: 1px solid #e6e9ee;
+	border-radius: 8px;
+	padding: 8px;
+}
+
+/* Colored borders per panel */
+QWidget[class="sectionPanel"][panel="left"] {
+	border: 2px solid #4f83ff; /* soft blue */
+}
+
+QWidget[class="sectionPanel"][panel="right"] {
+	border: 2px solid #36c36b; /* soft green */
+}
+
+QPushButton[role="primary"] { box-shadow: none; }
+
+/* End style */
+
